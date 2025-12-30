@@ -1,0 +1,331 @@
+/* General Layout */
+:root {
+  --primary-color: #f3a60a; /* Gold/Orange branding */
+  --bg-color: #0f172a;      /* Dark Navy background */
+  --card-bg: #1e293b;
+  --text-white: #ffffff;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-white);
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: #1e293b;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.logo span {
+  color: var(--primary-color);
+}
+
+.login-btn {
+  background: var(--primary-color);
+  border: none;
+  padding: 8px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Carousel Styling */
+.hero-carousel {
+  margin-bottom: 20px;
+}
+
+.slide-item {
+  position: relative;
+  height: 250px;
+}
+
+.slide-item img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.9));
+  padding: 20px;
+  text-align: left;
+}
+
+.overlay h2 { margin: 0; font-size: 1.2rem; }
+
+/* Quick Actions Grid */
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding: 0 15px;
+  margin-top: -30px; /* Pulls cards up over carousel slightly */
+  position: relative;
+  z-index: 10;
+}
+
+.action-card {
+  background: var(--card-bg);
+  border: 1px solid #334155;
+  color: white;
+  padding: 15px 5px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Match Cards */
+.match-section {
+  padding: 20px 15px 100px; /* Extra bottom padding for mobile menu */
+}
+.league-section {
+  margin-bottom: 30px;
+}
+
+.league-heading {
+  margin: 20px 0 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #f3a60a;
+}
+
+.show-more {
+  display: inline-block;
+  margin-top: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #22c55e;
+  font-weight: 600;
+}
+
+/* WhatsApp icon on carousel */
+.carousel-whatsapp {
+  position: absolute;
+  bottom: 25px;
+  right: 20px;
+
+  width: 42px;
+  height: 42px;
+  max-width: 42px;
+  max-height: 42px;
+
+  object-fit: contain;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 9999;
+
+  pointer-events: auto !important;
+  animation: whatsappPulse 1.5s infinite ease-in-out;
+}
+
+.overlay {
+  pointer-events: none;
+}
+
+.slide-item {
+  position: relative;
+}
+
+.carousel .slide {
+  pointer-events: auto !important;
+}
+
+@keyframes whatsappPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+
+.match-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 15px;
+  text-align: center;
+  border: 1px solid #ffffff;
+}
+/* Divider between countdown and buy section */
+.card-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  margin: 10px 0;
+}
+
+/* Buy text + button row */
+.buy-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  gap: 10px;
+}
+
+/* Buy text */
+.buy-text {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #e5e7eb;
+  font-weight: 500;
+}
+
+.buy-now-btn {
+  background-color: #16a34a; /* green */
+  color: #ffffff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.buy-now-btn:hover {
+  background-color: #15803d;
+}
+
+.match-teams {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 15px 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.match-date {
+    color: rgb(233, 233, 63);
+}
+.countdown-timer {
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: #f3a60a;
+  font-weight: 600;
+}
+
+/* Team Logo */
+.team-logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 8px;
+  vertical-align: middle;
+  background: #ffffff;
+  padding: 2px;
+}
+
+/* Section Title */
+.section-title {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--primary-color);
+}
+
+/* Match Header (League Name) */
+.match-header {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #e5e7eb;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Team container (logo on top, name below) */
+.team {
+  display: flex;
+  flex-direction: column;   /* 👈 vertical layout */
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+
+/* Active Tab Highlight */
+.action-card.active {
+  background: var(--primary-color);
+  color: #000;
+  border-color: var(--primary-color);
+}
+
+/* Completed Match Button */
+.predict-btn.finished {
+  background: #16a34a; /* Green */
+  color: #ffffff;
+}
+
+/* No Data Message */
+.no-data {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+.vs {
+  font-size: 0.9rem;
+  color: var(--primary-color);
+}
+
+.predict-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: #334155;
+  color: white;
+  font-weight: bold;
+}
+
+/* Bottom Navigation (Mobile Only) */
+.mobile-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #1e293b;
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 0;
+  border-top: 1px solid #334155;
+  z-index: 1000;
+}
+
+.footer-item {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.footer-item.active {
+  color: var(--primary-color);
+}
+
+/* Desktop Adjustments */
+@media (min-width: 768px) {
+  .slide-item { height: 450px; }
+  .match-section { max-width: 800px; margin: 0 auto; }
+  .mobile-footer { display: none; }
+  .quick-actions { max-width: 800px; margin: -50px auto 20px; }
+}
