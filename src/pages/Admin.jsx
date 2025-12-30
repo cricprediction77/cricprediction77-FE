@@ -23,103 +23,77 @@ function Admin() {
     fetchAllLeagueData();
   }, []);
 
-const fetchAllLeagueData = async () => {
-  try {
-    // 🔹 Fetch all leagues in parallel
-    const [bplData, wplData] = await Promise.all([
-      predictionApiFetch("/api/bpl/bpl-matches"),
-      predictionApiFetch("/api/wpl/wpl-matches"),
-    ]);
+  const fetchAllLeagueData = async () => {
+    try {
+      // 🔹 Fetch all leagues in parallel
+      const [bplData, wplData] = await Promise.all([
+        predictionApiFetch("/api/bpl/bpl-matches"),
+        predictionApiFetch("/api/wpl/wpl-matches"),
+      ]);
 
-    // 🔹 Merge all league matches
-    const allMatches = [
-      ...(bplData?.matches || []),
-      ...(wplData?.matches || []),
-    ];
+      // 🔹 Merge all league matches
+      const allMatches = [
+        ...(bplData?.matches || []),
+        ...(wplData?.matches || []),
+      ];
 
-    // 🔹 ADMIN PAGE
-    // filterAdminMatches(allMatches);
+      // 🔹 ADMIN PAGE
+      // filterAdminMatches(allMatches);
 
-    // 🔹 HOME PAGE
-    // filterMatches("TODAY", allMatches);
+      // 🔹 HOME PAGE
+      // filterMatches("TODAY", allMatches);
 
-    return allMatches; // optional reuse
-
-  } catch (error) {
-    console.error("Error fetching league data:", error);
-    return [];
-  }
-};
-
-  const handleInputChange = (matchNumber, field, value) => {
-  setSelections((prev) => ({
-    ...prev,
-    [matchNumber]: {
-      ...prev[matchNumber],
-      [field]: value,
-    },
-  }));
-};
-const handleSubmit = async (match) => {
-  const data = selections[match.matchNumber];
-
-  const payload = {
-    matchNumber: match.matchNumber,
-    tossWinner: data.tossWinner,
-    matchWinner: data.matchWinner,
-    team1Score: data.team1Score,
-    team2Score: data.team2Score,
-    sessionDetails: data.sessionDetails,
-    matchStatus: "COMPLETED",
+      return allMatches; // optional reuse
+    } catch (error) {
+      console.error("Error fetching league data:", error);
+      return [];
+    }
   };
 
-  try {
-    const result = await predictionApiFetch("/api/bpl/details", {
-      method: "POST",
-      body: JSON.stringify(payload),
-    });
+  const handleInputChange = (matchNumber, field, value) => {
+    setSelections((prev) => ({
+      ...prev,
+      [matchNumber]: {
+        ...prev[matchNumber],
+        [field]: value,
+      },
+    }));
+  };
+  const handleSubmit = async (match) => {
+    const data = selections[match.matchNumber];
 
-    console.log("API Success:", result);
-    alert("Match details submitted successfully ✅");
+    const payload = {
+      matchNumber: match.matchNumber,
+      tossWinner: data.tossWinner,
+      matchWinner: data.matchWinner,
+      team1Score: data.team1Score,
+      team2Score: data.team2Score,
+      sessionDetails: data.sessionDetails,
+      matchStatus: "COMPLETED",
+    };
 
-    // Remove submitted match state
-    setSelections((prev) => {
-      const updated = { ...prev };
-      delete updated[match.matchNumber];
-      return updated;
-    });
+    try {
+      const result = await predictionApiFetch("/api/bpl/details", {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
 
-    // Refresh page data
-    fetchAllLeagueData();
+      console.log("API Success:", result);
+      alert("Match details submitted successfully ✅");
 
-  } catch (error) {
-    console.error("Submit error:", error);
-    alert("Error while submitting match details ❌");
-  }
-};
+      // Remove submitted match state
+      setSelections((prev) => {
+        const updated = { ...prev };
+        delete updated[match.matchNumber];
+        return updated;
+      });
 
-
-
-
-
-
-
-  // 🧠 Filter (today + past & not COMPLETED)
-  const filterAdminMatches = (matches) => {
-    const today = new Date().toISOString().split("T")[0];
-
-    const filtered = matches.filter(
-      (m) => m.matchDate <= today && m.matchStatus !== "COMPLETED"
-    );
-
-    const grouped = filtered.reduce((acc, match) => {
-      const league = match.leagueType || "Other League";
-      if (!acc[league]) acc[league] = [];
-      acc[league].push(match);
-      return acc;
-    }, {});
-
-    setMatchesByLeague(grouped);
+      // Refresh page data
+      fetchAllLeagueData();
+    } catch (error) {
+      console.error("Submit error:", error);
+      alert("Error while submitting match details ❌");
+    }
   };
 
   const toggleLeague = (league) => {
@@ -150,17 +124,16 @@ const handleSubmit = async (match) => {
     }));
   };
   const isFormComplete = (matchNumber) => {
-  const data = selections[matchNumber];
+    const data = selections[matchNumber];
 
-  return (
-    data?.tossWinner &&
-    data?.matchWinner &&
-    data?.team1Score &&
-    data?.team2Score &&
-    data?.sessionDetails
-  );
-};
-
+    return (
+      data?.tossWinner &&
+      data?.matchWinner &&
+      data?.team1Score &&
+      data?.team2Score &&
+      data?.sessionDetails
+    );
+  };
 
   return (
     <div className="admin-container">
@@ -259,69 +232,73 @@ const handleSubmit = async (match) => {
                         ))}
                       </select>
                     </div>
-                   {/* Extra Fields */}
-{/* Extra Fields */}
-<div className="extra-fields">
-  <label>
-    {teamsList[0] ? `${teamsList[0]} Score` : "Team 1 Score"}
-  </label>
-  <input
-    type="text"
-    placeholder="Score"
-    value={selections[match.matchNumber]?.team1Score || ""}
-    onChange={(e) =>
-      handleInputChange(
-        match.matchNumber,
-        "team1Score",
-        e.target.value
-      )
-    }
-  />
+                    {/* Extra Fields */}
+                    {/* Extra Fields */}
+                    <div className="extra-fields">
+                      <label>
+                        {teamsList[0]
+                          ? `${teamsList[0]} Score`
+                          : "Team 1 Score"}
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Score"
+                        value={selections[match.matchNumber]?.team1Score || ""}
+                        onChange={(e) =>
+                          handleInputChange(
+                            match.matchNumber,
+                            "team1Score",
+                            e.target.value
+                          )
+                        }
+                      />
 
-  <label>
-    {teamsList[1] ? `${teamsList[1]} Score` : "Team 2 Score"}
-  </label>
-  <input
-    type="text"
-    placeholder="Score"
-    value={selections[match.matchNumber]?.team2Score || ""}
-    onChange={(e) =>
-      handleInputChange(
-        match.matchNumber,
-        "team2Score",
-        e.target.value
-      )
-    }
-  />
+                      <label>
+                        {teamsList[1]
+                          ? `${teamsList[1]} Score`
+                          : "Team 2 Score"}
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Score"
+                        value={selections[match.matchNumber]?.team2Score || ""}
+                        onChange={(e) =>
+                          handleInputChange(
+                            match.matchNumber,
+                            "team2Score",
+                            e.target.value
+                          )
+                        }
+                      />
 
-  <label>Session Details</label>
-  <textarea
-    rows={3}
-    placeholder="Enter session details"
-    value={selections[match.matchNumber]?.sessionDetails || ""}
-    onChange={(e) =>
-      handleInputChange(
-        match.matchNumber,
-        "sessionDetails",
-        e.target.value
-      )
-    }
-  />
-</div>
+                      <label>Session Details</label>
+                      <textarea
+                        rows={3}
+                        placeholder="Enter session details"
+                        value={
+                          selections[match.matchNumber]?.sessionDetails || ""
+                        }
+                        onChange={(e) =>
+                          handleInputChange(
+                            match.matchNumber,
+                            "sessionDetails",
+                            e.target.value
+                          )
+                        }
+                      />
+                    </div>
 
-{/* Submit Button */}
-{isFormComplete(match.matchNumber) && (
-  <div className="submit-wrapper">
-    <button
-      className="submit-btn"
-      onClick={() => handleSubmit(match)}
-    >
-      Submit
-    </button>
-  </div>
-)}
-
- 
+                    {/* Submit Button */}
+                    {isFormComplete(match.matchNumber) && (
+                      <div className="submit-wrapper">
+                        <button
+                          className="submit-btn"
+                          onClick={() => handleSubmit(match)}
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    )}
 
                     {/* <div className="status-text">Status: Pending / Live</div> */}
                   </div>

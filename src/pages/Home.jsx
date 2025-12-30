@@ -52,28 +52,26 @@ function Home() {
 
   useEffect(() => {
     fetchAllLeagueData();
-  }, []);
+  }, [fetchAllLeagueData]);
 
   const fetchAllLeagueData = async () => {
-  try {
-    const [bplData, wplData] = await Promise.all([
-      predictionApiFetch("/api/bpl/bpl-matches"),
-      predictionApiFetch("/api/wpl/wpl-matches"),
-    ]);
+    try {
+      const [bplData, wplData] = await Promise.all([
+        predictionApiFetch("/api/bpl/bpl-matches"),
+        predictionApiFetch("/api/wpl/wpl-matches"),
+      ]);
 
-    const combinedMatches = [
-      ...(bplData?.matches || []),
-      ...(wplData?.matches || []),
-    ];
+      const combinedMatches = [
+        ...(bplData?.matches || []),
+        ...(wplData?.matches || []),
+      ];
 
-    setAllMatches(combinedMatches);
-    filterMatches("TODAY", combinedMatches);
-
-  } catch (error) {
-    console.error("Error fetching league data", error);
-  }
-};
-
+      setAllMatches(combinedMatches);
+      filterMatches("TODAY", combinedMatches);
+    } catch (error) {
+      console.error("Error fetching league data", error);
+    }
+  };
 
   const filterMatches = (type, matches = allMatches) => {
     setActiveTab(type);
@@ -108,22 +106,6 @@ function Home() {
       `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`,
       "_blank"
     );
-  };
-
-  const groupMatchesByLeague = (matches) => {
-    return matches.reduce((acc, match) => {
-      const league = match.leagueType || "Other League";
-      if (!acc[league]) acc[league] = [];
-      acc[league].push(match);
-      return acc;
-    }, {});
-  };
-
-  const toggleLeague = (league) => {
-    setExpandedLeagues((prev) => ({
-      ...prev,
-      [league]: !prev[league],
-    }));
   };
 
   return (

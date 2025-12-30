@@ -1,10 +1,6 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  getTeamLogo,
-  getLeagueLogo,
-  getLeagueCup,
-} from "../utils/LeagueTeamLogos";
+import { getTeamLogo, getLeagueLogo } from "../utils/LeagueTeamLogos";
 import "./ViewPrediction.css";
 
 function ViewPrediction() {
@@ -200,34 +196,29 @@ function ViewPrediction() {
           </div>
 
           <div className="session-lambi-card">
-  <h3 className="session-lambi-title">SESSION & LAMBI</h3>
+            <h3 className="session-lambi-title">SESSION & LAMBI</h3>
 
-  <div className="session-lambi-divider"></div>
+            <div className="session-lambi-divider"></div>
 
-  {Array.isArray(match.sessionDetails) &&
-  match.sessionDetails.length > 0 ? (
-    match.sessionDetails.map((item, i) => (
-      <div className="session-item" key={i}>
-        <p className="session-text">
-          • {item.sessionText}
-        </p>
+            {Array.isArray(match.sessionDetails) &&
+            match.sessionDetails.length > 0 ? (
+              match.sessionDetails.map((item, i) => (
+                <div className="session-item" key={i}>
+                  <p className="session-text">• {item.sessionText}</p>
 
-        {item.updatedAt && (
-          <p className="session-updated">
-            {item.updatedAt}
-          </p>
-        )}
-      </div>
-    ))
-  ) : (
-    <div className="session-item">
-      <p className="session-text">
-        Session details will be updated soon
-      </p>
-    </div>
-  )}
-</div>
-
+                  {item.updatedAt && (
+                    <p className="session-updated">{item.updatedAt}</p>
+                  )}
+                </div>
+              ))
+            ) : (
+              <div className="session-item">
+                <p className="session-text">
+                  Session details will be updated soon
+                </p>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Back Button */}
