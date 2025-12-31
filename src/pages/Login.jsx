@@ -29,7 +29,14 @@ function Login() {
       }
 
       // Store admin data
-      localStorage.setItem("admin", JSON.stringify(data));
+      localStorage.setItem(
+        "admin",
+        JSON.stringify({
+          id: 1,
+          username: "AjayReddy",
+          role: "SUPER_ADMIN",
+        })
+      );
 
       // Navigate to admin page
       navigate("/admin");
