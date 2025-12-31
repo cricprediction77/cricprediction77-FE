@@ -1,9 +1,6 @@
-// 🔁 Auto-select Prediction Backend URL
+// ✅ Prediction Backend URL (Render-safe)
 export const PREDICTION_BASE_URL =
-  window.location.hostname === "localhost"
-    ? "http://localhost:8000" // Local Prediction Backend
-    : "https://stg.api.crictpredict.com"; // Staging Prediction API
-
+  process.env.REACT_APP_PREDICTION_BASE_URL || "http://localhost:8000";
 
 // ✅ Generic Prediction API Fetch Wrapper
 export const predictionApiFetch = async (endpoint, options = {}) => {
@@ -31,4 +28,3 @@ export const predictionApiFetch = async (endpoint, options = {}) => {
     return text;
   }
 };
-

@@ -8,7 +8,7 @@ import "./Admin.css";
 function Admin() {
   const navigate = useNavigate();
 
-  const [matchesByLeague, setMatchesByLeague] = useState({});
+const [matchesByLeague] = useState([]);
   const [expandedLeagues, setExpandedLeagues] = useState({});
   const [selections, setSelections] = useState({});
 

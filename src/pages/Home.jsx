@@ -51,9 +51,6 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    fetchAllLeagueData();
-  }, [fetchAllLeagueData]);
-
   const fetchAllLeagueData = async () => {
     try {
       const [bplData, wplData] = await Promise.all([
@@ -72,6 +69,11 @@ function Home() {
       console.error("Error fetching league data", error);
     }
   };
+
+  fetchAllLeagueData();
+}, []);
+
+
 
   const filterMatches = (type, matches = allMatches) => {
     setActiveTab(type);
@@ -106,6 +108,22 @@ function Home() {
       `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`,
       "_blank"
     );
+  };
+
+  const groupMatchesByLeague = (matches) => {
+    return matches.reduce((acc, match) => {
+      const league = match.leagueType || "Other League";
+      if (!acc[league]) acc[league] = [];
+      acc[league].push(match);
+      return acc;
+    }, {});
+  };
+
+  const toggleLeague = (league) => {
+    setExpandedLeagues((prev) => ({
+      ...prev,
+      [league]: !prev[league],
+    }));
   };
 
   return (
