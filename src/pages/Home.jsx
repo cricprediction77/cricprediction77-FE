@@ -51,29 +51,31 @@ function Home() {
   }, []);
 
   useEffect(() => {
-  const fetchAllLeagueData = async () => {
-    try {
-      const [bplData, wplData] = await Promise.all([
-        predictionApiFetch("/api/bpl/bpl-matches"),
-        predictionApiFetch("/api/wpl/wpl-matches"),
-      ]);
+    const fetchAllLeagueData = async () => {
+      try {
+        const [bplData, wplData, mensBblData, saT20Data] = await Promise.all([
+          predictionApiFetch("/api/bpl/bpl-matches"),
+          predictionApiFetch("/api/wpl/wpl-matches"),
+          predictionApiFetch("/api/mens-bbl/matches"),
+          predictionApiFetch("/api/sa-t20/matches"),
+        ]);
 
-      const combinedMatches = [
-        ...(bplData?.matches || []),
-        ...(wplData?.matches || []),
-      ];
+        const combinedMatches = [
+          ...(bplData?.matches || []),
+          ...(wplData?.matches || []),
+          ...(mensBblData?.matches || []),
+          ...(saT20Data?.matches || []),
+        ];
 
-      setAllMatches(combinedMatches);
-      filterMatches("TODAY", combinedMatches);
-    } catch (error) {
-      console.error("Error fetching league data", error);
-    }
-  };
+        setAllMatches(combinedMatches);
+        filterMatches("TODAY", combinedMatches);
+      } catch (error) {
+        console.error("Error fetching league data", error);
+      }
+    };
 
-  fetchAllLeagueData();
-}, []);
-
-
+    fetchAllLeagueData();
+  }, []);
 
   const filterMatches = (type, matches = allMatches) => {
     setActiveTab(type);

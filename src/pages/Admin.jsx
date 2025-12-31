@@ -36,9 +36,11 @@ function Admin() {
   const fetchAllLeagueData = async () => {
     try {
       // 🔹 Fetch all leagues in parallel
-      const [bplData, wplData] = await Promise.all([
+      const [bplData, wplData, mensBblData, saT20Data] = await Promise.all([
         predictionApiFetch("/api/bpl/bpl-matches"),
         predictionApiFetch("/api/wpl/wpl-matches"),
+        predictionApiFetch("/api/mens-bbl/matches"),
+        predictionApiFetch("/api/sa-t20/matches"),
       ]);
 
       // 🔹 Merge all league matches
@@ -47,10 +49,10 @@ function Admin() {
       const allMatches = [
         ...(bplData?.matches || []),
         ...(wplData?.matches || []),
+        ...(mensBblData?.matches || []),
+        ...(saT20Data?.matches || []),
       ].filter(
-        (match) =>
-          match.matchStatus !== "COMPLETED" && // ❌ exclude completed
-          match.matchDate <= today // ✅ today + past
+        (match) => match.matchStatus !== "COMPLETED" && match.matchDate <= today
       );
 
       // ✅ ADD THIS BLOCK
@@ -84,6 +86,18 @@ function Admin() {
       },
     }));
   };
+
+  const getSubmitApiByLeague = (leagueType) => {
+    if (!leagueType) return "/api/bpl/details";
+
+    if (leagueType.includes("Bangladesh")) return "/api/bpl/details";
+    if (leagueType.includes("WPL")) return "/api/wpl/details";
+    if (leagueType.includes("Big Bash")) return "/api/mens-bbl/details";
+    if (leagueType.includes("SA T20")) return "/api/sa-t20/details";
+
+    throw new Error("Unknown league type: " + leagueType);
+  };
+
   const handleSubmit = async (match) => {
     const data = selections[match.matchNumber];
 
@@ -98,12 +112,15 @@ function Admin() {
     };
 
     try {
-      const result = await predictionApiFetch("/api/bpl/details", {
+      const apiUrl = getSubmitApiByLeague(match.leagueType);
+
+      await predictionApiFetch(apiUrl, {
         method: "POST",
         body: JSON.stringify(payload),
       });
 
-      console.log("API Success:", result);
+      console.log("Match updated successfully");
+
       alert("Match details submitted successfully ✅");
 
       // ✅ CLEAR ONLY THIS MATCH FORM
