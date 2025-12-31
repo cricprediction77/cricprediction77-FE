@@ -4,6 +4,7 @@ const LeagueNameMap = {
   "Indian Premier League": "IPL",
   "Caribbean Premier League": "CPL",
   "Women Premier League 2026": "WPL",
+  "Mens Big Bash League 2025-2026": "BBL",
 };
 
 // ✅ Team logos
@@ -28,6 +29,35 @@ const LeagueTeamLogos = {
       "https://dko97fmntp7zh.cloudfront.net/008c40fd-5d31-4201-845d-b7bfd4c581a4_dhakawithoutbg.jpg",
 
     "Rangpur Riders":
+      "https://dko97fmntp7zh.cloudfront.net/94ebf1c2-be97-4cee-9b5f-eb6da366dd06_rangpurwithoutbg.jpg",
+  },
+
+  BBL: {
+    league_logo:
+        "https://dko97fmntp7zh.cloudfront.net/c7c377fa-68a5-43b1-aea0-fc0ec65a1f47_BBLLOGO.jpg",
+
+    "Perth Scorchers":
+      "https://dko97fmntp7zh.cloudfront.net/8bc2565d-e57f-49e7-8ba1-a75a0d7e7aea_PERTH.jpg",
+
+    "Sydney Sixers":
+      "https://dko97fmntp7zh.cloudfront.net/8d02bcad-5de8-4c2a-841b-30831913da69_SIDNEYSIXERS.jpg",
+
+    "Melbourne Renegades":
+      "https://dko97fmntp7zh.cloudfront.net/bd1d6980-6a0f-43e2-97b8-14f4555a3eb3_MELBOURNERENEGDADES.png",
+
+    "Brisbane Heat":
+      "https://dko97fmntp7zh.cloudfront.net/c925b53f-bcd4-4c8d-b3e6-d9a06f1730d7_BRISBANEHEAT.jpg",
+
+    "Hobart Hurricanes":
+      "https://dko97fmntp7zh.cloudfront.net/a0fa2cf4-f7c5-4485-b09c-8ea8c7c1b446_HOBART HURRICANES.jpg",
+
+    "Sydney Thunder":
+      "https://dko97fmntp7zh.cloudfront.net/e15857f6-b06a-4646-b248-9cdb6ac83aab_SYDNEYTHUNDERS.jpg",
+
+    "Adelaide Strikers":
+      "https://dko97fmntp7zh.cloudfront.net/f7199e47-02b9-41c6-bce8-617f1ad14ed8_ADELAIDESTRIKERS.jpg",
+
+    "Melbourne Stars":
       "https://dko97fmntp7zh.cloudfront.net/94ebf1c2-be97-4cee-9b5f-eb6da366dd06_rangpurwithoutbg.jpg",
   },
 
