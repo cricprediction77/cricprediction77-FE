@@ -9,13 +9,41 @@ function ViewPrediction() {
 
   // Build teamName -> shortName map
   const teamShortNameMap = {
-    "Sylhet Titans": "ST",
-    "Rajshahi Warriors": "RW",
-    "Noakhali Express": "NE",
-    "Chattogram Royals": "CR",
-    "Dhaka Capitals": "DC",
-    "Rangpur Riders": "RR",
-  };
+
+  // 🏏 BPL (Bangladesh Premier League)
+  "Sylhet Titans": "ST",
+  "Rajshahi Warriors": "RW",
+  "Noakhali Express": "NE",
+  "Chattogram Royals": "CR",
+  "Dhaka Capitals": "DC",
+  "Rangpur Riders": "RR",
+
+  // 🏏 WPL (Women's Premier League)
+  "Mumbai Indians": "MI",
+  "Royal Challengers Bengaluru": "RCB",
+  "UP Warriorz": "UPW",
+  "Gujarat Giants": "GG",
+  "Delhi Capitals": "DCW",   // DC already used in BPL → DCW for WPL
+
+  // 🏏 Men's BBL (Big Bash League)
+  "Perth Scorchers": "PS",
+  "Sydney Sixers": "SS",
+  "Melbourne Renegades": "MR",
+  "Brisbane Heat": "BH",
+  "Hobart Hurricanes": "HH",
+  "Sydney Thunder": "STH",   // FIXED (no clash with Sylhet Titans)
+  "Adelaide Strikers": "AS",
+  "Melbourne Stars": "MS",
+
+  // 🏏 SA T20
+  "MI Cape Town": "MICT",
+  "Durban's Super Giants": "DSG",
+  "Pretoria Capitals": "PC",
+  "Joburg Super Kings": "JSK",
+  "Paarl Royals": "PR",
+  "Sunrisers Eastern Cape": "SEC"
+};
+
 
   // Helper to get short name safely
   const getShortName = (teamName) => {
