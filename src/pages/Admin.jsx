@@ -8,7 +8,7 @@ import "./Admin.css";
 function Admin() {
   const navigate = useNavigate();
 
-const [matchesByLeague] = useState([]);
+  const [matchesByLeague, setMatchesByLeague] = useState({});
   const [expandedLeagues, setExpandedLeagues] = useState({});
   const [selections, setSelections] = useState({});
 
@@ -32,18 +32,33 @@ const [matchesByLeague] = useState([]);
       ]);
 
       // 🔹 Merge all league matches
+      const today = new Date().toISOString().split("T")[0];
+
       const allMatches = [
         ...(bplData?.matches || []),
         ...(wplData?.matches || []),
-      ];
+      ].filter(
+        (match) =>
+          match.matchStatus !== "COMPLETED" && // ❌ exclude completed
+          match.matchDate <= today // ✅ today + past
+      );
+
+      // ✅ ADD THIS BLOCK
+      const groupedByLeague = allMatches.reduce((acc, match) => {
+        const league = match.leagueType || "Other League";
+        if (!acc[league]) acc[league] = [];
+        acc[league].push(match);
+        return acc;
+      }, {});
+
+      // ✅ STORE IN STATE
+      setMatchesByLeague(groupedByLeague);
 
       // 🔹 ADMIN PAGE
       // filterAdminMatches(allMatches);
 
       // 🔹 HOME PAGE
       // filterMatches("TODAY", allMatches);
-
-      return allMatches; // optional reuse
     } catch (error) {
       console.error("Error fetching league data:", error);
       return [];
@@ -81,15 +96,8 @@ const [matchesByLeague] = useState([]);
       console.log("API Success:", result);
       alert("Match details submitted successfully ✅");
 
-      // Remove submitted match state
-      setSelections((prev) => {
-        const updated = { ...prev };
-        delete updated[match.matchNumber];
-        return updated;
-      });
-
-      // Refresh page data
-      fetchAllLeagueData();
+      // ✅ FULL PAGE RELOAD
+      window.location.reload();
     } catch (error) {
       console.error("Submit error:", error);
       alert("Error while submitting match details ❌");

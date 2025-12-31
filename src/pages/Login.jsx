@@ -5,31 +5,39 @@ import "./Login.css";
 
 function Login() {
   const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
+    setError("");
+    setLoading(true);
+
     try {
-      const res = await predictionApiFetch("/api/auth/login", {
+      // predictionApiFetch already returns parsed JSON
+      const data = await predictionApiFetch("/api/auth/login", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
 
-      if (!res.ok) {
+      if (!data) {
         setError("Invalid username or password");
+        setLoading(false);
         return;
       }
 
-      const data = await res.json();
-
-      // store login info
+      // Store admin data
       localStorage.setItem("admin", JSON.stringify(data));
 
+      // Navigate to admin page
       navigate("/admin");
     } catch (err) {
-      setError("Server error");
+      console.error("Login error:", err);
+      setError("Invalid username or password");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -53,7 +61,9 @@ function Login() {
 
       {error && <p className="error">{error}</p>}
 
-      <button onClick={handleLogin}>Login</button>
+      <button onClick={handleLogin} disabled={loading}>
+        {loading ? "Logging in..." : "Login"}
+      </button>
     </div>
   );
 }
