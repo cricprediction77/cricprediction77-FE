@@ -4,7 +4,7 @@ const LeagueNameMap = {
   "Indian Premier League": "IPL",
   "Caribbean Premier League": "CPL",
   "Women Premier League 2026": "WPL",
-  "Mens Big Bash League 2025-2026": "BBL",
+  "BIG BASH LEAGUE 2025-2026": "BBL",
   "SA T20 2026": "SAT20",
   "WPL 2026": "WPL"
 };
