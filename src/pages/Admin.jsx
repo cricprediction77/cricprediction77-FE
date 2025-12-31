@@ -75,34 +75,42 @@ function Admin() {
     }));
   };
   const handleSubmit = async (match) => {
-    const data = selections[match.matchNumber];
+  const data = selections[match.matchNumber];
 
-    const payload = {
-      matchNumber: match.matchNumber,
-      tossWinner: data.tossWinner,
-      matchWinner: data.matchWinner,
-      team1Score: data.team1Score,
-      team2Score: data.team2Score,
-      sessionDetails: data.sessionDetails,
-      matchStatus: "COMPLETED",
-    };
-
-    try {
-      const result = await predictionApiFetch("/api/bpl/details", {
-        method: "POST",
-        body: JSON.stringify(payload),
-      });
-
-      console.log("API Success:", result);
-      alert("Match details submitted successfully ✅");
-
-      // ✅ FULL PAGE RELOAD
-      window.location.reload();
-    } catch (error) {
-      console.error("Submit error:", error);
-      alert("Error while submitting match details ❌");
-    }
+  const payload = {
+    matchNumber: match.matchNumber,
+    tossWinner: data.tossWinner,
+    matchWinner: data.matchWinner,
+    team1Score: data.team1Score,
+    team2Score: data.team2Score,
+    sessionDetails: data.sessionDetails,
+    matchStatus: "COMPLETED",
   };
+
+  try {
+    const result = await predictionApiFetch("/api/bpl/details", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+
+    console.log("API Success:", result);
+    alert("Match details submitted successfully ✅");
+
+    // ✅ CLEAR ONLY THIS MATCH FORM
+    setSelections((prev) => {
+      const updated = { ...prev };
+      delete updated[match.matchNumber];
+      return updated;
+    });
+
+    // ✅ REFRESH DATA WITHOUT RELOAD
+    fetchAllLeagueData();
+
+  } catch (error) {
+    console.error("Submit error:", error);
+    alert("Error while submitting match details ❌");
+  }
+};
 
   const toggleLeague = (league) => {
     setExpandedLeagues((prev) => ({
