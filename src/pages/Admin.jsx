@@ -88,7 +88,7 @@ function Admin() {
     const lt = leagueType.toLowerCase();
 
     if (lt.includes("bpl")) return "/api/bpl/details";
-    if (lt.includes("women premier league") || lt.includes("wpl"))
+    if (lt.includes("womens premier league") || lt.includes("wpl"))
       return "/api/wpl/details";
     if (lt.includes("big bash") || lt.includes("bbl"))
       return "/api/mens-bbl/details";
