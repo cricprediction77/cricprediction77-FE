@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { getTeamLogo } from "../utils/LeagueTeamLogos";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./BookingPage.css";
 
 function BookingPage() {
@@ -10,11 +10,45 @@ function BookingPage() {
   const [showPayment, setShowPayment] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [selectedAmount, setSelectedAmount] = useState("");
+  const paymentRef = useRef(null);
 
   const whatsappNumber = "917842435725"; // 🔁 replace with your number
   const whatsappMessage = encodeURIComponent(
     "Hi, I have completed the payment for match prediction. Please find the receipt."
   );
+
+  const goToPaymentSection = (amount) => {
+    setSelectedAmount(amount);
+    setShowPayment(true);
+
+    // Always scroll (even if showPayment already true)
+    setTimeout(() => {
+      paymentRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  };
+
+  const upiId = "0105143@ibl";
+  const [copied, setCopied] = useState(false);
+
+  const copyUpiId = async () => {
+    try {
+      await navigator.clipboard.writeText(upiId);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch (err) {
+      // fallback for some browsers
+      const textArea = document.createElement("textarea");
+      textArea.value = upiId;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    }
+  };
 
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
@@ -23,6 +57,13 @@ function BookingPage() {
     const yyyy = date.getFullYear();
     return `${dd}-${mm}-${yyyy}`;
   };
+  React.useEffect(() => {
+    if (showPayment) {
+      setTimeout(() => {
+        paymentRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
+  }, [showPayment]);
 
   const { match } = location.state || {};
 
@@ -69,7 +110,7 @@ function BookingPage() {
             "Winner Prediction",
             "All Fancy Prediction",
           ]}
-          setShowPayment={setShowPayment}
+          goToPaymentSection={goToPaymentSection}
         />
 
         <PackageCard
@@ -81,7 +122,7 @@ function BookingPage() {
             "Match Prediction",
             "Toss Prediction",
           ]}
-          setShowPayment={setShowPayment}
+          goToPaymentSection={goToPaymentSection}
         />
 
         <PackageCard
@@ -93,7 +134,7 @@ function BookingPage() {
             // "Winner Prediction",
             "Match Prediction",
           ]}
-          setShowPayment={setShowPayment}
+          goToPaymentSection={goToPaymentSection}
         />
 
         <PackageCard
@@ -105,7 +146,7 @@ function BookingPage() {
             "Toss Prediction",
             "All Fancy Prediction",
           ]}
-          setShowPayment={setShowPayment}
+          goToPaymentSection={goToPaymentSection}
         />
 
         <PackageCard
@@ -117,23 +158,52 @@ function BookingPage() {
             // "Toss Prediction",
             "All Fancy Prediction",
           ]}
-          setShowPayment={setShowPayment}
+          goToPaymentSection={goToPaymentSection}
         />
       </div>
 
       {showPayment && !submitted && (
-        <div className="payment-section">
-          <h3>Scan & Pay</h3>
+        <div className="payment-section" ref={paymentRef}>
+          <h3>
+            Scan & Pay{" "}
+            <span style={{ color: "red", fontWeight: "bold" }}>
+              {selectedAmount}
+            </span>
+          </h3>
 
           <img
-            src="https://dko97fmntp7zh.cloudfront.net/91256485-3de8-4879-b00d-c0b909c4efeb_images.png" // 🔁 place QR image in public folder
+            src="https://dko97fmntp7zh.cloudfront.net/718910e0-95f3-44f8-bf30-95c2997a5761_Media (7).jpg"
             alt="UPI QR"
             className="upi-qr"
           />
 
-          <p className="upi-id">Banking Name: Baddam Ajay</p>
+          <p
+            className="upi-id"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "10px",
+            }}
+          >
+            <span>UPI ID: {upiId}</span>
 
-          <p className="upi-id">UPI ID: crictpredict@upi</p>
+            <button
+              type="button"
+              onClick={copyUpiId}
+              title="Copy UPI ID"
+              style={{
+                background: "white",
+                border: "none",
+                cursor: "pointer",
+                fontSize: "18px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {copied ? "✅" : "⧉"}
+            </button>
+          </p>
 
           {!showForm ? (
             <button
@@ -206,7 +276,7 @@ function PackageCard({
   price,
   features = [],
   disabled = [],
-  setShowPayment,
+  goToPaymentSection,
 }) {
   return (
     <div className="package-card">
@@ -226,7 +296,10 @@ function PackageCard({
         ))}
       </ul>
 
-      <button className="package-buy-btn" onClick={() => setShowPayment(true)}>
+      <button
+        className="package-buy-btn"
+        onClick={() => goToPaymentSection(price)}
+      >
         Buy Now
       </button>
     </div>

@@ -11,8 +11,7 @@ const LeagueNameMap = {
 const LeagueTeamLogos = {
   BPL: {
     league_logo:
-      "https://dko97fmntp7zh.cloudfront.net/5871001f-0f0a-4de9-9fca-47cbe669a1ba_1000645627.png",
-
+      "https://dko97fmntp7zh.cloudfront.net/07ee50c7-3046-42b8-877d-cb24861db119_Logo_of_Bangladesh_Premier_League.svg.png",
     "Sylhet Titans":
       "https://dko97fmntp7zh.cloudfront.net/f1152b5f-de4c-4ed8-ad1e-472dd105413f_SYT.webp",
 
@@ -34,7 +33,7 @@ const LeagueTeamLogos = {
 
   BBL: {
     league_logo:
-      "https://dko97fmntp7zh.cloudfront.net/c7c377fa-68a5-43b1-aea0-fc0ec65a1f47_BBLLOGO.jpg",
+      "https://dko97fmntp7zh.cloudfront.net/8dddc4ac-0bea-4d02-9cea-22034fd5f25e_bbl.png",
 
     "Perth Scorchers":
       "https://dko97fmntp7zh.cloudfront.net/c364454b-a01c-41e0-a88b-81cea92b064a_PRS.webp",
@@ -62,8 +61,7 @@ const LeagueTeamLogos = {
   },
   SAT20: {
     league_logo:
-      "https://dko97fmntp7zh.cloudfront.net/0f4fca2a-bd6d-42ac-a8bc-1e966f4df105_SAT20LOGO.jpg",
-
+      "https://dko97fmntp7zh.cloudfront.net/ce3d7145-48c7-42e2-936d-e96a4eab2047_sat20.webp",
     "MI Cape Town":
       "https://dko97fmntp7zh.cloudfront.net/60707a20-d904-48a4-bddd-669a7128b69a_MICAPE.webp",
 
@@ -89,7 +87,7 @@ const LeagueTeamLogos = {
 
   WPL: {
     league_logo:
-      "https://dko97fmntp7zh.cloudfront.net/8cb5d74f-a49b-4065-8862-7cf7ef0f180a_WPLLOGO.png",
+      "https://dko97fmntp7zh.cloudfront.net/23e2ad8d-ed33-4717-9f3f-7f5e864a629b_Gemini_Generated_Image_p2pjuvp2pjuvp2pj.png",
     "Mumbai Indians Women":
       "https://dko97fmntp7zh.cloudfront.net/ba2b2c10-9f90-49b9-9ed1-207d90d1a515_MI.webp",
 

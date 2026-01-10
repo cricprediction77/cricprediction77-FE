@@ -104,11 +104,13 @@ function Home() {
       }
 
       if (type === "COMPLETED") {
-        result = matches.filter((m) =>
-          ["COMPLETED", "ABANDONED", "POSTPONED", "CANCELLED"].includes(
-            m.matchStatus
+        result = matches
+          .filter((m) =>
+            ["COMPLETED", "ABANDONED", "POSTPONED", "CANCELLED"].includes(
+              m.matchStatus
+            )
           )
-        );
+          .sort((a, b) => Number(b.matchNumber) - Number(a.matchNumber)); // ✅ DESC
       }
 
       setFilteredMatches(result);
@@ -420,6 +422,94 @@ function Home() {
           })
         )}
       </main>
+
+      {/* ✅ Trust + Disclaimer Section */}
+      <section className="trust-section">
+        <div className="trust-card">
+          <h2 className="trust-title">📌 Important Notice & Disclaimer</h2>
+
+          <p className="trust-text">
+            CricPrediction77 provides match analysis and prediction content{" "}
+            <b>only for educational and informational purposes</b>. We do{" "}
+            <b>not promote betting, gambling, or any illegal activity</b>.
+          </p>
+
+          <div className="trust-grid">
+            {/* Accuracy Card */}
+            <div className="trust-box">
+              <h3 className="trust-subtitle">✅ Our Track Record</h3>
+              <ul className="trust-list">
+                <li>
+                  <b>IPL:</b> 98% Accuracy
+                </li>
+                <li>
+                  <b>WPL:</b> 99% Accuracy
+                </li>
+                <li>
+                  <b>BPL:</b> 96% Accuracy
+                </li>
+                <li>
+                  <b>BBL:</b> 95% Accuracy
+                </li>
+                <li>
+                  <b>SA-T20:</b> 94% Accuracy
+                </li>
+                <li>
+                  <b>Super Smash:</b> 92% Accuracy
+                </li>
+              </ul>
+
+              <p className="trust-note">
+                * Accuracy is based on our internal analysis history and past
+                match results. Outcomes may vary due to real match conditions.
+              </p>
+            </div>
+
+            {/* Legal Card */}
+            <div className="trust-box">
+              <h3 className="trust-subtitle">⚖️ Legal & Responsible Use</h3>
+              <ul className="trust-list">
+                <li>
+                  Predictions are provided for{" "}
+                  <b>learning & cricket analysis</b>.
+                </li>
+                <li>
+                  We are <b>not responsible</b> for any financial loss or
+                  decisions.
+                </li>
+                <li>
+                  Please follow your local laws; betting may be illegal in some
+                  areas.
+                </li>
+                <li>We do not guarantee winnings. Cricket is unpredictable.</li>
+              </ul>
+            </div>
+
+            {/* WhatsApp Card */}
+            <div className="trust-box trust-box-highlight">
+              <h3 className="trust-subtitle">📲 Need More Matches?</h3>
+              <p className="trust-text">
+                If any match is <b>not uploaded on the website</b>, it will be
+                available via WhatsApp.
+              </p>
+
+              <p className="trust-text">
+                👉 Click the <b>WhatsApp icon</b> on the homepage to contact us
+                directly.
+              </p>
+
+              <button className="trust-whatsapp-btn" onClick={openWhatsapp}>
+                Contact on WhatsApp
+              </button>
+
+              <p className="trust-note">
+                We reply fast and share match updates, schedule changes and
+                additional predictions through WhatsApp.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Footer */}
       {/* <div className="mobile-footer">
