@@ -53,7 +53,7 @@ function Admin() {
         ...(saT20Data?.matches || []),
         ...(superSmashData?.matches || []), // ✅ NEW
       ].filter(
-        (match) => match.matchStatus !== "COMPLETED" && match.matchDate <= today
+        (match) => match.matchStatus === null && match.matchDate <= today
       );
 
       const groupedByLeague = allMatches.reduce((acc, match) => {
