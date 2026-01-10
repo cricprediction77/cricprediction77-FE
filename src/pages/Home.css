@@ -118,9 +118,9 @@ body {
 
 .league-heading {
   margin: 20px 0 10px;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: bold;
-  color: #f3a60a;
+  /* color: #f3a60a; */
 }
 
 .show-more {
