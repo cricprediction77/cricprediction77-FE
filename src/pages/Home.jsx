@@ -162,15 +162,33 @@ function Home() {
               onClick={openWhatsapp}
             />
           </div>
+
           <div className="slide-item">
             <img
-              src="https://dko97fmntp7zh.cloudfront.net/3cdbe330-f7fe-41ef-bf43-480681fa8d0f_Media%20(6).jpg"
-              alt="ILT20"
+              src="https://dko97fmntp7zh.cloudfront.net/02532756-d960-4b8a-a00f-b230bfe322d4_AA1R8jDz.jpg"
+              alt="WPL"
             />
 
             <div className="overlay">
-              <h2>ILT20 Predictions</h2>
-              <p>Internatinal League T20</p>
+              <h2>WPL Predictions</h2>
+              <p>Womens Premier League</p>
+            </div>
+
+            {/* WhatsApp Icon */}
+            <img
+              src="https://dko97fmntp7zh.cloudfront.net/c9d8ec1c-6658-48a1-9c5f-2ec1f6eb4eb5_Media%20(5).jpg"
+              alt="WhatsApp"
+              className="carousel-whatsapp"
+              onClick={openWhatsapp}
+            />
+          </div>
+
+          <div className="slide-item">
+            <img src="https://dko97fmntp7zh.cloudfront.net/f16e7b83-780f-4da0-937e-2f6105ba0e14_bplcaptains.jpg" />
+
+            <div className="overlay">
+              <h2>BPL Predictions</h2>
+              <p>Bangladesh Premier League</p>
             </div>
 
             {/* WhatsApp Icon */}
@@ -184,13 +202,33 @@ function Home() {
 
           <div className="slide-item">
             <img
-              src="https://dko97fmntp7zh.cloudfront.net/02532756-d960-4b8a-a00f-b230bfe322d4_AA1R8jDz.jpg"
-              alt="WPL"
+              src="https://dko97fmntp7zh.cloudfront.net/4bd5ac7a-7617-4fd7-a5f3-0b8d61f9e8f6_bblcaptains.jpg"
+              alt="BBL"
             />
 
             <div className="overlay">
-              <h2>WPL Predictions</h2>
-              <p>Womens Premier League</p>
+              <h2>BBL Predictions</h2>
+              <p>Big Bash League</p>
+            </div>
+
+            {/* WhatsApp Icon */}
+            <img
+              src="https://dko97fmntp7zh.cloudfront.net/c9d8ec1c-6658-48a1-9c5f-2ec1f6eb4eb5_Media%20(5).jpg"
+              alt="WhatsApp"
+              className="carousel-whatsapp"
+              onClick={openWhatsapp}
+            />
+          </div>
+
+          <div className="slide-item">
+            <img
+              src="https://dko97fmntp7zh.cloudfront.net/27af881a-a869-427f-a1bd-508243269057_sat20captains.jpg"
+              alt="SAT20"
+            />
+
+            <div className="overlay">
+              <h2>SA-T20 Predictions</h2>
+              <p>South Africa T20 League</p>
             </div>
 
             {/* WhatsApp Icon */}
