@@ -14,22 +14,22 @@ const LeagueTeamLogos = {
       "https://dko97fmntp7zh.cloudfront.net/5871001f-0f0a-4de9-9fca-47cbe669a1ba_1000645627.png",
 
     "Sylhet Titans":
-      "https://dko97fmntp7zh.cloudfront.net/c288d927-e736-40df-9317-4faafdc11523_sylhetwithoutbg.jpg",
+      "https://dko97fmntp7zh.cloudfront.net/f1152b5f-de4c-4ed8-ad1e-472dd105413f_SYT.webp",
 
     "Rajshahi Warriors":
-      "https://dko97fmntp7zh.cloudfront.net/66e66501-4aad-431d-952e-05e23594dbb0_rajshahiwithoutpg.jpg",
+      "https://dko97fmntp7zh.cloudfront.net/fef924d7-defb-4c83-94c0-55bcbf742899_RW.webp",
 
     "Noakhali Express":
-      "https://dko97fmntp7zh.cloudfront.net/a566d0d4-385b-4f5a-b4b7-f0b8472ece1f_noakhaliwithoutbg.jpg",
+      "https://dko97fmntp7zh.cloudfront.net/7943189d-1a11-4339-a086-98d393769e58_NE.webp",
 
     "Chattogram Royals":
-      "https://dko97fmntp7zh.cloudfront.net/d0e1ba59-0169-4603-b67b-7bc3868f629d_chattogramwithoutbg.jpg",
+      "https://dko97fmntp7zh.cloudfront.net/300434c3-a8ee-4e33-9cb7-1fa88524b650_CR.webp",
 
     "Dhaka Capitals":
-      "https://dko97fmntp7zh.cloudfront.net/008c40fd-5d31-4201-845d-b7bfd4c581a4_dhakawithoutbg.jpg",
+      "https://dko97fmntp7zh.cloudfront.net/6509f8f7-4d20-4c5b-8318-3ab353d70431_DC.webp",
 
     "Rangpur Riders":
-      "https://dko97fmntp7zh.cloudfront.net/94ebf1c2-be97-4cee-9b5f-eb6da366dd06_rangpurwithoutbg.jpg",
+      "https://dko97fmntp7zh.cloudfront.net/bbb05566-52bf-48a5-b707-745b36ab7eec_RGR.webp",
   },
 
   BBL: {
@@ -37,50 +37,50 @@ const LeagueTeamLogos = {
       "https://dko97fmntp7zh.cloudfront.net/c7c377fa-68a5-43b1-aea0-fc0ec65a1f47_BBLLOGO.jpg",
 
     "Perth Scorchers":
-      "https://dko97fmntp7zh.cloudfront.net/8bc2565d-e57f-49e7-8ba1-a75a0d7e7aea_PERTH.jpg",
+      "https://dko97fmntp7zh.cloudfront.net/c364454b-a01c-41e0-a88b-81cea92b064a_PRS.webp",
 
     "Sydney Sixers":
-      "https://dko97fmntp7zh.cloudfront.net/8d02bcad-5de8-4c2a-841b-30831913da69_SIDNEYSIXERS.jpg",
+      "https://dko97fmntp7zh.cloudfront.net/02414fd1-d1ca-4d75-8d1c-44b69f693b0c_SYS.webp",
 
     "Melbourne Renegades":
-      "https://dko97fmntp7zh.cloudfront.net/bd1d6980-6a0f-43e2-97b8-14f4555a3eb3_MELBOURNERENEGDADES.png",
+      "https://dko97fmntp7zh.cloudfront.net/fc13d5f2-d611-44cf-9c37-6802e74cfe0e_MLR.webp",
 
     "Brisbane Heat":
-      "https://dko97fmntp7zh.cloudfront.net/c925b53f-bcd4-4c8d-b3e6-d9a06f1730d7_BRISBANEHEAT.jpg",
+      "https://dko97fmntp7zh.cloudfront.net/3bad56d5-ebb8-4117-82b5-08d2ca4a83ab_BRISBANE.webp",
 
     "Hobart Hurricanes":
-      "https://dko97fmntp7zh.cloudfront.net/a0fa2cf4-f7c5-4485-b09c-8ea8c7c1b446_HOBART HURRICANES.jpg",
+      "https://dko97fmntp7zh.cloudfront.net/57b6b2d4-c243-418d-b313-2e6f0e3679be_HBH.webp",
 
     "Sydney Thunder":
-      "https://dko97fmntp7zh.cloudfront.net/e15857f6-b06a-4646-b248-9cdb6ac83aab_SYDNEYTHUNDERS.jpg",
+      "https://dko97fmntp7zh.cloudfront.net/72fb8d55-5dc0-4182-9db1-08272dcb66e2_STHUNDER.webp",
 
     "Adelaide Strikers":
-      "https://dko97fmntp7zh.cloudfront.net/f7199e47-02b9-41c6-bce8-617f1ad14ed8_ADELAIDESTRIKERS.jpg",
+      "https://dko97fmntp7zh.cloudfront.net/9dd7dfe2-ce8d-49d5-8117-f9d055a331a5_ADS.webp",
 
     "Melbourne Stars":
-      "https://dko97fmntp7zh.cloudfront.net/94ebf1c2-be97-4cee-9b5f-eb6da366dd06_rangpurwithoutbg.jpg",
+      "https://dko97fmntp7zh.cloudfront.net/f8ead18f-0746-42ec-b9da-b2d5068e9bfb_MLS.webp",
   },
   SAT20: {
     league_logo:
       "https://dko97fmntp7zh.cloudfront.net/0f4fca2a-bd6d-42ac-a8bc-1e966f4df105_SAT20LOGO.jpg",
 
     "MI Cape Town":
-      "https://dko97fmntp7zh.cloudfront.net/da39d2fe-83a5-415e-88fb-e1169f8db54e_MICAPETOWN.jpg",
+      "https://dko97fmntp7zh.cloudfront.net/60707a20-d904-48a4-bddd-669a7128b69a_MICAPE.webp",
 
     "Durban's Super Giants":
-      "https://dko97fmntp7zh.cloudfront.net/f8f896a9-c1e0-4d61-9f17-a4d78c243d26_DUBAQN'S SUPERGIANTS.png",
+      "https://dko97fmntp7zh.cloudfront.net/475cd1c1-f05a-472a-b57e-dd377c982db3_DURBAN.webp",
 
     "Pretoria Capitals":
-      "https://dko97fmntp7zh.cloudfront.net/504df789-b63c-42bd-83af-922471e216f4_PRETORIACAPITALS.png",
+      "https://dko97fmntp7zh.cloudfront.net/2ab20dae-493f-4db3-a7c0-573acb5e7884_PRETORIA.webp",
 
     "Joburg Super Kings":
-      "https://dko97fmntp7zh.cloudfront.net/5290f6c2-d937-460d-8454-6209e448e8fb_JOBURGSUPERKINGS.png",
+      "https://dko97fmntp7zh.cloudfront.net/11a2c80e-374b-4094-b61b-025442ce0604_JOBURG.webp",
 
     "Paarl Royals":
-      "https://dko97fmntp7zh.cloudfront.net/dd05c05e-9ce9-40b8-9a5f-4368eafb573f_PAARLROYALS.jpg",
+      "https://dko97fmntp7zh.cloudfront.net/37ef9c56-cce4-4784-8fca-108006a29149_PAARL.webp",
 
     "Sunrisers Eastern Cape":
-      "https://dko97fmntp7zh.cloudfront.net/0574c131-67bd-4c17-b0fe-87df8d8e99f3_SUNRISERS.png",
+      "https://dko97fmntp7zh.cloudfront.net/e2ebcb19-239e-4c8f-86f4-425d369c017f_SUNRISE.webp",
   },
 
   IPL: {
@@ -91,19 +91,19 @@ const LeagueTeamLogos = {
     league_logo:
       "https://dko97fmntp7zh.cloudfront.net/8cb5d74f-a49b-4065-8862-7cf7ef0f180a_WPLLOGO.png",
     "Mumbai Indians Women":
-      "https://dko97fmntp7zh.cloudfront.net/7d0cb9eb-0614-46a4-b86d-0c00b0e76cd0_MUMBQAIINDIAQNS.jpg",
+      "https://dko97fmntp7zh.cloudfront.net/ba2b2c10-9f90-49b9-9ed1-207d90d1a515_MI.webp",
 
     "Royal Challengers Bengaluru Women":
-      "https://dko97fmntp7zh.cloudfront.net/a5c57ffc-cea5-421d-afa4-41c17d058318_ROYALCHALLENGERS.jpg",
+      "https://dko97fmntp7zh.cloudfront.net/8d803a74-8119-44f2-bf1e-b34147feddab_RCB.webp",
 
     "UP Warriorz Women":
-      "https://dko97fmntp7zh.cloudfront.net/ffeac60a-67a5-4d03-9cd4-76d6220ea183_UPWARRIORS.jpg",
+      "https://dko97fmntp7zh.cloudfront.net/6afacec5-4477-44ae-941f-81b8706ba3a9_UP.webp",
 
     "Gujarat Giants Women":
-      "https://dko97fmntp7zh.cloudfront.net/137d0275-cdf1-41df-9bb1-f13a82596515_GUJARATGIANTS.png",
+      "https://dko97fmntp7zh.cloudfront.net/c7c6a5a9-3b6c-46fa-817d-06bf4e1f1ce5_GUJRAT.webp",
 
     "Delhi Capitals Women":
-      "https://dko97fmntp7zh.cloudfront.net/2df67b46-bda9-45ad-b1e9-c4dabc86044f_DELHICAPITALS.jpg",
+      "https://dko97fmntp7zh.cloudfront.net/391aaf66-a1f1-4090-8bb4-88dc0747d1a6_DC.webp",
   },
 
   SUPERSMASH: {
