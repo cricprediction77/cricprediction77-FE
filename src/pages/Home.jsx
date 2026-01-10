@@ -14,6 +14,12 @@ function Home() {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    fetch("https://my-springboot-backend-7sdz.onrender.com/health")
+      .then(() => console.log("Backend warmed up ✅"))
+      .catch(() => console.log("Backend warmup failed ❌"));
+  }, []);
+
   // ✅ Format date to DD-MM-YYYY
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
