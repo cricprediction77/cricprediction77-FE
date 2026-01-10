@@ -4,7 +4,7 @@ import "./WhatsappFloat.css";
 function WhatsappFloat() {
   const whatsappNumber = "917842435725"; // ✅ Your number
   const whatsappMessage = encodeURIComponent(
-    "Hi, I would like to know more about your match predictions."
+    "Hi, I want to buy report."
   );
 
   const openWhatsapp = () => {

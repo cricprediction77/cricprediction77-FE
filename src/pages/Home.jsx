@@ -120,7 +120,7 @@ function Home() {
 
   const whatsappNumber = "917842435725";
   const whatsappMessage = encodeURIComponent(
-    "Hi, I would like to know more about your match predictions."
+    "Hi, I want to buy reports."
   );
 
   const openWhatsapp = () => {
