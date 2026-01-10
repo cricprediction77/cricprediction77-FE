@@ -1,12 +1,10 @@
 // ✅ League name normalization
 const LeagueNameMap = {
-  "Bangladesh Premier League 2025-2026": "BPL",
-  "Indian Premier League": "IPL",
-  "Caribbean Premier League": "CPL",
-  "Women Premier League 2026": "WPL",
+  "BPL 2025-2026": "BPL",
+  "Womens Premier League 2026": "WPL",
   "BIG BASH LEAGUE 2025-2026": "BBL",
   "SA T20 2026": "SAT20",
-  "WPL 2026": "WPL"
+  "Men's Super Smash 2025-2026": "SUPERSMASH", // ✅ NEW
 };
 
 // ✅ Team logos
@@ -90,26 +88,40 @@ const LeagueTeamLogos = {
   },
 
   WPL: {
-    league_logo:"https://dko97fmntp7zh.cloudfront.net/8cb5d74f-a49b-4065-8862-7cf7ef0f180a_WPLLOGO.png",
-     "Mumbai Indians":
-        "https://dko97fmntp7zh.cloudfront.net/7d0cb9eb-0614-46a4-b86d-0c00b0e76cd0_MUMBQAIINDIAQNS.jpg",
+    league_logo:
+      "https://dko97fmntp7zh.cloudfront.net/8cb5d74f-a49b-4065-8862-7cf7ef0f180a_WPLLOGO.png",
+    "Mumbai Indians Women":
+      "https://dko97fmntp7zh.cloudfront.net/7d0cb9eb-0614-46a4-b86d-0c00b0e76cd0_MUMBQAIINDIAQNS.jpg",
 
-    "Royal Challengers Bengaluru":
-        "https://dko97fmntp7zh.cloudfront.net/a5c57ffc-cea5-421d-afa4-41c17d058318_ROYALCHALLENGERS.jpg",
+    "Royal Challengers Bengaluru Women":
+      "https://dko97fmntp7zh.cloudfront.net/a5c57ffc-cea5-421d-afa4-41c17d058318_ROYALCHALLENGERS.jpg",
 
-    "UP Warriorz":
-        "https://dko97fmntp7zh.cloudfront.net/ffeac60a-67a5-4d03-9cd4-76d6220ea183_UPWARRIORS.jpg",
+    "UP Warriorz Women":
+      "https://dko97fmntp7zh.cloudfront.net/ffeac60a-67a5-4d03-9cd4-76d6220ea183_UPWARRIORS.jpg",
 
-    "Gujarat Giants":
-        "https://dko97fmntp7zh.cloudfront.net/137d0275-cdf1-41df-9bb1-f13a82596515_GUJARATGIANTS.png",
+    "Gujarat Giants Women":
+      "https://dko97fmntp7zh.cloudfront.net/137d0275-cdf1-41df-9bb1-f13a82596515_GUJARATGIANTS.png",
 
-    "Delhi Capitals":
-        "https://dko97fmntp7zh.cloudfront.net/2df67b46-bda9-45ad-b1e9-c4dabc86044f_DELHICAPITALS.jpg",
-
+    "Delhi Capitals Women":
+      "https://dko97fmntp7zh.cloudfront.net/2df67b46-bda9-45ad-b1e9-c4dabc86044f_DELHICAPITALS.jpg",
   },
 
-  CPL: {
-    league_logo: "https://example.com/cpl/cpl-logo.png",
+  SUPERSMASH: {
+    league_logo:
+      "https://dko97fmntp7zh.cloudfront.net/b077557c-3b30-4655-a403-2c5b4a11ba6a_Super-smash-kfc-logo.png",
+
+    "Auckland Aces":
+      "https://dko97fmntp7zh.cloudfront.net/70931958-2643-46fd-9d44-0cfd502b80a5_AUCK.webp",
+    "Canterbury Kings":
+      "https://dko97fmntp7zh.cloudfront.net/0af5884e-ee4f-40d2-ba88-7b0dad63eb14_CANT.webp",
+    "Central Stags":
+      "https://dko97fmntp7zh.cloudfront.net/8e741b21-0bab-4429-890f-68020b4418a6_CS.webp",
+    "Northern Brave":
+      "https://dko97fmntp7zh.cloudfront.net/abfd7ff6-a9ae-4690-93f7-0d9567876c94_NB.webp",
+    "Otago Volts":
+      "https://dko97fmntp7zh.cloudfront.net/519b89ab-40a3-4801-93e6-e07730512066_OTG.webp",
+    "Wellington Firebirds":
+      "https://dko97fmntp7zh.cloudfront.net/80ec7ce7-639b-4d20-b58f-520a8bcaf569_57.webp",
   },
 };
 

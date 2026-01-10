@@ -1,3 +1,15 @@
+
+/* ✅ Prevent horizontal scroll on all devices */
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 /* General Layout */
 :root {
   --primary-color: #f3a60a; /* Gold/Orange branding */
@@ -55,9 +67,12 @@ body {
 }
 
 .slide-item img {
+  width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
+
 
 .overlay {
   position: absolute;
@@ -74,13 +89,14 @@ body {
 /* Quick Actions Grid */
 .quick-actions {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
   gap: 10px;
   padding: 0 15px;
-  margin-top: -30px; /* Pulls cards up over carousel slightly */
+  margin-top: -30px;
   position: relative;
   z-index: 10;
 }
+
 
 .action-card {
   background: var(--card-bg);
@@ -119,19 +135,16 @@ body {
 /* WhatsApp icon on carousel */
 .carousel-whatsapp {
   position: absolute;
-  bottom: 25px;
-  right: 20px;
-
+  bottom: 18px;
+  right: 12px;
   width: 42px;
   height: 42px;
-  max-width: 42px;
-  max-height: 42px;
-
+  max-width: 45px;
+  max-height: 45px;
   object-fit: contain;
   border-radius: 50%;
   cursor: pointer;
   z-index: 9999;
-
   pointer-events: auto !important;
   animation: whatsappPulse 1.5s infinite ease-in-out;
 }
@@ -158,8 +171,10 @@ body {
 .match-card {
   background: var(--card-bg);
   border-radius: 12px;
-  padding: 20px;
-  margin-top: 15px;
+  width: 100%;
+  max-width: 100%;
+  padding: 18px 14px;
+  overflow: hidden; /* ✅ prevents child overflow */  margin-top: 15px;
   text-align: center;
   border: 1px solid #ffffff;
 }
@@ -328,4 +343,33 @@ body {
   .match-section { max-width: 800px; margin: 0 auto; }
   .mobile-footer { display: none; }
   .quick-actions { max-width: 800px; margin: -50px auto 20px; }
+}
+/* ✅ Match Status Buttons (Completed Tab) */
+.status-btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  cursor: not-allowed;
+  opacity: 0.95;
+  text-transform: uppercase;
+}
+
+/* CANCELLED → RED */
+.status-cancelled {
+  background: #dc2626;
+  color: white;
+}
+
+/* ABANDONED → YELLOW */
+.status-abandoned {
+  background: #facc15;
+  color: black;
+}
+
+/* POSTPONED → ORANGE */
+.status-postponed {
+  background: #fb923c;
+  color: black;
 }

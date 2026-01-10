@@ -200,7 +200,7 @@
   height: 120px;
   object-fit: contain;
   border-radius: 50%;
-  background: radial-gradient(circle, #facc15, #b45309);
+  background: radial-gradient(circle, #fffffd, #fedcc2);
   padding: 12px;
 }
 
@@ -251,8 +251,8 @@
 
 /* Shield */
 .winner-shield {
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   background: #ffffff;
   border-radius: 50%;
   padding: 8px;
@@ -317,8 +317,8 @@
 
 .league-logo {
   position: absolute;
-  left: -85px;        /* controls distance */
-  top: 30%;
+  left: -85px;        
+  top: 20%;
   transform: translateY(-50%);
 
   width: 55px;
@@ -327,14 +327,11 @@
 .app-logo {
   position: absolute;
   right: -105px;      
-  top: 20%;
+  top: 23%;
   transform: translateY(-50%);
-
   width: 95px;
-  height: 65px;
+  height: 95px;
 }
-
-
 
 /* ---------- BOTTOM ROW ---------- */
 .banner-bottom {

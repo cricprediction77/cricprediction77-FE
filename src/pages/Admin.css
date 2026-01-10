@@ -168,6 +168,42 @@
 .submit-btn:hover {
   background-color: #003b6f;
 }
+/* ✅ Match Status Dropdown Styling (same like input style) */
+.extra-fields select {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  outline: none;
+
+  background: rgb(22, 65, 9); 
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition: 0.25s ease;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+/* hover */
+.extra-fields select:hover {
+  border-color: rgba(249, 115, 22, 0.8);
+}
+
+/* focus */
+.extra-fields select:focus {
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.25);
+}
+
+/* dropdown option style */
+.extra-fields select option {
+  background: #111827;
+  color: #ffffff;
+  font-weight: 600;
+}
 
 
 

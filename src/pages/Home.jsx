@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { getTeamLogo } from "../utils/LeagueTeamLogos";
@@ -53,18 +53,21 @@ function Home() {
   useEffect(() => {
     const fetchAllLeagueData = async () => {
       try {
-        const [bplData, wplData, mensBblData, saT20Data] = await Promise.all([
-          predictionApiFetch("/api/bpl/bpl-matches"),
-          predictionApiFetch("/api/wpl/wpl-matches"),
-          predictionApiFetch("/api/mens-bbl/matches"),
-          predictionApiFetch("/api/sa-t20/matches"),
-        ]);
+        const [bplData, wplData, mensBblData, saT20Data, superSmashData] =
+          await Promise.all([
+            predictionApiFetch("/api/bpl/bpl-matches"),
+            predictionApiFetch("/api/wpl/wpl-matches"),
+            predictionApiFetch("/api/mens-bbl/bbl-matches"),
+            predictionApiFetch("/api/sa-t20/sat20-matches"),
+            predictionApiFetch("/api/super-smash/supersmash-matches"), // ✅ NEW
+          ]);
 
         const combinedMatches = [
           ...(bplData?.matches || []),
           ...(wplData?.matches || []),
           ...(mensBblData?.matches || []),
           ...(saT20Data?.matches || []),
+          ...(superSmashData?.matches || []), // ✅ NEW
         ];
 
         setAllMatches(combinedMatches);
@@ -77,28 +80,35 @@ function Home() {
     fetchAllLeagueData();
   }, []);
 
-  const filterMatches = (type, matches = allMatches) => {
-    setActiveTab(type);
+  const filterMatches = useCallback(
+    (type, matches = allMatches) => {
+      setActiveTab(type);
 
-    const today = new Date().toISOString().split("T")[0];
-    let result = [];
+      const today = new Date().toISOString().split("T")[0];
+      let result = [];
 
-    if (type === "TODAY") {
-      result = matches.filter(
-        (m) => m.matchDate === today && m.matchStatus === null
-      );
-    }
+      if (type === "TODAY") {
+        result = matches.filter(
+          (m) => m.matchDate === today && m.matchStatus === null
+        );
+      }
 
-    if (type === "UPCOMING") {
-      result = matches.filter((m) => m.matchDate > today);
-    }
+      if (type === "UPCOMING") {
+        result = matches.filter((m) => m.matchDate > today);
+      }
 
-    if (type === "COMPLETED") {
-      result = matches.filter((m) => m.matchStatus === "COMPLETED");
-    }
+      if (type === "COMPLETED") {
+        result = matches.filter((m) =>
+          ["COMPLETED", "ABANDONED", "POSTPONED", "CANCELLED"].includes(
+            m.matchStatus
+          )
+        );
+      }
 
-    setFilteredMatches(result);
-  };
+      setFilteredMatches(result);
+    },
+    [allMatches]
+  );
 
   const whatsappNumber = "917842435725";
   const whatsappMessage = encodeURIComponent(
@@ -112,28 +122,12 @@ function Home() {
     );
   };
 
-  const groupMatchesByLeague = (matches) => {
-    return matches.reduce((acc, match) => {
-      const league = match.leagueType || "Other League";
-      if (!acc[league]) acc[league] = [];
-      acc[league].push(match);
-      return acc;
-    }, {});
-  };
-
-  const toggleLeague = (league) => {
-    setExpandedLeagues((prev) => ({
-      ...prev,
-      [league]: !prev[league],
-    }));
-  };
-
   return (
     <div className="home-container">
       {/* Navbar */}
       <nav className="navbar">
         <div className="logo">
-          Crict<span>Predict</span>
+          Cric<span>Prediction77</span>
         </div>
         <button className="login-btn" onClick={() => navigate("/login")}>
           Login
@@ -171,6 +165,26 @@ function Home() {
             <div className="overlay">
               <h2>ILT20 Predictions</h2>
               <p>Internatinal League T20</p>
+            </div>
+
+            {/* WhatsApp Icon */}
+            <img
+              src="https://dko97fmntp7zh.cloudfront.net/c9d8ec1c-6658-48a1-9c5f-2ec1f6eb4eb5_Media%20(5).jpg"
+              alt="WhatsApp"
+              className="carousel-whatsapp"
+              onClick={openWhatsapp}
+            />
+          </div>
+
+          <div className="slide-item">
+            <img
+              src="https://dko97fmntp7zh.cloudfront.net/02532756-d960-4b8a-a00f-b230bfe322d4_AA1R8jDz.jpg"
+              alt="WPL"
+            />
+
+            <div className="overlay">
+              <h2>WPL Predictions</h2>
+              <p>Womens Premier League</p>
             </div>
 
             {/* WhatsApp Icon */}
@@ -307,17 +321,36 @@ function Home() {
 
                         <div className="buy-row">
                           <p className="buy-text">
-                            Check expert prediction for this match
+                            {match.matchStatus === "COMPLETED"
+                              ? "Check expert prediction for this match"
+                              : "Match Status"}
                           </p>
 
-                          <button
-                            className="buy-now-btn finished"
-                            onClick={() =>
-                              navigate("/view-prediction", { state: { match } })
-                            }
-                          >
-                            View Prediction
-                          </button>
+                          {match.matchStatus === "COMPLETED" ? (
+                            <button
+                              className="buy-now-btn finished"
+                              onClick={() =>
+                                navigate("/view-prediction", {
+                                  state: { match },
+                                })
+                              }
+                            >
+                              View Prediction
+                            </button>
+                          ) : (
+                            <button
+                              className={`status-btn ${
+                                match.matchStatus === "CANCELLED"
+                                  ? "status-cancelled"
+                                  : match.matchStatus === "ABANDONED"
+                                  ? "status-abandoned"
+                                  : "status-postponed"
+                              }`}
+                              disabled
+                            >
+                              {match.matchStatus}
+                            </button>
+                          )}
                         </div>
                       </>
                     )}
@@ -345,12 +378,12 @@ function Home() {
       </main>
 
       {/* Footer */}
-      <div className="mobile-footer">
+      {/* <div className="mobile-footer">
         <div className="footer-item active">Home</div>
         <div className="footer-item">Matches</div>
         <div className="footer-item">Predict</div>
         <div className="footer-item">Profile</div>
-      </div>
+      </div> */}
     </div>
   );
 }

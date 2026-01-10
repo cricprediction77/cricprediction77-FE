@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getTeamLogo } from "../utils/LeagueTeamLogos";
 import { predictionApiFetch } from "../services/api";
-
 import "./Admin.css";
 
 function Admin() {
@@ -28,7 +27,7 @@ function Admin() {
     }
   }, [navigate]);
 
-  // 📡 Fetch all leagues (future-proof)
+  // 📡 Fetch all leagues
   useEffect(() => {
     fetchAllLeagueData();
   }, []);
@@ -36,14 +35,15 @@ function Admin() {
   const fetchAllLeagueData = async () => {
     try {
       // 🔹 Fetch all leagues in parallel
-      const [bplData, wplData, mensBblData, saT20Data] = await Promise.all([
-        predictionApiFetch("/api/bpl/bpl-matches"),
-        predictionApiFetch("/api/wpl/wpl-matches"),
-        predictionApiFetch("/api/mens-bbl/matches"),
-        predictionApiFetch("/api/sa-t20/matches"),
-      ]);
+      const [bplData, wplData, mensBblData, saT20Data, superSmashData] =
+        await Promise.all([
+          predictionApiFetch("/api/bpl/bpl-matches"),
+          predictionApiFetch("/api/wpl/wpl-matches"),
+          predictionApiFetch("/api/mens-bbl/bbl-matches"),
+          predictionApiFetch("/api/sa-t20/sat20-matches"),
+          predictionApiFetch("/api/super-smash/supersmash-matches"), // ✅ NEW
+        ]);
 
-      // 🔹 Merge all league matches
       const today = new Date().toISOString().split("T")[0];
 
       const allMatches = [
@@ -51,11 +51,11 @@ function Admin() {
         ...(wplData?.matches || []),
         ...(mensBblData?.matches || []),
         ...(saT20Data?.matches || []),
+        ...(superSmashData?.matches || []), // ✅ NEW
       ].filter(
         (match) => match.matchStatus !== "COMPLETED" && match.matchDate <= today
       );
 
-      // ✅ ADD THIS BLOCK
       const groupedByLeague = allMatches.reduce((acc, match) => {
         const league = match.leagueType || "Other League";
         if (!acc[league]) acc[league] = [];
@@ -63,25 +63,20 @@ function Admin() {
         return acc;
       }, {});
 
-      // ✅ STORE IN STATE
       setMatchesByLeague(groupedByLeague);
-
-      // 🔹 ADMIN PAGE
-      // filterAdminMatches(allMatches);
-
-      // 🔹 HOME PAGE
-      // filterMatches("TODAY", allMatches);
     } catch (error) {
       console.error("Error fetching league data:", error);
-      return [];
     }
   };
 
-  const handleInputChange = (matchNumber, field, value) => {
+  // ✅ Unique selection key (IMPORTANT FIX)
+  const getMatchKey = (match) => `${match.leagueType}-${match.matchNumber}`;
+
+  const handleInputChange = (matchKey, field, value) => {
     setSelections((prev) => ({
       ...prev,
-      [matchNumber]: {
-        ...prev[matchNumber],
+      [matchKey]: {
+        ...prev[matchKey],
         [field]: value,
       },
     }));
@@ -90,47 +85,67 @@ function Admin() {
   const getSubmitApiByLeague = (leagueType) => {
     if (!leagueType) return "/api/bpl/details";
 
-    if (leagueType.includes("Bangladesh")) return "/api/bpl/details";
-    if (leagueType.includes("WPL")) return "/api/wpl/details";
-    if (leagueType.includes("Big Bash")) return "/api/mens-bbl/details";
-    if (leagueType.includes("SA T20")) return "/api/sa-t20/details";
+    const lt = leagueType.toLowerCase();
 
-    throw new Error("Unknown league type: " + leagueType);
+    if (lt.includes("bpl")) return "/api/bpl/details";
+    if (lt.includes("women premier league") || lt.includes("wpl"))
+      return "/api/wpl/details";
+    if (lt.includes("big bash") || lt.includes("bbl"))
+      return "/api/mens-bbl/details";
+    if (lt.includes("sa t20") || lt.includes("sat20"))
+      return "/api/sa-t20/details";
+    if (lt.includes("super smash")) return "/api/super-smash/details"; // ✅ NEW
+
+    return "/api/bpl/details";
   };
 
   const handleSubmit = async (match) => {
-    const data = selections[match.matchNumber];
+    const matchKey = getMatchKey(match);
+    const data = selections[matchKey];
 
-    const payload = {
-      matchNumber: match.matchNumber,
-      tossWinner: data.tossWinner,
-      matchWinner: data.matchWinner,
-      team1Score: data.team1Score,
-      team2Score: data.team2Score,
-      sessionDetails: data.sessionDetails,
-      matchStatus: "COMPLETED",
-    };
+    const status = data?.matchStatus;
+
+    // ✅ If cancelled/abandoned/postponed → send null for all details
+    const payload =
+      status === "CANCELLED" || status === "ABANDONED" || status === "POSTPONED"
+        ? {
+            matchNumber: match.matchNumber,
+            tossWinner: null,
+            matchWinner: null,
+            team1Score: null,
+            team2Score: null,
+            sessionDetails: null,
+            matchStatus: status,
+          }
+        : {
+            matchNumber: match.matchNumber,
+            tossWinner: data.tossWinner,
+            matchWinner: data.matchWinner,
+            team1Score: data.team1Score,
+            team2Score: data.team2Score,
+            sessionDetails: data.sessionDetails,
+            matchStatus: status, // COMPLETED
+          };
 
     try {
       const apiUrl = getSubmitApiByLeague(match.leagueType);
 
       await predictionApiFetch(apiUrl, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(payload),
       });
 
-      console.log("Match updated successfully");
-
       alert("Match details submitted successfully ✅");
 
-      // ✅ CLEAR ONLY THIS MATCH FORM
       setSelections((prev) => {
         const updated = { ...prev };
-        delete updated[match.matchNumber];
+        delete updated[matchKey];
         return updated;
       });
 
-      // ✅ REFRESH DATA WITHOUT RELOAD
       fetchAllLeagueData();
     } catch (error) {
       console.error("Submit error:", error);
@@ -151,29 +166,43 @@ function Admin() {
       d.getMonth() + 1
     ).padStart(2, "0")}-${d.getFullYear()}`;
   };
+
   const getTeamsFromMatch = (teamsStr) => {
     if (!teamsStr || !teamsStr.includes(" vs ")) return [];
     return teamsStr.split(" vs ");
   };
 
-  const handleSelectChange = (matchNumber, type, value) => {
+  const handleSelectChange = (matchKey, type, value) => {
     setSelections((prev) => ({
       ...prev,
-      [matchNumber]: {
-        ...prev[matchNumber],
+      [matchKey]: {
+        ...prev[matchKey],
         [type]: value,
       },
     }));
   };
-  const isFormComplete = (matchNumber) => {
-    const data = selections[matchNumber];
 
+  const isFormComplete = (matchKey) => {
+    const data = selections[matchKey];
+    const status = data?.matchStatus;
+
+    // ✅ If match is cancelled/abandoned/postponed → allow submit directly
+    if (
+      status === "CANCELLED" ||
+      status === "ABANDONED" ||
+      status === "POSTPONED"
+    ) {
+      return true;
+    }
+
+    // ✅ If COMPLETED → old behavior (all fields required)
     return (
       data?.tossWinner &&
       data?.matchWinner &&
       data?.team1Score &&
       data?.team2Score &&
-      data?.sessionDetails
+      data?.sessionDetails &&
+      status === "COMPLETED"
     );
   };
 
@@ -190,23 +219,20 @@ function Admin() {
 
           return (
             <div key={league} className="league-block">
-              {/* League Banner */}
               <div className="league-banner">{league}</div>
 
-              {/* Matches */}
               {visibleMatches.map((match) => {
-                // ✅ ADD THIS LINE HERE
                 const teamsList = getTeamsFromMatch(match.teams);
+                const matchKey = getMatchKey(match);
 
                 return (
-                  <div className="admin-match-card" key={match.matchNumber}>
+                  <div className="admin-match-card" key={matchKey}>
                     <div className="match-header">
                       {formatDate(match.matchDate)} | Match No -{" "}
                       {match.matchNumber}
                     </div>
 
                     <div className="teams-row">
-                      {/* LEFT SIDE */}
                       <div className="left-section">
                         <div className="team">
                           <img
@@ -217,10 +243,8 @@ function Admin() {
                         </div>
                       </div>
 
-                      {/* VS */}
                       <div className="vs">VS</div>
 
-                      {/* RIGHT SIDE */}
                       <div className="team">
                         {teamsList[1] && (
                           <>
@@ -233,15 +257,16 @@ function Admin() {
                         )}
                       </div>
                     </div>
+
                     {/* Dropdowns */}
                     <div className="dropdown-group">
                       <label>Toss Winner</label>
                       <select
                         disabled={teamsList.length !== 2}
-                        value={selections[match.matchNumber]?.tossWinner || ""}
+                        value={selections[matchKey]?.tossWinner || ""}
                         onChange={(e) =>
                           handleSelectChange(
-                            match.matchNumber,
+                            matchKey,
                             "tossWinner",
                             e.target.value
                           )
@@ -254,13 +279,14 @@ function Admin() {
                           </option>
                         ))}
                       </select>
+
                       <label>Match Winner</label>
                       <select
                         disabled={teamsList.length !== 2}
-                        value={selections[match.matchNumber]?.matchWinner || ""}
+                        value={selections[matchKey]?.matchWinner || ""}
                         onChange={(e) =>
                           handleSelectChange(
-                            match.matchNumber,
+                            matchKey,
                             "matchWinner",
                             e.target.value
                           )
@@ -274,7 +300,7 @@ function Admin() {
                         ))}
                       </select>
                     </div>
-                    {/* Extra Fields */}
+
                     {/* Extra Fields */}
                     <div className="extra-fields">
                       <label>
@@ -285,10 +311,10 @@ function Admin() {
                       <input
                         type="text"
                         placeholder="Score"
-                        value={selections[match.matchNumber]?.team1Score || ""}
+                        value={selections[matchKey]?.team1Score || ""}
                         onChange={(e) =>
                           handleInputChange(
-                            match.matchNumber,
+                            matchKey,
                             "team1Score",
                             e.target.value
                           )
@@ -303,10 +329,10 @@ function Admin() {
                       <input
                         type="text"
                         placeholder="Score"
-                        value={selections[match.matchNumber]?.team2Score || ""}
+                        value={selections[matchKey]?.team2Score || ""}
                         onChange={(e) =>
                           handleInputChange(
-                            match.matchNumber,
+                            matchKey,
                             "team2Score",
                             e.target.value
                           )
@@ -317,21 +343,36 @@ function Admin() {
                       <textarea
                         rows={3}
                         placeholder="Enter session details"
-                        value={
-                          selections[match.matchNumber]?.sessionDetails || ""
-                        }
+                        value={selections[matchKey]?.sessionDetails || ""}
                         onChange={(e) =>
                           handleInputChange(
-                            match.matchNumber,
+                            matchKey,
                             "sessionDetails",
                             e.target.value
                           )
                         }
                       />
+                      <label>Match Status</label>
+                      <select
+                        value={selections[matchKey]?.matchStatus || ""}
+                        onChange={(e) =>
+                          handleSelectChange(
+                            matchKey,
+                            "matchStatus",
+                            e.target.value
+                          )
+                        }
+                      >
+                        <option value="">Select Match Status</option>
+                        <option value="COMPLETED">COMPLETED</option>
+                        <option value="ABANDONED">ABANDONED</option>
+                        <option value="POSTPONED">POSTPONED</option>
+                        <option value="CANCELLED">CANCELLED</option>
+                      </select>
                     </div>
 
                     {/* Submit Button */}
-                    {isFormComplete(match.matchNumber) && (
+                    {isFormComplete(matchKey) && (
                       <div className="submit-wrapper">
                         <button
                           className="submit-btn"
@@ -341,13 +382,10 @@ function Admin() {
                         </button>
                       </div>
                     )}
-
-                    {/* <div className="status-text">Status: Pending / Live</div> */}
                   </div>
                 );
               })}
 
-              {/* Show More / Less */}
               {matches.length > 2 && (
                 <div
                   className="show-toggle"

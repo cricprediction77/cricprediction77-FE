@@ -7,11 +7,16 @@ import ViewPrediction from "./pages/ViewPrediction";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
 
+// ✅ ADD THIS IMPORT
+import WhatsappFloat from "./pages/WhatsappFloat";
+
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
+      {/* ✅ global whatsapp icon */}
+      <WhatsappFloat />
 
+      <Routes>
         <Route path="/index.html" element={<Navigate to="/" replace />} />
 
         <Route path="/" element={<Home />} />
@@ -19,7 +24,6 @@ function App() {
         <Route path="/view-prediction" element={<ViewPrediction />} />
         <Route path="/login" element={<Login />} />
         <Route path="/admin" element={<Admin />} />
-
       </Routes>
     </BrowserRouter>
   );
