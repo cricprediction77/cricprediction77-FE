@@ -87,15 +87,37 @@ function Admin() {
 
     const lt = leagueType.toLowerCase();
 
+    // ✅ BPL
     if (lt.includes("bpl")) return "/api/bpl/details";
+
+    // ✅ WPL (FULL NAME SAFE)
     if (lt.includes("womens premier league") || lt.includes("wpl"))
       return "/api/wpl/details";
-    if (lt.includes("big bash") || lt.includes("bbl"))
-      return "/api/mens-bbl/details";
-    if (lt.includes("sa t20") || lt.includes("sat20"))
-      return "/api/sa-t20/details";
-    if (lt.includes("super smash")) return "/api/super-smash/details"; // ✅ NEW
 
+    // ✅ BIG BASH (FULL NAME SAFE)
+    if (
+      lt.includes("big bash league 2025-2026") ||
+      lt.includes("big bash") ||
+      lt.includes("bbl")
+    )
+      return "/api/mens-bbl/details";
+
+    // ✅ SA T20 (FULL NAME SAFE)
+    if (
+      lt.includes("sa t20 2026") ||
+      lt.includes("sa t20") ||
+      lt.includes("sat20")
+    )
+      return "/api/sa-t20/details";
+
+    // ✅ SUPER SMASH (FULL NAME SAFE)
+    if (
+      lt.includes("men's super smash 2025-2026") ||
+      lt.includes("super smash")
+    )
+      return "/api/super-smash/details";
+
+    // fallback
     return "/api/bpl/details";
   };
 
