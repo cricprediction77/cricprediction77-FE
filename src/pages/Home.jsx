@@ -11,6 +11,8 @@ function Home() {
   const [filteredMatches, setFilteredMatches] = useState([]);
   const [activeTab, setActiveTab] = useState("TODAY");
   const [expandedLeagues, setExpandedLeagues] = useState({});
+  const [selectedLeague, setSelectedLeague] = useState("");
+  const [showLeagues, setShowLeagues] = useState(false);
 
   const navigate = useNavigate();
 
@@ -77,7 +79,8 @@ function Home() {
         ];
 
         setAllMatches(combinedMatches);
-        filterMatches("TODAY", combinedMatches);
+        filterMatches("TODAY", combinedMatches, "");
+        setSelectedLeague("");
       } catch (error) {
         console.error("Error fetching league data", error);
       }
@@ -87,12 +90,31 @@ function Home() {
   }, []);
 
   const filterMatches = useCallback(
-    (type, matches = allMatches) => {
+    (type, matches = allMatches, leagueFilter = selectedLeague) => {
       setActiveTab(type);
 
       const today = new Date().toISOString().split("T")[0];
       let result = [];
 
+      // ✅ If League selected (WPL / BBL / BPL / SAT20 / SUPERSMASH)
+      // Always show ALL matches from that league only (no today/upcoming/completed logic)
+      if (leagueFilter) {
+        result = matches.filter((m) =>
+          (m.leagueType || "")
+            .toLowerCase()
+            .includes(leagueFilter.toLowerCase())
+        );
+
+        // ✅ sort by matchNumber
+        result = result.sort(
+          (a, b) => Number(a.matchNumber) - Number(b.matchNumber)
+        );
+
+        setFilteredMatches(result);
+        return; // ✅ STOP here (important)
+      }
+
+      // ✅ Normal tab filtering (Only when no league selected)
       if (type === "TODAY") {
         result = matches.filter(
           (m) => m.matchDate === today && m.matchStatus === null
@@ -110,18 +132,21 @@ function Home() {
               m.matchStatus
             )
           )
-          .sort((a, b) => Number(b.matchNumber) - Number(a.matchNumber)); // ✅ DESC
+          .sort((a, b) => Number(b.matchNumber) - Number(a.matchNumber));
       }
+
+      // ✅ sort
+      result = result.sort(
+        (a, b) => Number(a.matchNumber) - Number(b.matchNumber)
+      );
 
       setFilteredMatches(result);
     },
-    [allMatches]
+    [allMatches, selectedLeague]
   );
 
   const whatsappNumber = "917842435725";
-  const whatsappMessage = encodeURIComponent(
-    "Hi, I want to buy reports."
-  );
+  const whatsappMessage = encodeURIComponent("Hi, I want to buy reports.");
 
   const openWhatsapp = () => {
     window.open(
@@ -129,6 +154,7 @@ function Home() {
       "_blank"
     );
   };
+  const isLeagueSelected = !!selectedLeague;
 
   return (
     <div className="home-container">
@@ -245,32 +271,156 @@ function Home() {
       </section>
 
       {/* Tabs */}
-      <div className="quick-actions">
+      {/* ✅ League Cards */}
+      {/* ✅ League Cards */}
+
+      {/* ✅ View All Leagues / View All Matches Toggle Button */}
+<div className="quick-actions">
+  <button
+    className={`action-card ${showLeagues ? "active" : ""}`}
+    onClick={() => {
+      setShowLeagues((prev) => {
+        const newValue = !prev;
+
+        // ✅ If switching back to matches view, make sure TODAY selected
+        if (!newValue) {
+          setSelectedLeague("");
+          setActiveTab("TODAY");
+          filterMatches("TODAY", allMatches, "");
+        }
+
+        return newValue;
+      });
+    }}
+  >
+    {showLeagues ? "View All Matches" : "View All Leagues"}
+  </button>
+</div>
+
+{showLeagues && (
+  <div className="quick-actions league-actions">        {/* ✅ WPL */}
         <button
-          className={`action-card ${activeTab === "TODAY" ? "active" : ""}`}
-          onClick={() => filterMatches("TODAY")}
+          className={`league-action-card ${selectedLeague === "wpl" ? "active" : ""}`}
+          onClick={() => {
+            if (selectedLeague === "wpl") {
+              setSelectedLeague("");
+              setActiveTab("TODAY");
+              filterMatches("TODAY", allMatches, "");
+            } else {
+              setSelectedLeague("wpl");
+              filterMatches("ALL_MATCHES", allMatches, "womens premier league");
+            }
+          }}
         >
-          Today's Matches
+          WPL
         </button>
 
+        {/* ✅ BBL */}
         <button
-          className={`action-card ${activeTab === "UPCOMING" ? "active" : ""}`}
-          onClick={() => filterMatches("UPCOMING")}
+          className={`league-action-card ${selectedLeague === "bbl" ? "active" : ""}`}
+          onClick={() => {
+            if (selectedLeague === "bbl") {
+              setSelectedLeague("");
+              setActiveTab("TODAY");
+              filterMatches("TODAY", allMatches, "");
+            } else {
+              setSelectedLeague("bbl");
+              filterMatches("ALL_MATCHES", allMatches, "big bash league");
+            }
+          }}
         >
-          Upcoming Matches
+          BBL
         </button>
 
+        {/* ✅ BPL */}
         <button
-          className={`action-card ${activeTab === "COMPLETED" ? "active" : ""}`}
-          onClick={() => filterMatches("COMPLETED")}
+          className={`league-action-card ${selectedLeague === "bpl" ? "active" : ""}`}
+          onClick={() => {
+            if (selectedLeague === "bpl") {
+              setSelectedLeague("");
+              setActiveTab("TODAY");
+              filterMatches("TODAY", allMatches, "");
+            } else {
+              setSelectedLeague("bpl");
+              filterMatches("ALL_MATCHES", allMatches, "bpl");
+            }
+          }}
         >
-          Completed Matches
+          BPL
+        </button>
+
+        {/* ✅ SAT20 */}
+        <button
+          className={`league-action-card ${
+            selectedLeague === "sat20" ? "active" : ""
+          }`}
+          onClick={() => {
+            if (selectedLeague === "sat20") {
+              setSelectedLeague("");
+              setActiveTab("TODAY");
+              filterMatches("TODAY", allMatches, "");
+            } else {
+              setSelectedLeague("sat20");
+              filterMatches("ALL_MATCHES", allMatches, "sa t20");
+            }
+          }}
+        >
+          SAT20
+        </button>
+
+        {/* ✅ SUPERSMASH */}
+        <button
+          className={`league-action-card ${
+            selectedLeague === "supersmash" ? "active" : ""
+          }`}
+          onClick={() => {
+            if (selectedLeague === "supersmash") {
+              setSelectedLeague("");
+              setActiveTab("TODAY");
+              filterMatches("TODAY", allMatches, "");
+            } else {
+              setSelectedLeague("supersmash");
+              filterMatches("ALL_MATCHES", allMatches, "super smash");
+            }
+          }}
+        >
+          SUPERSMASH
         </button>
       </div>
+      )}
+
+      {/* ✅ Tabs */}
+     {!showLeagues && !isLeagueSelected && (
+        <div className="quick-actions match-tabs">
+          <button
+            className={`action-card ${activeTab === "TODAY" ? "active" : ""}`}
+            onClick={() => filterMatches("TODAY")}
+          >
+            Today's Matches
+          </button>
+
+          <button
+            className={`action-card ${
+              activeTab === "UPCOMING" ? "active" : ""
+            }`}
+            onClick={() => filterMatches("UPCOMING")}
+          >
+            Upcoming Matches
+          </button>
+
+          <button
+            className={`action-card ${
+              activeTab === "COMPLETED" ? "active" : ""
+            }`}
+            onClick={() => filterMatches("COMPLETED")}
+          >
+            Completed Matches
+          </button>
+        </div>
+      )}
 
       {/* Matches */}
       <main className="match-section">
-        <h3 className="section-title">{activeTab} Matches</h3>
 
         {filteredMatches.length === 0 ? (
           <p className="no-data">
@@ -334,7 +484,7 @@ function Home() {
                     </div>
 
                     {/* TODAY & UPCOMING */}
-                    {activeTab !== "COMPLETED" && (
+                    {match.matchStatus === null && (
                       <>
                         <div className="countdown-timer">
                           Starts in:{" "}
@@ -361,7 +511,7 @@ function Home() {
                     )}
 
                     {/* COMPLETED */}
-                    {activeTab === "COMPLETED" && (
+                    {match.matchStatus !== null && (
                       <>
                         <hr className="card-divider" />
 
@@ -512,12 +662,12 @@ function Home() {
       </section>
 
       {/* Footer */}
-      {/* <div className="mobile-footer">
+      <div className="mobile-footer">
         <div className="footer-item active">Home</div>
         <div className="footer-item">Matches</div>
         <div className="footer-item">Predict</div>
         <div className="footer-item">Profile</div>
-      </div> */}
+      </div>
     </div>
   );
 }

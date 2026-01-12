@@ -108,6 +108,20 @@ body {
   font-weight: 600;
 }
 
+.league-action-card {
+  background: var(--card-bg);
+  border: 1px solid #334155;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.league-action-card.active {
+  background: var(--primary-color);
+  color: #000;
+  border-color: var(--primary-color);
+}
 /* Match Cards */
 .match-section {
   padding: 20px 15px 100px; /* Extra bottom padding for mobile menu */
@@ -115,6 +129,15 @@ body {
 .league-section {
   margin-bottom: 30px;
 }
+/* ✅ League Cards spacing */
+.league-actions {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.match-tabs {
+  margin-top: 15px !important;  /* push down */
+}
+
 
 .league-heading {
   margin: 20px 0 10px;
@@ -375,6 +398,7 @@ body {
 }
 /* ✅ Trust + Disclaimer Section */
 .trust-section {
+  margin-top: -80px;
   padding: 20px 15px 40px;
 }
 
