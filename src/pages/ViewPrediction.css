@@ -7,12 +7,14 @@
 
 .match-card {
   background-color: #1c1e22;
-  border: 2px solid #f97316;   /* ORANGE */
+  border: 2px solid #f97316;
   border-radius: 12px;
   width: 100%;
+  max-width: 980px;  /* ✅ adds proper center width on desktop */
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
+
 
 
 .match-header {
@@ -403,4 +405,87 @@
   border-radius: 6px;
   cursor: pointer;
 }
+.download-btn {
+  background: #111827;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.download-btn:hover {
+  opacity: 0.9;
+}
+.report-preview-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.report-preview-card {
+  width: 240px;
+  background: #2a2f33;
+  padding: 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.25s;
+  border: 2px solid transparent;
+  color: white;
+}
+
+.report-preview-card:hover {
+  transform: scale(1.03);
+}
+
+.active-preview {
+  border: 2px solid #facc15;
+  background: #1f2328;
+}
+/* ✅ This is only for PDF download */
+/* ✅ NORMAL SCREEN: Responsive */
+.pdf-print-area {
+  width: 100%;
+  max-width: 100%;
+  background: #121417 !important;
+  padding: 25px;
+  box-sizing: border-box;
+}
+
+/* ✅ ONLY FOR PDF DOWNLOAD: fixed A4 width */
+.pdf-print-area.pdf-mode {
+  width: 794px;
+  max-width: 794px;
+  margin: 0 auto;
+}
+img {
+  -webkit-user-drag: none;
+}
+
+@media (max-width: 600px) {
+  .card-wrapper {
+    padding: 15px 10px;
+  }
+
+  .match-frame {
+    margin: 12px 10px;
+    padding: 15px 10px;
+  }
+
+  .download-btn {
+    width: 90%;
+    font-size: 14px;
+  }
+
+  .report-preview-card {
+    width: 95%;
+  }
+}
+
+
+
+
 

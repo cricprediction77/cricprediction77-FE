@@ -8,6 +8,8 @@
     "@testing-library/react": "^16.3.1",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.13.2",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^4.0.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-responsive-carousel": "^3.2.23",
@@ -15,13 +17,13 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
- "scripts": {
-  "start": "react-scripts start",
-  "build": "react-scripts build",
-  "postbuild": "cp public/_redirects build/_redirects",
-  "test": "react-scripts test",
-  "eject": "react-scripts eject"
-},
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "postbuild": "cp public/_redirects build/_redirects",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",

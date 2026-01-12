@@ -174,6 +174,27 @@ function Admin() {
       alert("Error while submitting match details ❌");
     }
   };
+ const handleGenerateReport = (match) => {
+  const matchKey = getMatchKey(match);
+  const data = selections[matchKey];
+
+  if (!data?.tossWinner || !data?.matchWinner) {
+    alert("Please select Toss Winner and Match Winner before generating report ❌");
+    return;
+  }
+
+  // ✅ Navigate to report page with selected values
+  navigate("/report-generate", {
+    state: {
+      match,
+      reportData: {
+        tossWinner: data.tossWinner,
+        matchWinner: data.matchWinner,
+      },
+    },
+  });
+};
+
 
   const toggleLeague = (league) => {
     setExpandedLeagues((prev) => ({
@@ -226,6 +247,11 @@ function Admin() {
       data?.sessionDetails &&
       status === "COMPLETED"
     );
+  };
+  // ✅ Only Toss + Match winner required for report
+  const isReportReady = (matchKey) => {
+    const data = selections[matchKey];
+    return Boolean(data?.tossWinner && data?.matchWinner);
   };
 
   return (
@@ -394,7 +420,9 @@ function Admin() {
                     </div>
 
                     {/* Submit Button */}
-                    {isFormComplete(matchKey) && (
+                    {/* ✅ Buttons */}
+                    {isFormComplete(matchKey) ? (
+                      // ✅ If all fields completed → show Submit
                       <div className="submit-wrapper">
                         <button
                           className="submit-btn"
@@ -403,7 +431,17 @@ function Admin() {
                           Submit
                         </button>
                       </div>
-                    )}
+                    ) : isReportReady(matchKey) ? (
+                      // ✅ If only toss+match winner selected → show Generate Report
+                      <div className="submit-wrapper">
+                        <button
+                          className="submit-btn"
+                          onClick={() => handleGenerateReport(match)}
+                        >
+                          Generate Report
+                        </button>
+                      </div>
+                    ) : null}
                   </div>
                 );
               })}
