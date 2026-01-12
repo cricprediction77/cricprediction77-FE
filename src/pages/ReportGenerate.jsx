@@ -77,48 +77,47 @@ function ReportGenerate() {
   };
 
   const downloadPNG = async () => {
-  try {
-    const ref = getActiveRef();
-    const element = ref.current;
+    try {
+      const ref = getActiveRef();
+      const element = ref.current;
 
-    if (!element) {
-      alert("Report not found ❌");
-      return;
+      if (!element) {
+        alert("Report not found ❌");
+        return;
+      }
+
+      // ✅ add export mode class only for export
+      element.classList.add("pdf-mode");
+
+      const canvas = await html2canvas(element, {
+        scale: 3,
+        useCORS: true,
+        backgroundColor: "#121417",
+        allowTaint: true,
+      });
+
+      const imgData = canvas.toDataURL("image/png");
+
+      const fileName =
+        activeTemplate === "FULL"
+          ? `Full_Report_${match.matchNumber}.png`
+          : activeTemplate === "TOSS"
+          ? `Toss_Report_${match.matchNumber}.png`
+          : `Match_Report_${match.matchNumber}.png`;
+
+      // ✅ Download image
+      const link = document.createElement("a");
+      link.href = imgData;
+      link.download = fileName;
+      link.click();
+
+      // ✅ remove export mode
+      element.classList.remove("pdf-mode");
+    } catch (err) {
+      console.error("PNG download error:", err);
+      alert("Failed to download report ❌");
     }
-
-    // ✅ add export mode class only for export
-    element.classList.add("pdf-mode");
-
-    const canvas = await html2canvas(element, {
-      scale: 3,
-      useCORS: true,
-      backgroundColor: "#121417",
-      allowTaint: true,
-    });
-
-    const imgData = canvas.toDataURL("image/png");
-
-    const fileName =
-      activeTemplate === "FULL"
-        ? `Full_Report_${match.matchNumber}.png`
-        : activeTemplate === "TOSS"
-        ? `Toss_Report_${match.matchNumber}.png`
-        : `Match_Report_${match.matchNumber}.png`;
-
-    // ✅ Download image
-    const link = document.createElement("a");
-    link.href = imgData;
-    link.download = fileName;
-    link.click();
-
-    // ✅ remove export mode
-    element.classList.remove("pdf-mode");
-  } catch (err) {
-    console.error("PNG download error:", err);
-    alert("Failed to download report ❌");
-  }
-};
-
+  };
 
   // ✅ Reusable JSX
   const MatchTopCard = () => (
@@ -278,21 +277,15 @@ function ReportGenerate() {
     <div className="card-wrapper">
       <div className="match-card">
         {/* Header */}
-        <div className="match-header">
-          {match.leagueType} <br /> Match {match.matchNumber}
-        </div>
 
         {/* ✅ Download button (top) */}
-        <div style={{ textAlign: "center", marginTop: "12px" }}>
-          <button className="download-btn" onClick={downloadPNG}>
-            ⬇ Download {activeTemplate} Report
-          </button>
-
-        </div>
 
         {/* ✅ BIG VIEW (Exactly like ViewPrediction) */}
         {getRefWrapper(
           <>
+            <div className="match-header">
+              {match.leagueType} <br /> Match {match.matchNumber}
+            </div>
             <MatchTopCard />
 
             <div className="prediction-info">
@@ -356,6 +349,11 @@ function ReportGenerate() {
               </p>
             </div>
           </div>
+        </div>
+        <div style={{ textAlign: "center", marginTop: "12px" }}>
+          <button className="download-btn" onClick={downloadPNG}>
+            ⬇ Download {activeTemplate} Report
+          </button>
         </div>
 
         {/* Back Button */}
