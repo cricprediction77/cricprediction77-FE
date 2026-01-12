@@ -284,7 +284,7 @@ function ReportGenerate() {
         {getRefWrapper(
           <>
             <div className="match-header">
-              {match.leagueType} <br /> Match {match.matchNumber}
+              {match.leagueType} <br /> Match - {match.matchNumber}
             </div>
             <MatchTopCard />
 
