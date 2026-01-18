@@ -76,8 +76,16 @@
   .vs-text {
     font-size: 1.6rem;
   }
-  /* -------- SESSION & LAMBI -------- */
 
+.match-time {
+    font-size: 0.7rem;
+    text-align: center;
+    color: #f1c40f;
+    margin-bottom: 10px;
+  }
+}
+
+/* -------- SESSION (All screens) -------- */
 .session-lambi-card {
   background: #2a2f33;
   padding: 20px;
@@ -95,7 +103,7 @@
 
 .session-lambi-divider {
   height: 2px;
-  background: rgba(255,255,255,0.25);
+  background: rgba(255, 255, 255, 0.25);
   margin-bottom: 18px;
 }
 
@@ -110,7 +118,7 @@
 /* Session text */
 .session-text {
   color: #1f2937;
-  font-size: 0.81rem;
+  font-size: 0.9rem;
   font-weight: 600;
   line-height: 1.5;
 }
@@ -119,19 +127,21 @@
 .session-updated {
   text-align: center;
   color: #dc2626;
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   font-weight: 700;
   margin-top: 8px;
 }
 
+@media (max-width: 600px) {
+  .session-text {
+    font-size: 0.81rem;
+  }
 
-.match-time {
-    font-size: 0.7rem;
-    text-align: center;
-    color: #f1c40f;
-    margin-bottom: 10px;
+  .session-updated {
+    font-size: 0.82rem;
   }
 }
+
 
 .vs-section {
   display: flex;
@@ -419,6 +429,11 @@
 .download-btn:hover {
   opacity: 0.9;
 }
+
+.pdf-mode .team-score {
+  display: none !important;
+}
+
 .report-preview-row {
   display: flex;
   gap: 12px;
@@ -485,6 +500,43 @@ img {
   }
 }
 
+/* ✅ Dots row */
+.action-btn-row {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin: 16px 0 20px;
+}
+
+/* ✅ Dot download button */
+.view-download-btn {
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 10px;
+  user-select: none;
+  transition: 0.2s;
+}
+
+/* Dot-1 green */
+.toss-dot {
+  color: #00ff99;
+}
+
+/* Dot-2 gold */
+.session-dot {
+  color: gold;
+}
+
+.view-download-btn:hover {
+  transform: scale(1.3);
+}
+
+
+/* optional: make buttons same size */
+.action-btn-row button {
+  min-width: 140px;
+}
 
 
 

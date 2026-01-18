@@ -136,9 +136,12 @@ function Home() {
       }
 
       // ✅ sort
-      result = result.sort(
-        (a, b) => Number(a.matchNumber) - Number(b.matchNumber)
-      );
+      result = result.sort((a, b) => {
+        if (type === "COMPLETED") {
+          return Number(b.matchNumber) - Number(a.matchNumber);
+        }
+        return Number(a.matchNumber) - Number(b.matchNumber);
+      });
 
       setFilteredMatches(result);
     },
@@ -161,11 +164,11 @@ function Home() {
       {/* Navbar */}
       <nav className="navbar">
         <div className="logo">
-          Cric<span>Prediction77</span>
+          Cric<span onClick={() => navigate("/login")}>Prediction77</span>
         </div>
-        <button className="login-btn" onClick={() => navigate("/login")}>
-          Login
-        </button>
+        {/* <span className="login-btn" onClick={() => navigate("/login")}>
+          Admin Login
+        </span> */}
       </nav>
 
       {/* Carousel */}
@@ -275,122 +278,130 @@ function Home() {
       {/* ✅ League Cards */}
 
       {/* ✅ View All Leagues / View All Matches Toggle Button */}
-<div className="quick-actions">
-  <button
-    className={`action-card ${showLeagues ? "active" : ""}`}
-    onClick={() => {
-      setShowLeagues((prev) => {
-        const newValue = !prev;
-
-        // ✅ If switching back to matches view, make sure TODAY selected
-        if (!newValue) {
-          setSelectedLeague("");
-          setActiveTab("TODAY");
-          filterMatches("TODAY", allMatches, "");
-        }
-
-        return newValue;
-      });
-    }}
-  >
-    {showLeagues ? "View All Matches" : "View All Leagues"}
-  </button>
-</div>
-
-{showLeagues && (
-  <div className="quick-actions league-actions">        {/* ✅ WPL */}
+      <div className="quick-actions">
         <button
-          className={`league-action-card ${selectedLeague === "wpl" ? "active" : ""}`}
+          className={`action-card ${showLeagues ? "active" : ""}`}
           onClick={() => {
-            if (selectedLeague === "wpl") {
-              setSelectedLeague("");
-              setActiveTab("TODAY");
-              filterMatches("TODAY", allMatches, "");
-            } else {
-              setSelectedLeague("wpl");
-              filterMatches("ALL_MATCHES", allMatches, "womens premier league");
-            }
+            setShowLeagues((prev) => {
+              const newValue = !prev;
+
+              // ✅ If switching back to matches view, make sure TODAY selected
+              if (!newValue) {
+                setSelectedLeague("");
+                setActiveTab("TODAY");
+                filterMatches("TODAY", allMatches, "");
+              }
+
+              return newValue;
+            });
           }}
         >
-          WPL
-        </button>
-
-        {/* ✅ BBL */}
-        <button
-          className={`league-action-card ${selectedLeague === "bbl" ? "active" : ""}`}
-          onClick={() => {
-            if (selectedLeague === "bbl") {
-              setSelectedLeague("");
-              setActiveTab("TODAY");
-              filterMatches("TODAY", allMatches, "");
-            } else {
-              setSelectedLeague("bbl");
-              filterMatches("ALL_MATCHES", allMatches, "big bash league");
-            }
-          }}
-        >
-          BBL
-        </button>
-
-        {/* ✅ BPL */}
-        <button
-          className={`league-action-card ${selectedLeague === "bpl" ? "active" : ""}`}
-          onClick={() => {
-            if (selectedLeague === "bpl") {
-              setSelectedLeague("");
-              setActiveTab("TODAY");
-              filterMatches("TODAY", allMatches, "");
-            } else {
-              setSelectedLeague("bpl");
-              filterMatches("ALL_MATCHES", allMatches, "bpl");
-            }
-          }}
-        >
-          BPL
-        </button>
-
-        {/* ✅ SAT20 */}
-        <button
-          className={`league-action-card ${
-            selectedLeague === "sat20" ? "active" : ""
-          }`}
-          onClick={() => {
-            if (selectedLeague === "sat20") {
-              setSelectedLeague("");
-              setActiveTab("TODAY");
-              filterMatches("TODAY", allMatches, "");
-            } else {
-              setSelectedLeague("sat20");
-              filterMatches("ALL_MATCHES", allMatches, "sa t20");
-            }
-          }}
-        >
-          SAT20
-        </button>
-
-        {/* ✅ SUPERSMASH */}
-        <button
-          className={`league-action-card ${
-            selectedLeague === "supersmash" ? "active" : ""
-          }`}
-          onClick={() => {
-            if (selectedLeague === "supersmash") {
-              setSelectedLeague("");
-              setActiveTab("TODAY");
-              filterMatches("TODAY", allMatches, "");
-            } else {
-              setSelectedLeague("supersmash");
-              filterMatches("ALL_MATCHES", allMatches, "super smash");
-            }
-          }}
-        >
-          SUPERSMASH
+          {showLeagues ? "View All Matches" : "View All Leagues"}
         </button>
       </div>
+
+      {showLeagues && (
+        <div className="quick-actions league-actions">
+          {" "}
+          {/* ✅ WPL */}
+          <button
+            className={`league-action-card ${
+              selectedLeague === "wpl" ? "active" : ""
+            }`}
+            onClick={() => {
+              if (selectedLeague === "wpl") {
+                setSelectedLeague("");
+                setActiveTab("TODAY");
+                filterMatches("TODAY", allMatches, "");
+              } else {
+                setSelectedLeague("wpl");
+                filterMatches(
+                  "ALL_MATCHES",
+                  allMatches,
+                  "womens premier league"
+                );
+              }
+            }}
+          >
+            WPL
+          </button>
+          {/* ✅ BBL */}
+          <button
+            className={`league-action-card ${
+              selectedLeague === "bbl" ? "active" : ""
+            }`}
+            onClick={() => {
+              if (selectedLeague === "bbl") {
+                setSelectedLeague("");
+                setActiveTab("TODAY");
+                filterMatches("TODAY", allMatches, "");
+              } else {
+                setSelectedLeague("bbl");
+                filterMatches("ALL_MATCHES", allMatches, "big bash league");
+              }
+            }}
+          >
+            BBL
+          </button>
+          {/* ✅ BPL */}
+          <button
+            className={`league-action-card ${
+              selectedLeague === "bpl" ? "active" : ""
+            }`}
+            onClick={() => {
+              if (selectedLeague === "bpl") {
+                setSelectedLeague("");
+                setActiveTab("TODAY");
+                filterMatches("TODAY", allMatches, "");
+              } else {
+                setSelectedLeague("bpl");
+                filterMatches("ALL_MATCHES", allMatches, "bpl");
+              }
+            }}
+          >
+            BPL
+          </button>
+          {/* ✅ SAT20 */}
+          <button
+            className={`league-action-card ${
+              selectedLeague === "sat20" ? "active" : ""
+            }`}
+            onClick={() => {
+              if (selectedLeague === "sat20") {
+                setSelectedLeague("");
+                setActiveTab("TODAY");
+                filterMatches("TODAY", allMatches, "");
+              } else {
+                setSelectedLeague("sat20");
+                filterMatches("ALL_MATCHES", allMatches, "sa t20");
+              }
+            }}
+          >
+            SAT20
+          </button>
+          {/* ✅ SUPERSMASH */}
+          <button
+            className={`league-action-card ${
+              selectedLeague === "supersmash" ? "active" : ""
+            }`}
+            onClick={() => {
+              if (selectedLeague === "supersmash") {
+                setSelectedLeague("");
+                setActiveTab("TODAY");
+                filterMatches("TODAY", allMatches, "");
+              } else {
+                setSelectedLeague("supersmash");
+                filterMatches("ALL_MATCHES", allMatches, "super smash");
+              }
+            }}
+          >
+            SUPERSMASH
+          </button>
+        </div>
       )}
 
       {/* ✅ Tabs */}
-     {!showLeagues && !isLeagueSelected && (
+      {!showLeagues && !isLeagueSelected && (
         <div className="quick-actions match-tabs">
           <button
             className={`action-card ${activeTab === "TODAY" ? "active" : ""}`}
@@ -421,7 +432,6 @@ function Home() {
 
       {/* Matches */}
       <main className="match-section">
-
         {filteredMatches.length === 0 ? (
           <p className="no-data">
             {activeTab === "TODAY"

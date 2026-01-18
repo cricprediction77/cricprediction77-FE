@@ -45,10 +45,11 @@ body {
 
 .logo span {
   color: var(--primary-color);
+  cursor: pointer;
 }
 
 .login-btn {
-  background: var(--primary-color);
+  /* background: var(--primary-color); */
   border: none;
   padding: 8px 20px;
   border-radius: 5px;
