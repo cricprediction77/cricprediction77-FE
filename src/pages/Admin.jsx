@@ -27,6 +27,16 @@ function Admin() {
     }
   }, [navigate]);
 
+  // ✅ Get today's date in IST (YYYY-MM-DD)
+  const getTodayIST = React.useCallback(() => {
+    return new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Asia/Kolkata",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(new Date());
+  }, []);
+
   // 📡 Fetch all leagues
   useEffect(() => {
     fetchAllLeagueData();
@@ -34,26 +44,25 @@ function Admin() {
 
   const fetchAllLeagueData = async () => {
     try {
-      // 🔹 Fetch all leagues in parallel
       const [bplData, wplData, mensBblData, saT20Data, superSmashData] =
         await Promise.all([
           predictionApiFetch("/api/bpl/bpl-matches"),
           predictionApiFetch("/api/wpl/wpl-matches"),
           predictionApiFetch("/api/mens-bbl/bbl-matches"),
           predictionApiFetch("/api/sa-t20/sat20-matches"),
-          predictionApiFetch("/api/super-smash/supersmash-matches"), // ✅ NEW
+          predictionApiFetch("/api/super-smash/supersmash-matches"),
         ]);
 
-      const today = new Date().toISOString().split("T")[0];
+      const today = getTodayIST();
 
       const allMatches = [
         ...(bplData?.matches || []),
         ...(wplData?.matches || []),
         ...(mensBblData?.matches || []),
         ...(saT20Data?.matches || []),
-        ...(superSmashData?.matches || []), // ✅ NEW
+        ...(superSmashData?.matches || []),
       ].filter(
-        (match) => match.matchStatus === null && match.matchDate <= today
+        (match) => match.matchStatus === null && match.matchDate <= today,
       );
 
       const groupedByLeague = allMatches.reduce((acc, match) => {
@@ -174,27 +183,28 @@ function Admin() {
       alert("Error while submitting match details ❌");
     }
   };
- const handleGenerateReport = (match) => {
-  const matchKey = getMatchKey(match);
-  const data = selections[matchKey];
+  const handleGenerateReport = (match) => {
+    const matchKey = getMatchKey(match);
+    const data = selections[matchKey];
 
-  if (!data?.tossWinner || !data?.matchWinner) {
-    alert("Please select Toss Winner and Match Winner before generating report ❌");
-    return;
-  }
+    if (!data?.tossWinner || !data?.matchWinner) {
+      alert(
+        "Please select Toss Winner and Match Winner before generating report ❌",
+      );
+      return;
+    }
 
-  // ✅ Navigate to report page with selected values
-  navigate("/report-generate", {
-    state: {
-      match,
-      reportData: {
-        tossWinner: data.tossWinner,
-        matchWinner: data.matchWinner,
+    // ✅ Navigate to report page with selected values
+    navigate("/report-generate", {
+      state: {
+        match,
+        reportData: {
+          tossWinner: data.tossWinner,
+          matchWinner: data.matchWinner,
+        },
       },
-    },
-  });
-};
-
+    });
+  };
 
   const toggleLeague = (league) => {
     setExpandedLeagues((prev) => ({
@@ -206,7 +216,7 @@ function Admin() {
   const formatDate = (dateStr) => {
     const d = new Date(dateStr);
     return `${String(d.getDate()).padStart(2, "0")}-${String(
-      d.getMonth() + 1
+      d.getMonth() + 1,
     ).padStart(2, "0")}-${d.getFullYear()}`;
   };
 
@@ -316,7 +326,7 @@ function Admin() {
                           handleSelectChange(
                             matchKey,
                             "tossWinner",
-                            e.target.value
+                            e.target.value,
                           )
                         }
                       >
@@ -336,7 +346,7 @@ function Admin() {
                           handleSelectChange(
                             matchKey,
                             "matchWinner",
-                            e.target.value
+                            e.target.value,
                           )
                         }
                       >
@@ -364,7 +374,7 @@ function Admin() {
                           handleInputChange(
                             matchKey,
                             "team1Score",
-                            e.target.value
+                            e.target.value,
                           )
                         }
                       />
@@ -382,7 +392,7 @@ function Admin() {
                           handleInputChange(
                             matchKey,
                             "team2Score",
-                            e.target.value
+                            e.target.value,
                           )
                         }
                       />
@@ -396,7 +406,7 @@ function Admin() {
                           handleInputChange(
                             matchKey,
                             "sessionDetails",
-                            e.target.value
+                            e.target.value,
                           )
                         }
                       />
@@ -407,7 +417,7 @@ function Admin() {
                           handleSelectChange(
                             matchKey,
                             "matchStatus",
-                            e.target.value
+                            e.target.value,
                           )
                         }
                       >
