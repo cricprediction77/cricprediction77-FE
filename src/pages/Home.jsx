@@ -35,7 +35,7 @@ function Home() {
   const getCountdown = (matchDate, startTime) => {
     if (!matchDate || !startTime) return null;
 
-    const matchDateTime = new Date(`${matchDate}T${startTime}:00`);
+    const matchDateTime = new Date(`${matchDate}T${startTime}:00+05:30`);
     const now = new Date();
     const diff = matchDateTime - now;
 
@@ -47,6 +47,15 @@ function Home() {
     const seconds = Math.floor((diff / 1000) % 60);
 
     return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  };
+
+  const getTodayIST = () => {
+    return new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Asia/Kolkata",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(new Date());
   };
 
   // ⏱ Refresh countdown every second
@@ -92,8 +101,7 @@ function Home() {
   const filterMatches = useCallback(
     (type, matches = allMatches, leagueFilter = selectedLeague) => {
       setActiveTab(type);
-
-      const today = new Date().toISOString().split("T")[0];
+      const today = getTodayIST();
       let result = [];
 
       // ✅ If League selected (WPL / BBL / BPL / SAT20 / SUPERSMASH)
@@ -102,12 +110,12 @@ function Home() {
         result = matches.filter((m) =>
           (m.leagueType || "")
             .toLowerCase()
-            .includes(leagueFilter.toLowerCase())
+            .includes(leagueFilter.toLowerCase()),
         );
 
         // ✅ sort by matchNumber
         result = result.sort(
-          (a, b) => Number(a.matchNumber) - Number(b.matchNumber)
+          (a, b) => Number(a.matchNumber) - Number(b.matchNumber),
         );
 
         setFilteredMatches(result);
@@ -117,7 +125,7 @@ function Home() {
       // ✅ Normal tab filtering (Only when no league selected)
       if (type === "TODAY") {
         result = matches.filter(
-          (m) => m.matchDate === today && m.matchStatus === null
+          (m) => m.matchDate === today && m.matchStatus === null,
         );
       }
 
@@ -129,8 +137,8 @@ function Home() {
         result = matches
           .filter((m) =>
             ["COMPLETED", "ABANDONED", "POSTPONED", "CANCELLED"].includes(
-              m.matchStatus
-            )
+              m.matchStatus,
+            ),
           )
           .sort((a, b) => Number(b.matchNumber) - Number(a.matchNumber));
       }
@@ -145,7 +153,7 @@ function Home() {
 
       setFilteredMatches(result);
     },
-    [allMatches, selectedLeague]
+    [allMatches, selectedLeague],
   );
 
   const whatsappNumber = "917842435725";
@@ -154,7 +162,7 @@ function Home() {
   const openWhatsapp = () => {
     window.open(
       `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`,
-      "_blank"
+      "_blank",
     );
   };
   const isLeagueSelected = !!selectedLeague;
@@ -318,7 +326,7 @@ function Home() {
                 filterMatches(
                   "ALL_MATCHES",
                   allMatches,
-                  "womens premier league"
+                  "womens premier league",
                 );
               }
             }}
@@ -445,7 +453,7 @@ function Home() {
               if (!acc[league]) acc[league] = [];
               acc[league].push(match);
               return acc;
-            }, {})
+            }, {}),
           ).map(([league, matches]) => {
             const isExpanded = expandedLeagues?.[league];
             const visibleMatches = isExpanded ? matches : matches.slice(0, 2);
@@ -470,7 +478,7 @@ function Home() {
                         <img
                           src={getTeamLogo(
                             match.leagueType,
-                            match.teams.split(" vs ")[0]
+                            match.teams.split(" vs ")[0],
                           )}
                           alt=""
                           className="team-logo"
@@ -484,7 +492,7 @@ function Home() {
                         <img
                           src={getTeamLogo(
                             match.leagueType,
-                            match.teams.split(" vs ")[1]
+                            match.teams.split(" vs ")[1],
                           )}
                           alt=""
                           className="team-logo"
@@ -549,8 +557,8 @@ function Home() {
                                 match.matchStatus === "CANCELLED"
                                   ? "status-cancelled"
                                   : match.matchStatus === "ABANDONED"
-                                  ? "status-abandoned"
-                                  : "status-postponed"
+                                    ? "status-abandoned"
+                                    : "status-postponed"
                               }`}
                               disabled
                             >

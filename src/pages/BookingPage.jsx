@@ -28,7 +28,7 @@ function BookingPage() {
     }, 100);
   };
 
-  const upiId = "0105143@ibl";
+  const upiId = "cricprediction77@ibl";
   const [copied, setCopied] = useState(false);
 
   const copyUpiId = async () => {
@@ -172,7 +172,7 @@ function BookingPage() {
           </h3>
 
           <img
-            src="https://dko97fmntp7zh.cloudfront.net/718910e0-95f3-44f8-bf30-95c2997a5761_Media (7).jpg"
+            src="https://dko97fmntp7zh.cloudfront.net/84da7064-346c-463b-9975-7831267528aa_paymentQr.png"
             alt="UPI QR"
             className="upi-qr"
           />
