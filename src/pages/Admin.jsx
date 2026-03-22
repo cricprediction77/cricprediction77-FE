@@ -44,14 +44,21 @@ function Admin() {
 
   const fetchAllLeagueData = async () => {
     try {
-      const [bplData, wplData, mensBblData, saT20Data, superSmashData] =
-        await Promise.all([
-          predictionApiFetch("/api/bpl/bpl-matches"),
-          predictionApiFetch("/api/wpl/wpl-matches"),
-          predictionApiFetch("/api/mens-bbl/bbl-matches"),
-          predictionApiFetch("/api/sa-t20/sat20-matches"),
-          predictionApiFetch("/api/super-smash/supersmash-matches"),
-        ]);
+      const [
+        bplData,
+        wplData,
+        mensBblData,
+        saT20Data,
+        superSmashData,
+        iplData, // ✅ NEW
+      ] = await Promise.all([
+        predictionApiFetch("/api/bpl/bpl-matches"),
+        predictionApiFetch("/api/wpl/wpl-matches"),
+        predictionApiFetch("/api/mens-bbl/bbl-matches"),
+        predictionApiFetch("/api/sa-t20/sat20-matches"),
+        predictionApiFetch("/api/super-smash/supersmash-matches"),
+        predictionApiFetch("/api/ipl/ipl-matches"),
+      ]);
 
       const today = getTodayIST();
 
@@ -61,6 +68,7 @@ function Admin() {
         ...(mensBblData?.matches || []),
         ...(saT20Data?.matches || []),
         ...(superSmashData?.matches || []),
+        ...(iplData?.matches || []),
       ].filter(
         (match) => match.matchStatus === null && match.matchDate <= today,
       );
@@ -95,6 +103,10 @@ function Admin() {
     if (!leagueType) return "/api/bpl/details";
 
     const lt = leagueType.toLowerCase();
+
+    // ✅ IPL
+    if (lt.includes("ipl") || lt.includes("indian premier league"))
+      return "/api/ipl/details";
 
     // ✅ BPL
     if (lt.includes("bpl")) return "/api/bpl/details";

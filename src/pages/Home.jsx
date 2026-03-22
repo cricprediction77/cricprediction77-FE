@@ -4,6 +4,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { getTeamLogo } from "../utils/LeagueTeamLogos";
 import { useNavigate } from "react-router-dom";
 import { predictionApiFetch } from "../services/api";
+import { FaYoutube, FaInstagram, FaTelegramPlane } from "react-icons/fa";
 import "./Home.css";
 
 function Home() {
@@ -13,6 +14,13 @@ function Home() {
   const [expandedLeagues, setExpandedLeagues] = useState({});
   const [selectedLeague, setSelectedLeague] = useState("");
   const [showLeagues, setShowLeagues] = useState(false);
+
+  const SOCIAL_LINKS = {
+    youtube: "https://www.youtube.com/@CricPrediction77",
+    instagram:
+      "https://www.instagram.com/cricprediction77?igsh=MW0ybXlnMzYydXR1Yw==",
+    telegram: "https://t.me/CricPredictions77",
+  };
 
   const navigate = useNavigate();
 
@@ -70,21 +78,29 @@ function Home() {
   useEffect(() => {
     const fetchAllLeagueData = async () => {
       try {
-        const [bplData, wplData, mensBblData, saT20Data, superSmashData] =
-          await Promise.all([
-            predictionApiFetch("/api/bpl/bpl-matches"),
-            predictionApiFetch("/api/wpl/wpl-matches"),
-            predictionApiFetch("/api/mens-bbl/bbl-matches"),
-            predictionApiFetch("/api/sa-t20/sat20-matches"),
-            predictionApiFetch("/api/super-smash/supersmash-matches"), // ✅ NEW
-          ]);
+        const [
+          bplData,
+          wplData,
+          mensBblData,
+          saT20Data,
+          superSmashData,
+          iplData, // ✅ NEW
+        ] = await Promise.all([
+          predictionApiFetch("/api/bpl/bpl-matches"),
+          predictionApiFetch("/api/wpl/wpl-matches"),
+          predictionApiFetch("/api/mens-bbl/bbl-matches"),
+          predictionApiFetch("/api/sa-t20/sat20-matches"),
+          predictionApiFetch("/api/super-smash/supersmash-matches"),
+          predictionApiFetch("/api/ipl/ipl-matches"), // ✅ NEW
+        ]);
 
         const combinedMatches = [
           ...(bplData?.matches || []),
           ...(wplData?.matches || []),
           ...(mensBblData?.matches || []),
           ...(saT20Data?.matches || []),
-          ...(superSmashData?.matches || []), // ✅ NEW
+          ...(superSmashData?.matches || []),
+          ...(iplData?.matches || []), // ✅ NEW
         ];
 
         setAllMatches(combinedMatches);
@@ -174,9 +190,22 @@ function Home() {
         <div className="logo">
           Cric<span onClick={() => navigate("/login")}>Prediction77</span>
         </div>
-        {/* <span className="login-btn" onClick={() => navigate("/login")}>
-          Admin Login
-        </span> */}
+
+        {/* ✅ Social Icons */}
+        <div className="social-icons">
+          <FaYoutube
+            className="icon youtube"
+            onClick={() => window.open(SOCIAL_LINKS.youtube, "_blank")}
+          />
+          <FaInstagram
+            className="icon instagram"
+            onClick={() => window.open(SOCIAL_LINKS.instagram, "_blank")}
+          />
+          <FaTelegramPlane
+            className="icon telegram"
+            onClick={() => window.open(SOCIAL_LINKS.telegram, "_blank")}
+          />
+        </div>
       </nav>
 
       {/* Carousel */}
@@ -282,8 +311,6 @@ function Home() {
       </section>
 
       {/* Tabs */}
-      {/* ✅ League Cards */}
-      {/* ✅ League Cards */}
 
       {/* ✅ View All Leagues / View All Matches Toggle Button */}
       <div className="quick-actions">
@@ -311,7 +338,28 @@ function Home() {
       {showLeagues && (
         <div className="quick-actions league-actions">
           {" "}
-          {/* ✅ WPL */}
+          {/* ✅ IPL */}
+          <button
+            className={`league-action-card ${
+              selectedLeague === "ipl" ? "active" : ""
+            }`}
+            onClick={() => {
+              if (selectedLeague === "ipl") {
+                setSelectedLeague("");
+                setActiveTab("TODAY");
+                filterMatches("TODAY", allMatches, "");
+              } else {
+                setSelectedLeague("ipl");
+                filterMatches(
+                  "ALL_MATCHES",
+                  allMatches,
+                  "indian premier league",
+                );
+              }
+            }}
+          >
+            IPL
+          </button>
           <button
             className={`league-action-card ${
               selectedLeague === "wpl" ? "active" : ""
@@ -681,10 +729,29 @@ function Home() {
 
       {/* Footer */}
       <div className="mobile-footer">
-        <div className="footer-item active">Home</div>
-        <div className="footer-item">Matches</div>
-        <div className="footer-item">Predict</div>
-        <div className="footer-item">Profile</div>
+        <div
+          className="footer-item"
+          onClick={() => window.open(SOCIAL_LINKS.instagram, "_blank")}
+        >
+          <FaInstagram className="footer-icon instagram" />
+          <span>Instagram</span>
+        </div>
+
+        <div
+          className="footer-item"
+          onClick={() => window.open(SOCIAL_LINKS.telegram, "_blank")}
+        >
+          <FaTelegramPlane className="footer-icon telegram" />
+          <span>Telegram</span>
+        </div>
+
+        <div
+          className="footer-item"
+          onClick={() => window.open(SOCIAL_LINKS.youtube, "_blank")}
+        >
+          <FaYoutube className="footer-icon youtube" />
+          <span>YouTube</span>
+        </div>
       </div>
     </div>
   );

@@ -4,11 +4,47 @@ const LeagueNameMap = {
   "Womens Premier League 2026": "WPL",
   "BIG BASH LEAGUE 2025-2026": "BBL",
   "SA T20 2026": "SAT20",
-  "Men's Super Smash 2025-2026": "SUPERSMASH", // ✅ NEW
+  "Men's Super Smash 2025-2026": "SUPERSMASH",
+  "Indian Premier League 2026": "IPL",
 };
 
 // ✅ Team logos
 const LeagueTeamLogos = {
+  IPL: {
+    league_logo:
+      "https://dko97fmntp7zh.cloudfront.net/630ffd0c-abc6-44a1-b42d-6af9e7f6cbfc_ipl logo.png",
+
+    "Royal Challengers Bengaluru":
+      "https://dko97fmntp7zh.cloudfront.net/ce9e95a3-53d1-4208-8c0e-4f2a3771d8dd_rcb.jpg",
+
+    "Sunrisers Hyderabad":
+        "https://dko97fmntp7zh.cloudfront.net/7ba95981-49a0-49a9-bac6-1ad8128eb65a_srh.jpg",
+
+    "Mumbai Indians":
+        "https://dko97fmntp7zh.cloudfront.net/3017f0a5-9a00-4824-ad1f-fe77282ee9ef_mi.avif",
+
+    "Kolkata Knight Riders":
+        "https://dko97fmntp7zh.cloudfront.net/c995e327-6e8c-4ad8-8d1f-3f8403ea25aa_kkr.jpg",
+
+    "Rajasthan Royals":
+      "https://dko97fmntp7zh.cloudfront.net/bae5376c-95ca-42da-9f6e-ed8d66329efe_rr.png",
+
+    "Chennai Super Kings":
+        "https://dko97fmntp7zh.cloudfront.net/ec6277aa-a9e5-4766-b995-13b17262b515_csk.png",
+
+    "Punjab Kings":
+        "https://dko97fmntp7zh.cloudfront.net/964b5100-8e0a-4289-91dc-05fb791992a0_pbks.webp",
+
+    "Gujarat Titans":
+      "https://dko97fmntp7zh.cloudfront.net/49a678ab-0080-4ea5-913a-da3d7221a19c_gt.webp",
+
+    "Lucknow Super Giants":
+      "https://dko97fmntp7zh.cloudfront.net/a5132594-46f8-4ccb-bf84-6bafa0269dc9_lsg.webp",
+
+    "Delhi Capitals":
+        "https://dko97fmntp7zh.cloudfront.net/7a2c30f6-8c01-4049-8a0e-764d5676ec75_delhi-capitals-logo-png_seeklogo-352073.png"
+  },
+
   BPL: {
     league_logo:
       "https://dko97fmntp7zh.cloudfront.net/07ee50c7-3046-42b8-877d-cb24861db119_Logo_of_Bangladesh_Premier_League.svg.png",
@@ -79,10 +115,6 @@ const LeagueTeamLogos = {
 
     "Sunrisers Eastern Cape":
       "https://dko97fmntp7zh.cloudfront.net/e2ebcb19-239e-4c8f-86f4-425d369c017f_SUNRISE.webp",
-  },
-
-  IPL: {
-    league_logo: "https://example.com/ipl/ipl-logo.png",
   },
 
   WPL: {
