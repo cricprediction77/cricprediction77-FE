@@ -408,7 +408,7 @@ function Home() {
                 filterMatches(
                   "ALL_MATCHES",
                   allMatches,
-                  "pakistan premier league",
+                  "pakistan super league",
                 );
               }
             }}
