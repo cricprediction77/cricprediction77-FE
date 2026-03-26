@@ -71,7 +71,7 @@ const LeagueTeamLogos = {
     "Hyderabad Kingsmen":
       "https://dko97fmntp7zh.cloudfront.net/6304eed7-d7e0-4fb9-abc1-825d75657ccf_hyderabad.jpg",
 
-    Rawalpindiz:
+    "Rawalpindiz":
       "https://dko97fmntp7zh.cloudfront.net/1057b377-e2fd-41ae-bb3f-4b36b52e1e39_rawalpindi.jpg",
   },
 
