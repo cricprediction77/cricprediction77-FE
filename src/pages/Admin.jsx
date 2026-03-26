@@ -50,7 +50,8 @@ function Admin() {
         mensBblData,
         saT20Data,
         superSmashData,
-        iplData, // ✅ NEW
+        iplData,
+        pslData, // ✅ NEW
       ] = await Promise.all([
         predictionApiFetch("/api/bpl/bpl-matches"),
         predictionApiFetch("/api/wpl/wpl-matches"),
@@ -58,6 +59,7 @@ function Admin() {
         predictionApiFetch("/api/sa-t20/sat20-matches"),
         predictionApiFetch("/api/super-smash/supersmash-matches"),
         predictionApiFetch("/api/ipl/ipl-matches"),
+        predictionApiFetch("/api/psl/psl-matches"),
       ]);
 
       const today = getTodayIST();
@@ -69,6 +71,7 @@ function Admin() {
         ...(saT20Data?.matches || []),
         ...(superSmashData?.matches || []),
         ...(iplData?.matches || []),
+        ...(pslData?.matches || []),
       ].filter(
         (match) => match.matchStatus === null && match.matchDate <= today,
       );
@@ -100,47 +103,53 @@ function Admin() {
   };
 
   const getSubmitApiByLeague = (leagueType) => {
-    if (!leagueType) return "/api/bpl/details";
+  if (!leagueType) {
+    throw new Error("League type is missing ❌");
+  }
 
-    const lt = leagueType.toLowerCase();
+  const lt = leagueType.toLowerCase();
 
-    // ✅ IPL
-    if (lt.includes("ipl") || lt.includes("indian premier league"))
-      return "/api/ipl/details";
+  // ✅ IPL
+  if (lt.includes("ipl") || lt.includes("indian premier league")) {
+    return "/api/ipl/details";
+  }
 
-    // ✅ BPL
-    if (lt.includes("bpl")) return "/api/bpl/details";
+  // ✅ PSL
+  if (
+    lt.includes("psl") ||
+    lt.includes("pakistan super league")
+  ) {
+    return "/api/psl/details";
+  }
 
-    // ✅ WPL (FULL NAME SAFE)
-    if (lt.includes("womens premier league") || lt.includes("wpl"))
-      return "/api/wpl/details";
-
-    // ✅ BIG BASH (FULL NAME SAFE)
-    if (
-      lt.includes("big bash league 2025-2026") ||
-      lt.includes("big bash") ||
-      lt.includes("bbl")
-    )
-      return "/api/mens-bbl/details";
-
-    // ✅ SA T20 (FULL NAME SAFE)
-    if (
-      lt.includes("sa t20 2026") ||
-      lt.includes("sa t20") ||
-      lt.includes("sat20")
-    )
-      return "/api/sa-t20/details";
-
-    // ✅ SUPER SMASH (FULL NAME SAFE)
-    if (
-      lt.includes("men's super smash 2025-2026") ||
-      lt.includes("super smash")
-    )
-      return "/api/super-smash/details";
-
-    // fallback
+  // ✅ BPL
+  if (lt.includes("bpl")) {
     return "/api/bpl/details";
-  };
+  }
+
+  // ✅ WPL
+  if (lt.includes("wpl") || lt.includes("womens premier league")) {
+    return "/api/wpl/details";
+  }
+
+  // ✅ BBL
+  if (lt.includes("bbl") || lt.includes("big bash")) {
+    return "/api/mens-bbl/details";
+  }
+
+  // ✅ SA T20
+  if (lt.includes("sa t20") || lt.includes("sat20")) {
+    return "/api/sa-t20/details";
+  }
+
+  // ✅ SUPER SMASH
+  if (lt.includes("super smash")) {
+    return "/api/super-smash/details";
+  }
+
+  // ❌ NO FALLBACK → THROW ERROR
+  throw new Error(`Unsupported league type: ${leagueType}`);
+};
 
   const handleSubmit = async (match) => {
     const matchKey = getMatchKey(match);

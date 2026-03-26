@@ -21,13 +21,13 @@ function ViewPrediction() {
     "Rangpur Riders": "RR",
     "Mumbai Indians": "MI",
     "Royal Challengers Bengaluru": "RCB",
-    "Sunrisers Hyderabad":"SRH",
-    "Kolkata Knight Riders":"KKR",
-    "Rajasthan Royals":"RR",
-    "Chennai Super Kings":"CSK",
-    "Punjab Kings":"PBKS",
-    "Gujarat Titans":"GT",
-    "Lucknow Super Giants":"LSG",
+    "Sunrisers Hyderabad": "SRH",
+    "Kolkata Knight Riders": "KKR",
+    "Rajasthan Royals": "RR",
+    "Chennai Super Kings": "CSK",
+    "Punjab Kings": "PBKS",
+    "Gujarat Titans": "GT",
+    "Lucknow Super Giants": "LSG",
     "UP Warriorz": "UPW",
     "Gujarat Giants": "GG",
     "Delhi Capitals": "DCW",
@@ -51,6 +51,14 @@ function ViewPrediction() {
     "Northern Brave": "NB",
     "Otago Volts": "OTG",
     "Wellington Firebirds": "WEL",
+    "Peshawar Zalmi": "PSZ",
+    "Multan Sultans": "MS",
+    "Karachi Kings": "KRK",
+    "Quetta Gladiators": "QTG",
+    "Islamabad United": "ISU",
+    "Lahore Qalandars": "LHQ",
+    "Hyderabad Kingsmen": "HHK",
+    "Rawalpindi Pindiz": "RWP",
   };
 
   const getShortName = (teamName) => teamShortNameMap[teamName] || teamName;
@@ -83,7 +91,7 @@ function ViewPrediction() {
     date.setHours(hours);
     date.setMinutes(minutes - 155);
     return `${String(date.getHours()).padStart(2, "0")}:${String(
-      date.getMinutes()
+      date.getMinutes(),
     ).padStart(2, "0")}`;
   };
 
@@ -95,7 +103,7 @@ function ViewPrediction() {
     date.setHours(hours);
     date.setMinutes(minutes - 163);
     return `${String(date.getHours()).padStart(2, "0")}:${String(
-      date.getMinutes()
+      date.getMinutes(),
     ).padStart(2, "0")}`;
   };
 
@@ -137,7 +145,7 @@ function ViewPrediction() {
   const downloadTossMatchReport = () => {
     downloadByRef(
       tossMatchRef,
-      `Toss_Match_Report_${match.leagueType}_Match_${match.matchNumber}.png`
+      `Toss_Match_Report_${match.leagueType}_Match_${match.matchNumber}.png`,
     );
   };
 
@@ -145,7 +153,7 @@ function ViewPrediction() {
   const downloadSessionReport = () => {
     downloadByRef(
       sessionRef,
-      `Session_Report_${match.leagueType}_Match_${match.matchNumber}.png`
+      `Session_Report_${match.leagueType}_Match_${match.matchNumber}.png`,
     );
   };
 
@@ -294,7 +302,7 @@ function ViewPrediction() {
               ) : (
                 <div className="session-item">
                   <p className="session-text">
-                    Session details will be updated soon
+                    Session Details Will be Updated Soon
                   </p>
                 </div>
               )}

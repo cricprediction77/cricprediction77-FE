@@ -84,14 +84,16 @@ function Home() {
           mensBblData,
           saT20Data,
           superSmashData,
-          iplData, // ✅ NEW
+          iplData,
+          pslData, // ✅ NEW
         ] = await Promise.all([
           predictionApiFetch("/api/bpl/bpl-matches"),
           predictionApiFetch("/api/wpl/wpl-matches"),
           predictionApiFetch("/api/mens-bbl/bbl-matches"),
           predictionApiFetch("/api/sa-t20/sat20-matches"),
           predictionApiFetch("/api/super-smash/supersmash-matches"),
-          predictionApiFetch("/api/ipl/ipl-matches"), // ✅ NEW
+          predictionApiFetch("/api/ipl/ipl-matches"),
+          predictionApiFetch("/api/psl/psl-matches"), // ✅ NEW
         ]);
 
         const combinedMatches = [
@@ -100,7 +102,8 @@ function Home() {
           ...(mensBblData?.matches || []),
           ...(saT20Data?.matches || []),
           ...(superSmashData?.matches || []),
-          ...(iplData?.matches || []), // ✅ NEW
+          ...(iplData?.matches || []),
+          ...(pslData?.matches || []), // ✅ NEW
         ];
 
         setAllMatches(combinedMatches);
@@ -183,6 +186,16 @@ function Home() {
   };
   const isLeagueSelected = !!selectedLeague;
 
+  const getLeaguePriority = (leagueName) => {
+    const name = (leagueName || "").toLowerCase();
+
+    if (name.includes("indian premier league")) return 1;
+    if (name.includes("pakistan super league") || name.includes("psl"))
+      return 2;
+
+    return 3;
+  };
+
   return (
     <div className="home-container">
       {/* Navbar */}
@@ -220,6 +233,26 @@ function Home() {
             <div className="overlay">
               <h2>IPL Predictions</h2>
               <p>Indian Premier League</p>
+            </div>
+
+            {/* WhatsApp Icon */}
+            <img
+              src="https://dko97fmntp7zh.cloudfront.net/c9d8ec1c-6658-48a1-9c5f-2ec1f6eb4eb5_Media%20(5).jpg"
+              alt="WhatsApp"
+              className="carousel-whatsapp"
+              onClick={openWhatsapp}
+            />
+          </div>
+
+          <div className="slide-item">
+            <img
+              src="https://dko97fmntp7zh.cloudfront.net/e2deb1b3-5967-4e07-b5a6-5ea3e8b8b29b_Screenshot 2026-03-26 174253.png"
+              alt="IPL"
+            />
+
+            <div className="overlay">
+              <h2>PSL Predictions</h2>
+              <p>Pakistan Super League</p>
             </div>
 
             {/* WhatsApp Icon */}
@@ -359,6 +392,28 @@ function Home() {
             }}
           >
             IPL
+          </button>
+          {/* ✅ PSL */}
+          <button
+            className={`league-action-card ${
+              selectedLeague === "psl" ? "active" : ""
+            }`}
+            onClick={() => {
+              if (selectedLeague === "psl") {
+                setSelectedLeague("");
+                setActiveTab("TODAY");
+                filterMatches("TODAY", allMatches, "");
+              } else {
+                setSelectedLeague("psl");
+                filterMatches(
+                  "ALL_MATCHES",
+                  allMatches,
+                  "pakistan premier league",
+                );
+              }
+            }}
+          >
+            PSL
           </button>
           <button
             className={`league-action-card ${
@@ -502,140 +557,145 @@ function Home() {
               acc[league].push(match);
               return acc;
             }, {}),
-          ).map(([league, matches]) => {
-            const isExpanded = expandedLeagues?.[league];
-            const visibleMatches = isExpanded ? matches : matches.slice(0, 2);
+          )
+            .sort((a, b) => getLeaguePriority(a[0]) - getLeaguePriority(b[0]))
+            .map(([league, matches]) => {
+              const isExpanded = expandedLeagues?.[league];
+              const visibleMatches = isExpanded ? matches : matches.slice(0, 2);
 
-            return (
-              <div key={league} className="league-section">
-                {/* League Heading */}
-                <h2 className="league-heading">{league}</h2>
+              return (
+                <div key={league} className="league-section">
+                  {/* League Heading */}
+                  <h2 className="league-heading">{league}</h2>
 
-                {/* Matches */}
-                {visibleMatches.map((match) => (
-                  <div className="match-card" key={match.matchNumber}>
-                    <div className="match-header">
-                      <b className="match-date">
-                        {formatDate(match.matchDate)} || Match No -{" "}
-                        {match.matchNumber}
-                      </b>
-                    </div>
-
-                    <div className="match-teams">
-                      <div className="team">
-                        <img
-                          src={getTeamLogo(
-                            match.leagueType,
-                            match.teams.split(" vs ")[0],
-                          )}
-                          alt=""
-                          className="team-logo"
-                        />
-                        {match.teams.split(" vs ")[0]}
+                  {/* Matches */}
+                  {visibleMatches.map((match) => (
+                    <div className="match-card" key={match.matchNumber}>
+                      <div className="match-header">
+                        <b className="match-date">
+                          {formatDate(match.matchDate)} || Match No -{" "}
+                          {match.matchNumber}
+                        </b>
                       </div>
 
-                      <div className="vs">VS</div>
+                      <div className="match-teams">
+                        <div className="team">
+                          <img
+                            src={getTeamLogo(
+                              match.leagueType,
+                              match.teams.split(" vs ")[0],
+                            )}
+                            alt=""
+                            className="team-logo"
+                          />
+                          {match.teams.split(" vs ")[0]}
+                        </div>
 
-                      <div className="team">
-                        <img
-                          src={getTeamLogo(
-                            match.leagueType,
-                            match.teams.split(" vs ")[1],
-                          )}
-                          alt=""
-                          className="team-logo"
-                        />
-                        {match.teams.split(" vs ")[1]}
+                        <div className="vs">VS</div>
+
+                        <div className="team">
+                          <img
+                            src={getTeamLogo(
+                              match.leagueType,
+                              match.teams.split(" vs ")[1],
+                            )}
+                            alt=""
+                            className="team-logo"
+                          />
+                          {match.teams.split(" vs ")[1]}
+                        </div>
                       </div>
-                    </div>
 
-                    {/* TODAY & UPCOMING */}
-                    {match.matchStatus === null && (
-                      <>
-                        <div className="countdown-timer">
-                          Starts in:{" "}
-                          {getCountdown(match.matchDate, match.approxStartTime)}
-                        </div>
+                      {/* TODAY & UPCOMING */}
+                      {match.matchStatus === null && (
+                        <>
+                          <div className="countdown-timer">
+                            Starts in:{" "}
+                            {getCountdown(
+                              match.matchDate,
+                              match.approxStartTime,
+                            )}
+                          </div>
 
-                        <hr className="card-divider" />
+                          <hr className="card-divider" />
 
-                        <div className="buy-row">
-                          <p className="buy-text">
-                            Get Expert prediction for this match
-                          </p>
+                          <div className="buy-row">
+                            <p className="buy-text">
+                              Get Expert prediction for this match
+                            </p>
 
-                          <button
-                            className="buy-now-btn"
-                            onClick={() =>
-                              navigate("/buy-now", { state: { match } })
-                            }
-                          >
-                            Buy Now
-                          </button>
-                        </div>
-                      </>
-                    )}
-
-                    {/* COMPLETED */}
-                    {match.matchStatus !== null && (
-                      <>
-                        <hr className="card-divider" />
-
-                        <div className="buy-row">
-                          <p className="buy-text">
-                            {match.matchStatus === "COMPLETED"
-                              ? "Check expert prediction for this match"
-                              : "Match Status"}
-                          </p>
-
-                          {match.matchStatus === "COMPLETED" ? (
                             <button
-                              className="buy-now-btn finished"
+                              className="buy-now-btn"
                               onClick={() =>
-                                navigate("/view-prediction", {
-                                  state: { match },
-                                })
+                                navigate("/buy-now", { state: { match } })
                               }
                             >
-                              View Prediction
+                              Buy Now
                             </button>
-                          ) : (
-                            <button
-                              className={`status-btn ${
-                                match.matchStatus === "CANCELLED"
-                                  ? "status-cancelled"
-                                  : match.matchStatus === "ABANDONED"
-                                    ? "status-abandoned"
-                                    : "status-postponed"
-                              }`}
-                              disabled
-                            >
-                              {match.matchStatus}
-                            </button>
-                          )}
-                        </div>
-                      </>
-                    )}
-                  </div>
-                ))}
+                          </div>
+                        </>
+                      )}
 
-                {/* Show More / Less */}
-                {matches.length > 2 && (
-                  <span
-                    className="show-more"
-                    onClick={() =>
-                      setExpandedLeagues((prev) => ({
-                        ...prev,
-                        [league]: !prev?.[league],
-                      }))
-                    }
-                  >
-                    {isExpanded ? "Show less" : "Show more"}
-                  </span>
-                )}
-              </div>
-            );
-          })
+                      {/* COMPLETED */}
+                      {match.matchStatus !== null && (
+                        <>
+                          <hr className="card-divider" />
+
+                          <div className="buy-row">
+                            <p className="buy-text">
+                              {match.matchStatus === "COMPLETED"
+                                ? "Check expert prediction for this match"
+                                : "Match Status"}
+                            </p>
+
+                            {match.matchStatus === "COMPLETED" ? (
+                              <button
+                                className="buy-now-btn finished"
+                                onClick={() =>
+                                  navigate("/view-prediction", {
+                                    state: { match },
+                                  })
+                                }
+                              >
+                                View Prediction
+                              </button>
+                            ) : (
+                              <button
+                                className={`status-btn ${
+                                  match.matchStatus === "CANCELLED"
+                                    ? "status-cancelled"
+                                    : match.matchStatus === "ABANDONED"
+                                      ? "status-abandoned"
+                                      : "status-postponed"
+                                }`}
+                                disabled
+                              >
+                                {match.matchStatus}
+                              </button>
+                            )}
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  ))}
+
+                  {/* Show More / Less */}
+                  {matches.length > 2 && (
+                    <span
+                      className="show-more"
+                      onClick={() =>
+                        setExpandedLeagues((prev) => ({
+                          ...prev,
+                          [league]: !prev?.[league],
+                        }))
+                      }
+                    >
+                      {isExpanded ? "Show less" : "Show more"}
+                    </span>
+                  )}
+                </div>
+              );
+            })
         )}
       </main>
 
