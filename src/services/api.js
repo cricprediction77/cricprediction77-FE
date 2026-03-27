@@ -22,6 +22,12 @@ export const predictionApiFetch = async (endpoint, options = {}) => {
   if (response.status === 204) return null;
 
   const text = await response.text();
+
+  // 🔥 HANDLE ERRORS PROPERLY
+  if (!response.ok) {
+    throw text; // IMPORTANT
+  }
+
   try {
     return JSON.parse(text);
   } catch {

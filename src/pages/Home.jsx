@@ -75,7 +75,13 @@ function Home() {
     return () => clearInterval(timer);
   }, []);
 
+  const hasFetched = React.useRef(false);
+
   useEffect(() => {
+    if (hasFetched.current) return; // 🔥 prevents double call
+
+    hasFetched.current = true;
+
     const fetchAllLeagueData = async () => {
       try {
         const [
@@ -85,7 +91,7 @@ function Home() {
           saT20Data,
           superSmashData,
           iplData,
-          pslData, // ✅ NEW
+          pslData,
         ] = await Promise.all([
           predictionApiFetch("/api/bpl/bpl-matches"),
           predictionApiFetch("/api/wpl/wpl-matches"),
@@ -93,7 +99,7 @@ function Home() {
           predictionApiFetch("/api/sa-t20/sat20-matches"),
           predictionApiFetch("/api/super-smash/supersmash-matches"),
           predictionApiFetch("/api/ipl/ipl-matches"),
-          predictionApiFetch("/api/psl/psl-matches"), // ✅ NEW
+          predictionApiFetch("/api/psl/psl-matches"),
         ]);
 
         const combinedMatches = [
@@ -103,7 +109,7 @@ function Home() {
           ...(saT20Data?.matches || []),
           ...(superSmashData?.matches || []),
           ...(iplData?.matches || []),
-          ...(pslData?.matches || []), // ✅ NEW
+          ...(pslData?.matches || []),
         ];
 
         setAllMatches(combinedMatches);
@@ -176,7 +182,9 @@ function Home() {
   );
 
   const whatsappNumber = "917842435725";
-  const whatsappMessage = encodeURIComponent("Hi, I want to buy reports.");
+  const whatsappMessage = encodeURIComponent(
+    "Hi, I’m interested in your cricket analysis services.",
+  );
 
   const openWhatsapp = () => {
     window.open(
@@ -231,7 +239,7 @@ function Home() {
             />
 
             <div className="overlay">
-              <h2>IPL Predictions</h2>
+              <h2>IPL Analysis & Insights</h2>
               <p>Indian Premier League</p>
             </div>
 
@@ -251,7 +259,7 @@ function Home() {
             />
 
             <div className="overlay">
-              <h2>PSL Predictions</h2>
+              <h2>PSL Analysis & Insights</h2>
               <p>Pakistan Super League</p>
             </div>
 
@@ -271,7 +279,7 @@ function Home() {
             />
 
             <div className="overlay">
-              <h2>WPL Predictions</h2>
+              <h2>WPL Analysis & Insights</h2>
               <p>Womens Premier League</p>
             </div>
 
@@ -288,7 +296,7 @@ function Home() {
             <img src="https://dko97fmntp7zh.cloudfront.net/f16e7b83-780f-4da0-937e-2f6105ba0e14_bplcaptains.jpg" />
 
             <div className="overlay">
-              <h2>BPL Predictions</h2>
+              <h2>BPL Analysis & Insights</h2>
               <p>Bangladesh Premier League</p>
             </div>
 
@@ -308,7 +316,7 @@ function Home() {
             />
 
             <div className="overlay">
-              <h2>BBL Predictions</h2>
+              <h2>BBL Analysis & Insights</h2>
               <p>Big Bash League</p>
             </div>
 
@@ -328,7 +336,7 @@ function Home() {
             />
 
             <div className="overlay">
-              <h2>SA-T20 Predictions</h2>
+              <h2>SA-T20 Analysis & Insights</h2>
               <p>South Africa T20 League</p>
             </div>
 
@@ -621,7 +629,7 @@ function Home() {
 
                           <div className="buy-row">
                             <p className="buy-text">
-                              Get Expert prediction for this match
+                              Get detailed match analysis & insights
                             </p>
 
                             <button
@@ -630,7 +638,7 @@ function Home() {
                                 navigate("/buy-now", { state: { match } })
                               }
                             >
-                              Buy Now
+                              View Insights
                             </button>
                           </div>
                         </>
@@ -644,7 +652,7 @@ function Home() {
                           <div className="buy-row">
                             <p className="buy-text">
                               {match.matchStatus === "COMPLETED"
-                                ? "Check expert prediction for this match"
+                                ? "View match analysis & insights"
                                 : "Match Status"}
                             </p>
 
@@ -657,7 +665,7 @@ function Home() {
                                   })
                                 }
                               >
-                                View Prediction
+                                View Details
                               </button>
                             ) : (
                               <button
@@ -705,9 +713,15 @@ function Home() {
           <h2 className="trust-title">📌 Important Notice & Disclaimer</h2>
 
           <p className="trust-text">
-            CricPrediction77 provides match analysis and prediction content{" "}
-            <b>only for educational and informational purposes</b>. We do{" "}
-            <b>not promote betting, gambling, or any illegal activity</b>.
+            CricPrediction77 provides cricket analysis, insights, and
+            informational content only. We do not provide betting services, do
+            not facilitate gambling, and do not guarantee any match outcomes.
+            All content is intended for educational and entertainment purposes
+            only. Users are solely responsible for how they use the information.
+            We strongly discourage illegal betting activities. Please follow
+            applicable laws in your jurisdiction, including Telangana state
+            laws. CricPrediction77 is not liable for any financial loss or
+            decisions made based on our content.
           </p>
 
           <div className="trust-grid">
@@ -715,29 +729,16 @@ function Home() {
             <div className="trust-box">
               <h3 className="trust-subtitle">✅ Our Track Record</h3>
               <ul className="trust-list">
-                <li>
-                  <b>IPL:</b> 98% Accuracy
-                </li>
-                <li>
-                  <b>WPL:</b> 99% Accuracy
-                </li>
-                <li>
-                  <b>BPL:</b> 96% Accuracy
-                </li>
-                <li>
-                  <b>BBL:</b> 95% Accuracy
-                </li>
-                <li>
-                  <b>SA-T20:</b> 94% Accuracy
-                </li>
-                <li>
-                  <b>Super Smash:</b> 92% Accuracy
-                </li>
+                We provide data-driven insights. No guarantees.
               </ul>
 
               <p className="trust-note">
                 * Accuracy is based on our internal analysis history and past
                 match results. Outcomes may vary due to real match conditions.
+              </p>
+              <p className="trust-note">
+                * Insights are based on analysis models and do not guarantee
+                outcomes.
               </p>
             </div>
 
@@ -780,7 +781,7 @@ function Home() {
 
               <p className="trust-note">
                 We reply fast and share match updates, schedule changes and
-                additional predictions through WhatsApp.
+                analysis summaries, and support via WhatsApp.
               </p>
             </div>
           </div>

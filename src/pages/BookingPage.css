@@ -27,6 +27,13 @@
 
 }
 
+.mini-disclaimer {
+  font-size: 12px;
+  color: #888;
+  text-align: center;
+  margin-top: 8px;
+}
+
 .team-preview img {
   margin-top: 30px;
   width: 50px;
@@ -224,4 +231,9 @@
     transform: scale(1);
   }
 }
-
+.utr-error {
+  color: #ef4444;
+  font-size: 12px;
+  text-align: left;
+  margin-top: -5px;
+}

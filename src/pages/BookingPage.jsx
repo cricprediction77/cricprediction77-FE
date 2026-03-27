@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { getTeamLogo } from "../utils/LeagueTeamLogos";
 import React, { useRef, useState } from "react";
+import { predictionApiFetch } from "../services/api";
 import "./BookingPage.css";
 
 function BookingPage() {
@@ -12,10 +13,11 @@ function BookingPage() {
   const [submitted, setSubmitted] = useState(false);
   const [selectedAmount, setSelectedAmount] = useState("");
   const paymentRef = useRef(null);
+  const [utrError, setUtrError] = useState("");
 
   const whatsappNumber = "917842435725"; // 🔁 replace with your number
   const whatsappMessage = encodeURIComponent(
-    "Hi, I have completed the payment for match prediction. Please find the receipt."
+    "Hi, I have subscribed for premium cricket analysis. Please share access.",
   );
 
   const goToPaymentSection = (amount) => {
@@ -102,62 +104,54 @@ function BookingPage() {
 
       <div className="package-grid">
         <PackageCard
-          title="Full Prediction"
+          title="Premium Match Insights"
           price="INR 4000"
           features={[
-            "Toss Prediction",
-            "Match Prediction",
-            "Winner Prediction",
-            "All Fancy Prediction",
+            "Toss Insights Report",
+            "Match Insights Report",
+            "Performance-based probability insights",
+            "Advanced Stats & Patterns",
           ]}
           goToPaymentSection={goToPaymentSection}
         />
 
         <PackageCard
-          title="Session Prediction"
+          title="Session Insights Report"
           price="INR 2000"
-          features={["All Fancy Prediction"]}
+          features={["Advanced Stats & Patterns"]}
           disabled={[
             // "Winner Prediction",
-            "Match Prediction",
-            "Toss Prediction",
+            "Match Insights Report",
+            "Toss Trend Analysis",
           ]}
           goToPaymentSection={goToPaymentSection}
         />
 
         <PackageCard
-          title="Toss Prediction"
+          title="Toss Trend Analysis"
           price="INR 1000"
-          features={["Toss Winner Prediction"]}
+          features={["Toss Trend Analysis"]}
           disabled={[
-            "All Fancy Prediction",
+            "Advanced Stats & Patterns",
             // "Winner Prediction",
-            "Match Prediction",
+            "Match Insights Report",
           ]}
           goToPaymentSection={goToPaymentSection}
         />
 
         <PackageCard
-          title="Match Prediction"
+          title="Match Insights Report"
           price="INR 2000"
-          features={[" Match Winner Prediction"]}
-          disabled={[
-            // "Match Prediction",
-            "Toss Prediction",
-            "All Fancy Prediction",
-          ]}
+          features={["Team Performance Insights"]}
+          disabled={["Toss Trend Analysis", "Advanced Stats & Patterns"]}
           goToPaymentSection={goToPaymentSection}
         />
 
         <PackageCard
-          title="Toss + Match Prediction"
+          title="Toss + Match Insights Report"
           price="INR 2500"
-          features={[" Toss and Match Winner Prediction"]}
-          disabled={[
-            // "Match Prediction",
-            // "Toss Prediction",
-            "All Fancy Prediction",
-          ]}
+          features={["Toss & Match Insights"]}
+          disabled={["Advanced Stats & Patterns"]}
           goToPaymentSection={goToPaymentSection}
         />
       </div>
@@ -165,11 +159,17 @@ function BookingPage() {
       {showPayment && !submitted && (
         <div className="payment-section" ref={paymentRef}>
           <h3>
-            Scan & Pay{" "}
+            This subscription gives access to cricket insights and analysis
+            reports.{" "}
             <span style={{ color: "red", fontWeight: "bold" }}>
               {selectedAmount}
             </span>
           </h3>
+
+          <p className="mini-disclaimer">
+            Subscription provides access to analysis content and insights, not
+            guaranteed outcomes for any specific match.
+          </p>
 
           <img
             src="https://dko97fmntp7zh.cloudfront.net/84da7064-346c-463b-9975-7831267528aa_paymentQr.png"
@@ -210,14 +210,41 @@ function BookingPage() {
               className="payment-done-btn"
               onClick={() => setShowForm(true)}
             >
-              Payment Completed
+              Submit Subscription Details
             </button>
           ) : (
             <form
               className="payment-form"
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
-                setSubmitted(true);
+
+                const formData = {
+                  name: e.target[0].value,
+                  utrId: e.target[1].value,
+                  amount: e.target[2].value,
+                  matchName: match.teams,
+                  matchDate: match.matchDate,
+                };
+
+                try {
+                  const res = await predictionApiFetch("/api/payments", {
+                    method: "POST",
+                    body: JSON.stringify(formData),
+                  });
+
+                  // ✅ success
+                  setUtrError("");
+                  setSubmitted(true);
+                } catch (error) {
+                  console.error("Payment submit error:", error);
+
+                  // 🔥 HANDLE DUPLICATE UTR
+                  if (typeof error === "string" && error.includes("UTR")) {
+                    setUtrError(error);
+                  } else {
+                    setUtrError("Something went wrong ❌");
+                  }
+                }
               }}
             >
               <input placeholder="Account Holder Name" required />
@@ -232,12 +259,11 @@ function BookingPage() {
                 }}
                 required
               />
+              {utrError && <div className="utr-error">{utrError}</div>}
 
               <input placeholder="Amount Paid" required />
 
-              <button type="submit" style={{ background: "green" }}>
-                Submit
-              </button>
+              <button type="submit">Submit</button>
             </form>
           )}
         </div>
@@ -245,9 +271,9 @@ function BookingPage() {
       {submitted && (
         <div className="whatsapp-section">
           <p>
-            For faster report delivery,
+            After subscribing,
             <br />
-            please share your payment receipt via WhatsApp.
+            our team will contact you with access details.
           </p>
 
           <img
@@ -257,7 +283,7 @@ function BookingPage() {
             onClick={() =>
               window.open(
                 `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`,
-                "_blank"
+                "_blank",
               )
             }
           />
@@ -300,7 +326,7 @@ function PackageCard({
         className="package-buy-btn"
         onClick={() => goToPaymentSection(price)}
       >
-        Buy Now
+        Get Detailed Analysis
       </button>
     </div>
   );

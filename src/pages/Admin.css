@@ -205,5 +205,119 @@
   font-weight: 600;
 }
 
+.subscription-btn {
+  padding: 8px 16px;
+  position: relative;
+  background: orangered;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
 
+.count-badge {
+  background: white;
+  color: black;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 11px;
+  margin-left: 6px;
+}
+/* 🔥 PAYMENT CARDS UI */
 
+.payment-table h2 {
+  color: black; 
+}
+
+.payment-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.payment-card {
+  background: #ffffff;
+  color: #000428;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-left: 5px solid #004e92;
+  transition: 0.3s;
+}
+
+.payment-card:hover {
+  transform: translateY(-3px);
+}
+
+/* Rows */
+.payment-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.label {
+  font-weight: 600;
+  color: #555;
+}
+
+/* Status colors */
+.status-verified {
+  color: #22c55e;
+  font-weight: bold;
+}
+
+.status-pending {
+  color: #f97316;
+  font-weight: bold;
+}
+
+/* Buttons */
+.payment-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.payment-actions button {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+/* Verify */
+.payment-actions button:first-child {
+  background: #22c55e;
+  color: white;
+}
+
+/* Delete */
+.payment-actions button:last-child {
+  background: #ef4444;
+  color: white;
+}
+
+/* 📱 MOBILE IMPROVEMENT */
+@media (max-width: 768px) {
+  .payment-card {
+    padding: 12px;
+  }
+
+  .payment-row {
+    font-size: 13px;
+  }
+
+  .payment-actions button {
+    font-size: 12px;
+  }
+}
+.subscription-btn.active {
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  transform: scale(1.05);
+}

@@ -10,6 +10,10 @@ function Admin() {
   const [matchesByLeague, setMatchesByLeague] = useState({});
   const [expandedLeagues, setExpandedLeagues] = useState({});
   const [selections, setSelections] = useState({});
+  const [showPayments, setShowPayments] = useState(false);
+  const [payments, setPayments] = useState([]);
+  const [paymentFilter, setPaymentFilter] = useState("PENDING");
+  const hasFetchedMatches = React.useRef(false);
 
   // 🔐 Admin authentication
   useEffect(() => {
@@ -39,6 +43,10 @@ function Admin() {
 
   // 📡 Fetch all leagues
   useEffect(() => {
+    if (hasFetchedMatches.current) return;
+
+    hasFetchedMatches.current = true;
+
     fetchAllLeagueData();
   }, []);
 
@@ -53,11 +61,11 @@ function Admin() {
         iplData,
         pslData, // ✅ NEW
       ] = await Promise.all([
-        predictionApiFetch("/api/bpl/bpl-matches"),
-        predictionApiFetch("/api/wpl/wpl-matches"),
-        predictionApiFetch("/api/mens-bbl/bbl-matches"),
-        predictionApiFetch("/api/sa-t20/sat20-matches"),
-        predictionApiFetch("/api/super-smash/supersmash-matches"),
+        // predictionApiFetch("/api/bpl/bpl-matches"),
+        // predictionApiFetch("/api/wpl/wpl-matches"),
+        // predictionApiFetch("/api/mens-bbl/bbl-matches"),
+        // predictionApiFetch("/api/sa-t20/sat20-matches"),
+        // predictionApiFetch("/api/super-smash/supersmash-matches"),
         predictionApiFetch("/api/ipl/ipl-matches"),
         predictionApiFetch("/api/psl/psl-matches"),
       ]);
@@ -103,53 +111,50 @@ function Admin() {
   };
 
   const getSubmitApiByLeague = (leagueType) => {
-  if (!leagueType) {
-    throw new Error("League type is missing ❌");
-  }
+    if (!leagueType) {
+      throw new Error("League type is missing ❌");
+    }
 
-  const lt = leagueType.toLowerCase();
+    const lt = leagueType.toLowerCase();
 
-  // ✅ IPL
-  if (lt.includes("ipl") || lt.includes("indian premier league")) {
-    return "/api/ipl/details";
-  }
+    // ✅ IPL
+    if (lt.includes("ipl") || lt.includes("indian premier league")) {
+      return "/api/ipl/details";
+    }
 
-  // ✅ PSL
-  if (
-    lt.includes("psl") ||
-    lt.includes("pakistan super league")
-  ) {
-    return "/api/psl/details";
-  }
+    // ✅ PSL
+    if (lt.includes("psl") || lt.includes("pakistan super league")) {
+      return "/api/psl/details";
+    }
 
-  // ✅ BPL
-  if (lt.includes("bpl")) {
-    return "/api/bpl/details";
-  }
+    // ✅ BPL
+    if (lt.includes("bpl")) {
+      return "/api/bpl/details";
+    }
 
-  // ✅ WPL
-  if (lt.includes("wpl") || lt.includes("womens premier league")) {
-    return "/api/wpl/details";
-  }
+    // ✅ WPL
+    if (lt.includes("wpl") || lt.includes("womens premier league")) {
+      return "/api/wpl/details";
+    }
 
-  // ✅ BBL
-  if (lt.includes("bbl") || lt.includes("big bash")) {
-    return "/api/mens-bbl/details";
-  }
+    // ✅ BBL
+    if (lt.includes("bbl") || lt.includes("big bash")) {
+      return "/api/mens-bbl/details";
+    }
 
-  // ✅ SA T20
-  if (lt.includes("sa t20") || lt.includes("sat20")) {
-    return "/api/sa-t20/details";
-  }
+    // ✅ SA T20
+    if (lt.includes("sa t20") || lt.includes("sat20")) {
+      return "/api/sa-t20/details";
+    }
 
-  // ✅ SUPER SMASH
-  if (lt.includes("super smash")) {
-    return "/api/super-smash/details";
-  }
+    // ✅ SUPER SMASH
+    if (lt.includes("super smash")) {
+      return "/api/super-smash/details";
+    }
 
-  // ❌ NO FALLBACK → THROW ERROR
-  throw new Error(`Unsupported league type: ${leagueType}`);
-};
+    // ❌ NO FALLBACK → THROW ERROR
+    throw new Error(`Unsupported league type: ${leagueType}`);
+  };
 
   const handleSubmit = async (match) => {
     const matchKey = getMatchKey(match);
@@ -285,8 +290,132 @@ function Admin() {
     return Boolean(data?.tossWinner && data?.matchWinner);
   };
 
+  const fetchPayments = async () => {
+    try {
+      const data = await predictionApiFetch("/api/payments");
+      setPayments(data || []);
+    } catch (err) {
+      console.error("Error fetching payments:", err);
+    }
+  };
+
+  const verifyPayment = async (id) => {
+    try {
+      await predictionApiFetch(`/api/payments/${id}/verify`, {
+        method: "PUT",
+      });
+
+      fetchPayments();
+    } catch (err) {
+      alert("Error verifying ❌");
+    }
+  };
+  const deletePayment = async (id) => {
+    if (!window.confirm("Delete this payment?")) return;
+
+    try {
+      await predictionApiFetch(`/api/payments/${id}`, {
+        method: "DELETE",
+      });
+
+      fetchPayments();
+    } catch (err) {
+      alert("Error deleting ❌");
+    }
+  };
+
+  const pendingCount = payments.filter((p) => p.status === "PENDING").length;
+  const verifiedCount = payments.filter((p) => p.status === "VERIFIED").length;
+
   return (
     <div className="admin-container">
+      <div style={{ display: "flex", gap: "10px" }}>
+        <button
+          className={`subscription-btn ${paymentFilter === "PENDING" ? "active" : ""}`}
+          onClick={() => {
+            setShowPayments(true);
+            setPaymentFilter("PENDING");
+            fetchPayments();
+          }}
+        >
+          Subscriptions ({pendingCount})
+        </button>
+
+        <button
+          className={`subscription-btn ${paymentFilter === "VERIFIED" ? "active" : ""}`}
+          style={{ background: "#22c55e" }}
+          onClick={() => {
+            setShowPayments(true);
+            setPaymentFilter("VERIFIED");
+            fetchPayments();
+          }}
+        >
+          Verified ({verifiedCount})
+        </button>
+      </div>
+
+      {showPayments && (
+        <div className="payment-table">
+          <h2>
+            {paymentFilter === "PENDING"
+              ? `Pending Subscriptions (${pendingCount})`
+              : `Verified Payments (${verifiedCount})`}
+          </h2>
+          <div className="payment-cards">
+            {payments
+              .filter((p) => p.status === paymentFilter)
+              .map((p) => (
+                <div key={p.id} className="payment-card">
+                  <div className="payment-row">
+                    <span className="label">Name:</span>
+                    <span>{p.name}</span>
+                  </div>
+
+                  <div className="payment-row">
+                    <span className="label">UTR:</span>
+                    <span>{p.utrId}</span>
+                  </div>
+
+                  <div className="payment-row">
+                    <span className="label">Amount:</span>
+                    <span>₹{p.amount}</span>
+                  </div>
+
+                  <div className="payment-row">
+                    <span className="label">Match:</span>
+                    <span>{p.matchName}</span>
+                  </div>
+
+                  <div className="payment-row">
+                    <span className="label">Status:</span>
+                    <span
+                      className={
+                        p.status === "VERIFIED"
+                          ? "status-verified"
+                          : "status-pending"
+                      }
+                    >
+                      {p.status}
+                    </span>
+                  </div>
+
+                  {p.status === "PENDING" && (
+                    <div className="payment-actions">
+                      <button onClick={() => verifyPayment(p.id)}>
+                        ✅ Verify
+                      </button>
+
+                      <button onClick={() => deletePayment(p.id)}>
+                        ❌ Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))}
+          </div>
+        </div>
+      )}
+
       <h1 className="admin-title">Admin Dashboard</h1>
 
       {Object.keys(matchesByLeague).length === 0 ? (
