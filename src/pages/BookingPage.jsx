@@ -14,6 +14,9 @@ function BookingPage() {
   const [selectedAmount, setSelectedAmount] = useState("");
   const paymentRef = useRef(null);
   const [utrError, setUtrError] = useState("");
+  const [showTerms, setShowTerms] = useState(false);
+  const [accepted, setAccepted] = useState(false);
+  const termsRef = useRef(null);
 
   const whatsappNumber = "917842435725"; // 🔁 replace with your number
   const whatsappMessage = encodeURIComponent(
@@ -22,12 +25,12 @@ function BookingPage() {
 
   const goToPaymentSection = (amount) => {
     setSelectedAmount(amount);
-    setShowPayment(true);
+    setShowTerms(true);
 
-    // Always scroll (even if showPayment already true)
+    // 🔥 SCROLL AFTER RENDER
     setTimeout(() => {
-      paymentRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+      termsRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 150);
   };
 
   const upiId = "cricprediction77@ibl";
@@ -155,7 +158,66 @@ function BookingPage() {
           goToPaymentSection={goToPaymentSection}
         />
       </div>
+      {showTerms && !showPayment && (
+        <div className="terms-section" ref={termsRef}>
+          <h2>Terms & Conditions</h2>
 
+          <div className="terms-box">
+            <p>
+              1. This platform provides cricket analysis, insights, and reports
+              based on data.
+            </p>
+            <p>2. We do NOT guarantee any match results or outcomes.</p>
+            <p>
+              3. This service is strictly for informational and educational
+              purposes only.
+            </p>
+            <p>
+              4. We do NOT promote betting, gambling, or illegal activities.
+            </p>
+            <p>
+              5. Users are solely responsible for how they use the information.
+            </p>
+            <p>
+              6. CricPrediction77 is not liable for any financial loss or
+              decisions made.
+            </p>
+            <p>
+              7. No refunds will be provided once the report/service is
+              delivered.
+            </p>
+            <p>8. Sharing or reselling reports is strictly prohibited.</p>
+            <p>
+              9. Any misuse of the platform may result in access restriction.
+            </p>
+            <p>
+              10. By proceeding, you confirm that you understand and accept all
+              risks.
+            </p>
+          </div>
+
+          <div className="terms-checkbox">
+            <input
+              type="checkbox"
+              checked={accepted}
+              onChange={(e) => setAccepted(e.target.checked)}
+            />
+            <label>I have read and agree to the Terms & Conditions</label>
+          </div>
+
+          <button
+            className="payment-done-btn"
+            disabled={!accepted}
+            onClick={() => setShowPayment(true)}
+            style={{
+              opacity: accepted ? 1 : 0.5,
+              cursor: accepted ? "pointer" : "not-allowed",
+            }}
+          >
+            Continue to Payment
+          </button>
+        </div>
+      )}
       {showPayment && !submitted && (
         <div className="payment-section" ref={paymentRef}>
           <h3>
@@ -224,6 +286,7 @@ function BookingPage() {
                   amount: e.target[2].value,
                   matchName: match.teams,
                   matchDate: match.matchDate,
+                  termsAccepted: accepted, // 🔥 IMPORTANT
                 };
 
                 try {
@@ -237,6 +300,10 @@ function BookingPage() {
                   setSubmitted(true);
                 } catch (error) {
                   console.error("Payment submit error:", error);
+
+                  if (typeof error === "string" && error.includes("TERMS")) {
+                    alert("Please accept Terms & Conditions ❗");
+                  }
 
                   // 🔥 HANDLE DUPLICATE UTR
                   if (typeof error === "string" && error.includes("UTR")) {
