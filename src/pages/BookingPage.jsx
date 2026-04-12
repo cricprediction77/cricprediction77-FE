@@ -120,7 +120,7 @@ function BookingPage() {
 
         <PackageCard
           title="Session Insights Report"
-          price="INR 2000"
+          price="INR 3000"
           features={["Advanced Stats & Patterns"]}
           disabled={[
             // "Winner Prediction",
@@ -132,7 +132,7 @@ function BookingPage() {
 
         <PackageCard
           title="Toss Trend Analysis"
-          price="INR 1000"
+          price="INR 1500"
           features={["Toss Trend Analysis"]}
           disabled={[
             "Advanced Stats & Patterns",
@@ -152,7 +152,7 @@ function BookingPage() {
 
         <PackageCard
           title="Toss + Match Insights Report"
-          price="INR 2500"
+          price="INR 3000"
           features={["Toss & Match Insights"]}
           disabled={["Advanced Stats & Patterns"]}
           goToPaymentSection={goToPaymentSection}
