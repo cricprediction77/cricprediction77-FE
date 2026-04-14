@@ -1,4 +1,26 @@
 // ✅ League name normalization
+import cskLogo from "../assets/logos/csk_logo.png";
+import dcLogo from "../assets/logos/dc_logo.png";
+import iplLogo from "../assets/logos/ipl_logo.png";
+import kkrLogo from "../assets/logos/kkr_logo.jpg";
+import rcbLogo from "../assets/logos/rcb_logo.jpg";
+import rrLogo from "../assets/logos/rr_logo.png";
+import srhLogo from "../assets/logos/srh_logo.jpg";
+import miLogo from "../assets/logos/mi_logo.jpg";
+import pbksLogo from "../assets/logos/pbks_logo.jpg";
+import lsgLogo from "../assets/logos/lsg_logo.jpg";
+import gtLogo from "../assets/logos/gt_logo.jpg";
+
+import pslLogo from "../assets/logos/psl_logo.png";
+import islamLogo from "../assets/logos/islam_logo.jpg";
+import karachiLogo from "../assets/logos/karachi_logo.png";
+import lahoreLogo from "../assets/logos/lahore_logo.jpg";
+import multansultanLogo from "../assets/logos/multansultan_logo.png";
+import peshawarLogo from "../assets/logos/peshawar_logo.png";
+import quettaLogo from "../assets/logos/quetta_logo.png";
+import hyderabadLogo from "../assets/logos/hyderabad_logo.jpg";
+import rawalLogo from "../assets/logos/rawal_logo.jpg";
+
 const LeagueNameMap = {
   "BPL 2025-2026": "BPL",
   "Womens Premier League 2026": "WPL",
@@ -12,67 +34,29 @@ const LeagueNameMap = {
 // ✅ Team logos
 const LeagueTeamLogos = {
   IPL: {
-    league_logo:
-      "https://dko97fmntp7zh.cloudfront.net/630ffd0c-abc6-44a1-b42d-6af9e7f6cbfc_ipl logo.png",
-
-    "Royal Challengers Bengaluru":
-      "https://dko97fmntp7zh.cloudfront.net/ce9e95a3-53d1-4208-8c0e-4f2a3771d8dd_rcb.jpg",
-
-    "Sunrisers Hyderabad":
-      "https://dko97fmntp7zh.cloudfront.net/7ba95981-49a0-49a9-bac6-1ad8128eb65a_srh.jpg",
-
-    "Mumbai Indians":
-      "https://dko97fmntp7zh.cloudfront.net/3017f0a5-9a00-4824-ad1f-fe77282ee9ef_mi.avif",
-
-    "Kolkata Knight Riders":
-      "https://dko97fmntp7zh.cloudfront.net/c995e327-6e8c-4ad8-8d1f-3f8403ea25aa_kkr.jpg",
-
-    "Rajasthan Royals":
-      "https://dko97fmntp7zh.cloudfront.net/bae5376c-95ca-42da-9f6e-ed8d66329efe_rr.png",
-
-    "Chennai Super Kings":
-      "https://dko97fmntp7zh.cloudfront.net/ec6277aa-a9e5-4766-b995-13b17262b515_csk.png",
-
-    "Punjab Kings":
-      "https://dko97fmntp7zh.cloudfront.net/964b5100-8e0a-4289-91dc-05fb791992a0_pbks.webp",
-
-    "Gujarat Titans":
-      "https://dko97fmntp7zh.cloudfront.net/49a678ab-0080-4ea5-913a-da3d7221a19c_gt.webp",
-
-    "Lucknow Super Giants":
-      "https://dko97fmntp7zh.cloudfront.net/a5132594-46f8-4ccb-bf84-6bafa0269dc9_lsg.webp",
-
-    "Delhi Capitals":
-      "https://dko97fmntp7zh.cloudfront.net/7a2c30f6-8c01-4049-8a0e-764d5676ec75_delhi-capitals-logo-png_seeklogo-352073.png",
+    league_logo: iplLogo,
+    "Royal Challengers Bengaluru": rcbLogo,
+    "Sunrisers Hyderabad": srhLogo,
+    "Mumbai Indians": miLogo,
+    "Kolkata Knight Riders": kkrLogo,
+    "Rajasthan Royals": rrLogo,
+    "Chennai Super Kings": cskLogo,
+    "Punjab Kings": pbksLogo,
+    "Gujarat Titans": gtLogo,
+    "Lucknow Super Giants": lsgLogo,
+    "Delhi Capitals": dcLogo,
   },
 
   PSL: {
-    league_logo:
-      "https://dko97fmntp7zh.cloudfront.net/f04e3e1c-032b-4761-a366-4617f02fb0fd_ChatGPT Image Mar 26, 2026, 05_29_23 PM.png",
-
-    "Islamabad United":
-      "https://dko97fmntp7zh.cloudfront.net/8ab47093-57c3-4c16-9875-444c373798f9_islam.jpg",
-
-    "Karachi Kings":
-      "https://dko97fmntp7zh.cloudfront.net/ca6cc108-ed44-4fde-bd3f-0b66c9035cb7_Karachi_Kings.png",
-
-    "Lahore Qalandars":
-      "https://dko97fmntp7zh.cloudfront.net/211e27da-9808-4344-882f-7f60f8bf9a1c_lahore.jpg",
-
-    "Multan Sultans":
-      "https://dko97fmntp7zh.cloudfront.net/8329e627-aeab-4f34-810c-4cd53c5b47c8_pngtree-multan-sultan-logo-png-image_8891626.png",
-
-    "Peshawar Zalmi":
-      "https://dko97fmntp7zh.cloudfront.net/6b1afed9-0701-48d8-b40c-7d704056b037_Peshawar_Zalmi_logo.png",
-
-    "Quetta Gladiators":
-      "https://dko97fmntp7zh.cloudfront.net/82a70a94-11d4-453e-9d8d-a1cb72150201_Quetta_Gladiators.png",
-
-    "Hyderabad Kingsmen":
-      "https://dko97fmntp7zh.cloudfront.net/6304eed7-d7e0-4fb9-abc1-825d75657ccf_hyderabad.jpg",
-
-    "Rawalpindiz":
-      "https://dko97fmntp7zh.cloudfront.net/1057b377-e2fd-41ae-bb3f-4b36b52e1e39_rawalpindi.jpg",
+    league_logo: pslLogo,
+    "Islamabad United": islamLogo,
+    "Karachi Kings": karachiLogo,
+    "Lahore Qalandars": lahoreLogo,
+    "Multan Sultans": multansultanLogo,
+    "Peshawar Zalmi": peshawarLogo,
+    "Quetta Gladiators": quettaLogo,
+    "Hyderabad Kingsmen": hyderabadLogo,
+    Rawalpindiz: rawalLogo,
   },
 
   BPL: {
