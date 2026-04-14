@@ -21,6 +21,14 @@ import quettaLogo from "../assets/logos/quetta_logo.png";
 import hyderabadLogo from "../assets/logos/hyderabad_logo.jpg";
 import rawalLogo from "../assets/logos/rawal_logo.jpg";
 
+import bplLogo from "../assets/logos/bpl_logo.png";
+import sylhetLogo from "../assets/logos/sylhet_logo.jpg";
+import rajshahiLogo from "../assets/logos/rajshahi_logo.jpg";
+import noakhaliLogo from "../assets/logos/noakhali_logo.jpg";
+import chattogramLogo from "../assets/logos/chattogram_logo.jpg";
+import dhakaLogo from "../assets/logos/dhaka_logo.jpg";
+import rangurLogo from "../assets/logos/rangur_logo.jpg";
+
 const LeagueNameMap = {
   "BPL 2025-2026": "BPL",
   "Womens Premier League 2026": "WPL",
@@ -60,25 +68,13 @@ const LeagueTeamLogos = {
   },
 
   BPL: {
-    league_logo:
-      "https://dko97fmntp7zh.cloudfront.net/07ee50c7-3046-42b8-877d-cb24861db119_Logo_of_Bangladesh_Premier_League.svg.png",
-    "Sylhet Titans":
-      "https://dko97fmntp7zh.cloudfront.net/f1152b5f-de4c-4ed8-ad1e-472dd105413f_SYT.webp",
-
-    "Rajshahi Warriors":
-      "https://dko97fmntp7zh.cloudfront.net/fef924d7-defb-4c83-94c0-55bcbf742899_RW.webp",
-
-    "Noakhali Express":
-      "https://dko97fmntp7zh.cloudfront.net/7943189d-1a11-4339-a086-98d393769e58_NE.webp",
-
-    "Chattogram Royals":
-      "https://dko97fmntp7zh.cloudfront.net/300434c3-a8ee-4e33-9cb7-1fa88524b650_CR.webp",
-
-    "Dhaka Capitals":
-      "https://dko97fmntp7zh.cloudfront.net/6509f8f7-4d20-4c5b-8318-3ab353d70431_DC.webp",
-
-    "Rangpur Riders":
-      "https://dko97fmntp7zh.cloudfront.net/bbb05566-52bf-48a5-b707-745b36ab7eec_RGR.webp",
+    league_logo: bplLogo,
+    "Sylhet Titans": sylhetLogo,
+    "Rajshahi Warriors": rajshahiLogo,
+    "Noakhali Express": noakhaliLogo,
+    "Chattogram Royals": chattogramLogo,
+    "Dhaka Capitals": dhakaLogo,
+    "Rangpur Riders": rangurLogo,
   },
 
   BBL: {
