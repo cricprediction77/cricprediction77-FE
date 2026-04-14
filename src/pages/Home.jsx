@@ -9,6 +9,7 @@ import "./Home.css";
 
 function Home() {
   const [allMatches, setAllMatches] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [filteredMatches, setFilteredMatches] = useState([]);
   const [activeTab, setActiveTab] = useState("TODAY");
   const [expandedLeagues, setExpandedLeagues] = useState({});
@@ -92,6 +93,7 @@ function Home() {
 
     const fetchAllLeagueData = async () => {
       try {
+        setLoading(true);
         const [
           bplData,
           wplData,
@@ -129,8 +131,14 @@ function Home() {
         setAllMatches(combinedMatches);
         filterMatches("TODAY", combinedMatches, "");
         setSelectedLeague("");
+        setTimeout(() => {
+          setLoading(false);
+        }, 800);
       } catch (error) {
         console.error("Error fetching league data", error);
+        setTimeout(() => {
+          setLoading(false);
+        }, 800);
       }
     };
 
@@ -619,7 +627,12 @@ function Home() {
 
       {/* Matches */}
       <main className="match-section">
-        {filteredMatches.length === 0 ? (
+        {loading ? (
+          <div className="loader-container">
+            <div className="spinner"></div>
+            <p>Loading matches...</p>
+          </div>
+        ) : filteredMatches.length === 0 ? (
           <p className="no-data">
             {activeTab === "TODAY"
               ? "No matches today"
