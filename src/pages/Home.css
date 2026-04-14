@@ -316,6 +316,85 @@ body {
   color: #f3a60a;
   font-weight: 600;
 }
+@keyframes blinkEffect {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* apply only to today */
+.blink {
+  animation: blinkEffect 1s infinite;
+}
+
+
+
+.progress-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60px; /* 👈 space between circles */
+
+  margin-top: -100px;
+  margin-bottom: 20px;
+}
+
+/* Circle Wrapper */
+.progress-circle {
+  position: relative;
+  width: 140px;
+  height: 140px;
+}
+
+/* SVG */
+.progress-svg {
+  width: 140px;
+  height: 140px;
+  transform: rotate(-90deg);
+}
+
+/* Background circle */
+.progress-svg .bg {
+  fill: none;
+  stroke: #1e293b;
+  stroke-width: 10;
+}
+
+/* Progress circle */
+.progress-svg .progress {
+  fill: none;
+  stroke: orange;
+  stroke-width: 10;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+/* Percentage text */
+.progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff;
+}
+.progress-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* label */
+.progress-label {
+  margin-top: 8px;
+  font-size: 18px;
+  color: #cbd5f5;
+   font-weight: bold;
+}
 
 /* Team Logo */
 .team-logo {
@@ -458,7 +537,7 @@ body {
 }
 /* ✅ Trust + Disclaimer Section */
 .trust-section {
-  margin-top: -80px;
+  margin-top: 0;
   padding: 20px 15px 40px;
 }
 

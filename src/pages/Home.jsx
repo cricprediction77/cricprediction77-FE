@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useRef, useEffect, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { getTeamLogo } from "../utils/LeagueTeamLogos";
@@ -14,6 +14,14 @@ function Home() {
   const [expandedLeagues, setExpandedLeagues] = useState({});
   const [selectedLeague, setSelectedLeague] = useState("");
   const [showLeagues, setShowLeagues] = useState(false);
+  const [animatedToday, setAnimatedToday] = useState(0);
+  const [animatedTotal, setAnimatedTotal] = useState(0);
+  const [counter, setCounter] = useState({
+    todayCount: 0,
+    totalCount: 0,
+  });
+  const progressRef = useRef(null);
+  const hasAnimated = useRef(false);
 
   const SOCIAL_LINKS = {
     youtube: "https://www.youtube.com/@CricPrediction77",
@@ -92,6 +100,7 @@ function Home() {
           superSmashData,
           iplData,
           pslData,
+          counterData,
         ] = await Promise.all([
           predictionApiFetch("/api/bpl/bpl-matches"),
           predictionApiFetch("/api/wpl/wpl-matches"),
@@ -100,7 +109,12 @@ function Home() {
           predictionApiFetch("/api/super-smash/supersmash-matches"),
           predictionApiFetch("/api/ipl/ipl-matches"),
           predictionApiFetch("/api/psl/psl-matches"),
+          predictionApiFetch("/api/counter"),
         ]);
+        setCounter({
+          todayCount: counterData?.todayCount || 0,
+          totalCount: counterData?.totalCount || 0,
+        });
 
         const combinedMatches = [
           ...(bplData?.matches || []),
@@ -122,6 +136,60 @@ function Home() {
 
     fetchAllLeagueData();
   }, []);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+
+        if (entry.isIntersecting) {
+          // 🔥 RUN EVERY TIME YOU SCROLL TO IT
+
+          const startValue = 0;
+          const endValue = counter.totalCount;
+
+          const duration = 2000; // 3 seconds
+          let startTime = null;
+
+          const animate = (timestamp) => {
+            if (!startTime) startTime = timestamp;
+
+            const progress = timestamp - startTime;
+            const t = Math.min(progress / duration, 1);
+
+            // 🔥 easing (IMPORTANT)
+            const eased = 1 - Math.pow(1 - t, 3);
+
+            const value = Math.floor(
+              startValue + (endValue - startValue) * eased,
+            );
+
+            setAnimatedTotal(value);
+
+            if (t < 1) {
+              requestAnimationFrame(animate);
+            } else {
+              setAnimatedTotal(endValue);
+            }
+          };
+
+          requestAnimationFrame(animate);
+        }
+      },
+      {
+        threshold: 0.5, // trigger when 50% visible
+      },
+    );
+
+    if (progressRef.current) {
+      observer.observe(progressRef.current);
+    }
+
+    return () => {
+      if (progressRef.current) {
+        observer.unobserve(progressRef.current);
+      }
+    };
+  }, [counter.totalCount]);
 
   const filterMatches = useCallback(
     (type, matches = allMatches, leagueFilter = selectedLeague) => {
@@ -706,6 +774,49 @@ function Home() {
             })
         )}
       </main>
+      <div className="progress-section" ref={progressRef}>
+        {/* ✅ Today */}
+        <div className="progress-item">
+          <div className="progress-circle">
+            <svg className="progress-svg" viewBox="0 0 120 120">
+              <circle className="bg" cx="60" cy="60" r="52" />
+              <circle
+                className="progress"
+                cx="60"
+                cy="60"
+                r="52"
+                strokeDasharray="327"
+                strokeDashoffset={0}
+              />
+            </svg>
+            <div className="progress-text blink">{counter.todayCount}</div>
+          </div>
+
+          {/* ✅ BELOW circle */}
+          <p className="progress-label">Today Visitors</p>
+        </div>
+
+        {/* ✅ Total */}
+        <div className="progress-item">
+          <div className="progress-circle">
+            <svg className="progress-svg" viewBox="0 0 120 120">
+              <circle className="bg" cx="60" cy="60" r="52" />
+              <circle
+                className="progress"
+                cx="60"
+                cy="60"
+                r="52"
+                strokeDasharray="327"
+                strokeDashoffset={0}
+              />
+            </svg>
+            <div className="progress-text">{animatedTotal}</div>
+          </div>
+
+          {/* ✅ BELOW circle */}
+          <p className="progress-label">Total Visitors</p>
+        </div>
+      </div>
 
       {/* ✅ Trust + Disclaimer Section */}
       <section className="trust-section">
