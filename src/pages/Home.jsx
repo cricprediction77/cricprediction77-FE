@@ -6,6 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { predictionApiFetch } from "../services/api";
 import { FaYoutube, FaInstagram, FaTelegramPlane } from "react-icons/fa";
 import "./Home.css";
+import iplGroupLogo from "../assets/logos/iplgroupteam_logo.jpg";
+import bblteamLogo from "../assets/logos/bblteam_logo.jpg";
+import bplteamLogo from "../assets/logos/bplteam_logo.jpg";
+import pslgroupLogo from "../assets/logos/pslgroup_logo.png";
+import sat20teamLogo from "../assets/logos/sat20team_logo.jpg";
+import wplteamLogo from "../assets/logos/wplteam_logo.jpg";
 
 function Home() {
   const [allMatches, setAllMatches] = useState([]);
@@ -309,10 +315,7 @@ function Home() {
       <section className="hero-carousel">
         <Carousel showThumbs={false} autoPlay infiniteLoop showStatus={false}>
           <div className="slide-item">
-            <img
-              src="https://i.pinimg.com/originals/bf/97/ab/bf97ab38490d4be1ef4cd42aee1aa986.jpg"
-              alt="IPL"
-            />
+            <img src={iplGroupLogo} alt="IPL" />
 
             <div className="overlay">
               <h2>IPL Analysis & Insights</h2>
@@ -329,10 +332,7 @@ function Home() {
           </div>
 
           <div className="slide-item">
-            <img
-              src="https://dko97fmntp7zh.cloudfront.net/e2deb1b3-5967-4e07-b5a6-5ea3e8b8b29b_Screenshot 2026-03-26 174253.png"
-              alt="IPL"
-            />
+            <img src={pslgroupLogo} alt="PSL" />
 
             <div className="overlay">
               <h2>PSL Analysis & Insights</h2>
@@ -349,10 +349,7 @@ function Home() {
           </div>
 
           <div className="slide-item">
-            <img
-              src="https://dko97fmntp7zh.cloudfront.net/02532756-d960-4b8a-a00f-b230bfe322d4_AA1R8jDz.jpg"
-              alt="WPL"
-            />
+            <img src={wplteamLogo} alt="WPL" />
 
             <div className="overlay">
               <h2>WPL Analysis & Insights</h2>
@@ -369,8 +366,7 @@ function Home() {
           </div>
 
           <div className="slide-item">
-            <img src="https://dko97fmntp7zh.cloudfront.net/f16e7b83-780f-4da0-937e-2f6105ba0e14_bplcaptains.jpg" />
-
+            <img src={bplteamLogo} alt="BPL" />
             <div className="overlay">
               <h2>BPL Analysis & Insights</h2>
               <p>Bangladesh Premier League</p>
@@ -386,10 +382,7 @@ function Home() {
           </div>
 
           <div className="slide-item">
-            <img
-              src="https://dko97fmntp7zh.cloudfront.net/4bd5ac7a-7617-4fd7-a5f3-0b8d61f9e8f6_bblcaptains.jpg"
-              alt="BBL"
-            />
+            <img src={bblteamLogo} alt="BBL" />
 
             <div className="overlay">
               <h2>BBL Analysis & Insights</h2>
@@ -406,10 +399,7 @@ function Home() {
           </div>
 
           <div className="slide-item">
-            <img
-              src="https://dko97fmntp7zh.cloudfront.net/27af881a-a869-427f-a1bd-508243269057_sat20captains.jpg"
-              alt="SAT20"
-            />
+            <img src={sat20teamLogo} alt="SAT20" />
 
             <div className="overlay">
               <h2>SA-T20 Analysis & Insights</h2>
