@@ -30,12 +30,12 @@ function Home() {
   const progressRef = useRef(null);
   const hasAnimated = useRef(false);
 
-  const SOCIAL_LINKS = {
-    youtube: "https://www.youtube.com/@CricPrediction77",
-    instagram:
-      "https://www.instagram.com/cricprediction77?igsh=MW0ybXlnMzYydXR1Yw==",
-    telegram: "https://t.me/CricPredictions77",
-  };
+  // const SOCIAL_LINKS = {
+  //   youtube: "https://www.youtube.com/@CricPrediction77",
+  //   instagram:
+  //     "https://www.instagram.com/cricprediction77?igsh=MW0ybXlnMzYydXR1Yw==",
+  //   telegram: "https://t.me/CricPredictions77",
+  // };
 
   const navigate = useNavigate();
 
@@ -295,7 +295,7 @@ function Home() {
         </div>
 
         {/* ✅ Social Icons */}
-        <div className="social-icons">
+        {/* <div className="social-icons">
           <FaYoutube
             className="icon youtube"
             onClick={() => window.open(SOCIAL_LINKS.youtube, "_blank")}
@@ -308,7 +308,7 @@ function Home() {
             className="icon telegram"
             onClick={() => window.open(SOCIAL_LINKS.telegram, "_blank")}
           />
-        </div>
+        </div> */}
       </nav>
 
       {/* Carousel */}
@@ -903,31 +903,31 @@ function Home() {
       </section>
 
       {/* Footer */}
-      <div className="mobile-footer">
+      {/* <div className="mobile-footer">
         <div
           className="footer-item"
           onClick={() => window.open(SOCIAL_LINKS.instagram, "_blank")}
         >
           <FaInstagram className="footer-icon instagram" />
           <span>Instagram</span>
-        </div>
+        </div> */}
 
-        <div
+        {/* <div
           className="footer-item"
           onClick={() => window.open(SOCIAL_LINKS.telegram, "_blank")}
         >
           <FaTelegramPlane className="footer-icon telegram" />
           <span>Telegram</span>
-        </div>
+        </div> */}
 
-        <div
+        {/* <div
           className="footer-item"
           onClick={() => window.open(SOCIAL_LINKS.youtube, "_blank")}
         >
           <FaYoutube className="footer-icon youtube" />
           <span>YouTube</span>
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
     </div>
   );
 }
